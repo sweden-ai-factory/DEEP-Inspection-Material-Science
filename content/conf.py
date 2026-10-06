@@ -14,12 +14,17 @@
 # -- Project information -----------------------------------------------------
 
 project = "DEEP Inspection for Materials Science"
-author = "\
-The contributors, \
-xxx, \
-xxx, \
-Ruiwen XIE"
-copyright = f"2026, Sweden AI Factory, {author}"
+
+authors = [
+    "Benedikt Neyses",
+    "Andreas Thore",
+    "Marzieh Saeedimasine",
+    "Ruiwen Xie",
+    "Yuvarajendra Anjaneya Reddy",
+    "Smita Chakraborty",
+]
+author = ", ".join(authors)
+copyright = f"2026, Sweden AI Factory, {author} and contributors"
 
 github_user = "sweden-ai-factory"
 github_repo_name = ""  # auto-detected from dirname if blank

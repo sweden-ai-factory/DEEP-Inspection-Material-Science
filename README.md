@@ -1,6 +1,6 @@
 # DEEP Inspection for Materials Science
 
-[![Docs](https://img.shields.io/badge/lesson-online-blue)](https://seaif-ms.github.io/DEEP-Inspection-Material-Science/)
+[![Docs](https://img.shields.io/badge/lesson-online-blue)](https://sweden-ai-factory.github.io/DEEP-Inspection-Material-Science/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](https://opensource.org/license/mit)
 

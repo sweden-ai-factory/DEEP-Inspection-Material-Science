@@ -22,6 +22,7 @@ authors = [
     "Ruiwen Xie",
     "Yuvarajendra Anjaneya Reddy",
     "Smita Chakraborty",
+    "Yonglei Wang",
 ]
 author = ", ".join(authors)
 copyright = f"2026, Sweden AI Factory, {author} and contributors"

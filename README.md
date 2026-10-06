@@ -6,7 +6,7 @@
 
 A hands-on workshop introducing deep learning for **visual inspection in materials science** — from raw images to trained models and interpretable results.
 
-📖 **Lesson website:** https://seaif-ms.github.io/DEEP-Inspection-Material-Science/
+📖 **Lesson website:** https://learn.swedenaifactory.se/DEEP-Inspection-Material-Science/
 
 ---
 

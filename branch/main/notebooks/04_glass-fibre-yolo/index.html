@@ -1,0 +1,1447 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+
+    <link rel="shortcut icon" href="../../_static/swe-aif.png"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>YOLO on Glass Fibre Dataset - DEEP Inspection for Materials Science</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/overrides.css?v=1c72d2de" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../"><div class="brand">DEEP Inspection for Materials Science</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/swe-aif.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/swe-aif.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">DEEP Inspection for Materials Science</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/0-setting-up-programming-environment/">Setting Up Programming Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/0b-setting-up-YOLO-Week2/">Week2 - Setting Up YOLO</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Episodes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/1-AnomalyDetection_PatchCore-lesson/">Deep Learning-based Anomaly Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/2-CNN-LeNet-AlexNet-lesson/">CNN Fundamentals &amp; Multi-class Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/3-TL-VGG-ResNet-ViT-lesson/">Advanced Vision Architectures &amp; Transfer learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/4-YOLO_Unet_SegFormer-lesson/">Object Detection and Image Segmentation</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/blob/main//content/notebooks/04_glass-fibre-yolo.ipynb?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/edit/main//content/notebooks/04_glass-fibre-yolo.ipynb" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="yolo-on-glass-fibre-dataset">
+<h1>YOLO on Glass Fibre Dataset<a class="headerlink" href="#yolo-on-glass-fibre-dataset" title="Link to this heading">¶</a></h1>
+<p>This notebook sets up two YOLO workflows on the glass-fibre tomography data:</p>
+<ul class="simple">
+<li><p><strong>(a) Object Detection</strong> — bounding-box detection of fibres</p></li>
+<li><p><strong>(b) Instance Segmentation</strong> — pixel-level fibre masks</p></li>
+</ul>
+<p>It also loads and visualises the mechanical-test data from <code class="docutils literal notranslate"><span class="pre">glass-fibre/</span></code>.</p>
+<hr class="docutils" />
+<section id="imports-paths">
+<h2>0 — Imports &amp; paths<a class="headerlink" href="#imports-paths" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span>
+
+<span class="n">miopen_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">"miopen-"</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_USER_DB_PATH"</span><span class="p">]</span> <span class="o">=</span> <span class="n">miopen_dir</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_CUSTOM_CACHE_DIR"</span><span class="p">]</span> <span class="o">=</span> <span class="n">miopen_dir</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'figure.figsize'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'figure.dpi'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># ── project paths ──────────────────────────────────────────────</span>
+<span class="n">PROJECT_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'/pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001'</span><span class="p">)</span>                      <span class="c1"># ai-tomo root</span>
+<span class="n">GLASS_FIBRE</span>  <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s1">'glass-fibre'</span>   <span class="c1"># mechanical data</span>
+<span class="n">DATA_DIR</span>     <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s1">'glass-fibres'</span>   <span class="c1"># YOLO images+labels</span>
+<span class="n">TRAIN_DIR</span>    <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s1">'train'</span>
+<span class="n">VAL_DIR</span>      <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s1">'val'</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Glass-fibre sub-dirs : </span><span class="si">{</span><span class="nb">sorted</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">GLASS_FIBRE</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">d</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()])</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Train images         : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">TRAIN_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.tiff"</span><span class="p">)))</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Val   images         : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">VAL_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.tiff"</span><span class="p">)))</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Glass-fibre sub-dirs : ['34-700', 'HS40', 'HYBON 2026', 'T300', 'T700']
+Train images         : 501
+Val   images         : 51
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="explore-the-glass-fibre-mechanical-data">
+<h2>1 — Explore the Glass-Fibre Mechanical Data<a class="headerlink" href="#explore-the-glass-fibre-mechanical-data" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load analysed data for every fibre type</span>
+<span class="n">fibre_types</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">GLASS_FIBRE</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()])</span>
+
+<span class="n">analysed</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">ft</span> <span class="ow">in</span> <span class="n">fibre_types</span><span class="p">:</span>
+    <span class="n">dat_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">GLASS_FIBRE</span> <span class="o">/</span> <span class="n">ft</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*analysed_data.dat'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dat_file</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'Fibre Type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ft</span>
+    <span class="n">analysed</span><span class="p">[</span><span class="n">ft</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+
+<span class="n">df_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">analysed</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Total specimens: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_all</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">df_all</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total specimens: 695
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Specimen Index</th>
+      <th>Diameter [um]</th>
+      <th>Gauge length [mm]</th>
+      <th>Load drops [1/0]</th>
+      <th>Strength [MPa]</th>
+      <th>Tensile modulus [GPa]</th>
+      <th>Stiffening rate [GPa/%]</th>
+      <th>Initial tensile modulus [GPa]</th>
+      <th>Unnamed: 8</th>
+      <th>Fibre Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>6.21</td>
+      <td>12.271</td>
+      <td>0.0</td>
+      <td>5556.624306</td>
+      <td>254.383775</td>
+      <td>53.464995</td>
+      <td>234.643214</td>
+      <td>NaN</td>
+      <td>34-700</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>6.37</td>
+      <td>12.317</td>
+      <td>0.0</td>
+      <td>3231.978616</td>
+      <td>250.637551</td>
+      <td>65.247520</td>
+      <td>227.049590</td>
+      <td>NaN</td>
+      <td>34-700</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>6.42</td>
+      <td>12.299</td>
+      <td>0.0</td>
+      <td>5090.931692</td>
+      <td>256.493143</td>
+      <td>60.221147</td>
+      <td>240.109241</td>
+      <td>NaN</td>
+      <td>34-700</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.0</td>
+      <td>7.00</td>
+      <td>12.244</td>
+      <td>0.0</td>
+      <td>3798.931050</td>
+      <td>227.036568</td>
+      <td>41.291388</td>
+      <td>214.271020</td>
+      <td>NaN</td>
+      <td>34-700</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>6.19</td>
+      <td>12.227</td>
+      <td>0.0</td>
+      <td>4157.058444</td>
+      <td>254.179755</td>
+      <td>66.730266</td>
+      <td>229.589812</td>
+      <td>NaN</td>
+      <td>34-700</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare fibre types: Strength &amp; Tensile Modulus</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ft</span> <span class="ow">in</span> <span class="n">fibre_types</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df_all</span><span class="p">[</span><span class="n">df_all</span><span class="p">[</span><span class="s1">'Fibre Type'</span><span class="p">]</span> <span class="o">==</span> <span class="n">ft</span><span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">'Diameter [um]'</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s1">'Strength [MPa]'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">'Diameter [um]'</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s1">'Tensile modulus [GPa]'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">'Diameter [µm]'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Strength [MPa]'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Fibre Strength vs Diameter'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">'Diameter [µm]'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Tensile modulus [GPa]'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Tensile Modulus vs Diameter'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/776f77820c310112ffc271e927cc8955067d345db0667d4a4b8feb919a889535.png" src="../../_images/776f77820c310112ffc271e927cc8955067d345db0667d4a4b8feb919a889535.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load and plot stress-strain curves for one fibre type</span>
+<span class="n">ft_example</span> <span class="o">=</span> <span class="n">fibre_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ss_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">GLASS_FIBRE</span> <span class="o">/</span> <span class="n">ft_example</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*stress_strain.dat'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df_ss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">ss_file</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># First column is empty due to leading comma — drop it</span>
+<span class="n">df_ss</span> <span class="o">=</span> <span class="n">df_ss</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">df_ss</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_ss</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">df_ss</span><span class="p">[</span><span class="s1">'Specimen Index'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df_ss</span><span class="p">[</span><span class="n">df_ss</span><span class="p">[</span><span class="s1">'Specimen Index'</span><span class="p">]</span> <span class="o">==</span> <span class="n">idx</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">'Strain [mm/mm]'</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s1">'Stress [MPa]'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Specimen </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">'Strain [mm/mm]'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Stress [MPa]'</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Stress–Strain Curves — </span><span class="si">{</span><span class="n">ft_example</span><span class="si">}</span><span class="s1"> (first 5 specimens)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/90dcf746d82e56f474b4fa1aadc906fef5301779d7b6d6e7463d959e93b27979.png" src="../../_images/90dcf746d82e56f474b4fa1aadc906fef5301779d7b6d6e7463d959e93b27979.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="inspect-the-tomography-image-dataset">
+<h2>2 — Inspect the Tomography Image Dataset<a class="headerlink" href="#inspect-the-tomography-image-dataset" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show a few training images with their YOLO labels overlaid</span>
+<span class="n">train_images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">TRAIN_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*.tiff'</span><span class="p">))[:</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_images</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_images</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_images</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">img_path</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">train_images</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># CHW → HWC</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+
+    <span class="c1"># Overlay YOLO polygon labels if present</span>
+    <span class="n">label_path</span> <span class="o">=</span> <span class="n">img_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">'.txt'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">label_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">label_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">W</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="n">H</span>
+                <span class="n">poly</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'lime'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">img_path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Training images with YOLO segmentation labels'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/99dd529bcf4874bb236cd6589e4b65fb1b2ff0c3927b3df0a1b37a52242bfdb5.png" src="../../_images/99dd529bcf4874bb236cd6589e4b65fb1b2ff0c3927b3df0a1b37a52242bfdb5.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="dataset-yaml-configuration">
+<h2>3 — Dataset YAML Configuration<a class="headerlink" href="#dataset-yaml-configuration" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+<span class="c1"># ── Detection config ───────────────────────────────────────────</span>
+<span class="n">det_yaml</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'path'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="o">.</span><span class="n">resolve</span><span class="p">()),</span>
+    <span class="s1">'train'</span><span class="p">:</span> <span class="s1">'train'</span><span class="p">,</span>
+    <span class="s1">'val'</span><span class="p">:</span>   <span class="s1">'val'</span><span class="p">,</span>
+    <span class="s1">'names'</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">'fiber'</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">det_yaml_path</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s1">'glass-fibre-detect.yaml'</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">det_yaml_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">det_yaml</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># ── Segmentation config (same data, YOLO uses polygon labels) ─</span>
+<span class="n">seg_yaml_path</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s1">'glass-fibre-segment.yaml'</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">seg_yaml_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">det_yaml</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># same content; the task flag decides detect vs segment</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Detection YAML  :'</span><span class="p">,</span> <span class="n">det_yaml_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Segmentation YAML:'</span><span class="p">,</span> <span class="n">seg_yaml_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">det_yaml</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Detection YAML  : /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibre-detect.yaml
+Segmentation YAML: /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibre-segment.yaml
+
+names:
+  0: fiber
+path: /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres
+train: train
+val: val
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="a-yolo-object-detection-bounding-boxes">
+<h2>4(a) — YOLO Object Detection (bounding boxes)<a class="headerlink" href="#a-yolo-object-detection-bounding-boxes" title="Link to this heading">¶</a></h2>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">yolo11n.pt</span></code> (a detection-only pretrained model).<br />
+YOLO automatically converts polygon labels to bounding boxes when the task is <code class="docutils literal notranslate"><span class="pre">detect</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the detection model</span>
+<span class="n">det_model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">'yolo11n.pt'</span><span class="p">)</span>   <span class="c1"># pretrained COCO detection weights</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">det_model</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>YOLO11n summary: 181 layers, 2,624,080 parameters, 0 gradients, 6.6 GFLOPs
+(181, 2624080, 0, 6.614336)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Train detection ────────────────────────────────────────────</span>
+<span class="c1">#   Adjust epochs, imgsz, batch as needed.</span>
+<span class="c1">#   Set device='cpu' if no GPU is available.</span>
+
+<span class="n">det_results</span> <span class="o">=</span> <span class="n">det_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">data</span>   <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">det_yaml_path</span><span class="p">),</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">imgsz</span>  <span class="o">=</span> <span class="mi">640</span><span class="p">,</span>
+    <span class="n">batch</span>  <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">name</span>   <span class="o">=</span> <span class="s1">'glass-fibre-detect'</span><span class="p">,</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="s1">'runs'</span><span class="p">,</span>
+    <span class="n">patience</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">pretrained</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New https://pypi.org/project/ultralytics/8.4.170 available 😃 Update with 'pip install -U ultralytics'
+Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">engine/trainer: </span>agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=16, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibre-detect.yaml, degrees=0.0, deterministic=True, device=None, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=30, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolo11n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=glass-fibre-detect4, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=10, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=runs, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+Overriding model.yaml nc=80 with nc=1
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      
+  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]                 
+ 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  1    111296  ultralytics.nn.modules.block.C3k2            [384, 128, 1, False]          
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  1     32096  ultralytics.nn.modules.block.C3k2            [256, 64, 1, False]           
+ 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  1     86720  ultralytics.nn.modules.block.C3k2            [192, 128, 1, False]          
+ 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  1    378880  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True]           
+ 23        [16, 19, 22]  1    430867  ultralytics.nn.modules.head.Detect           [1, 16, None, [64, 128, 256]] 
+YOLO11n summary: 182 layers, 2,590,035 parameters, 2,590,019 gradients, 6.4 GFLOPs
+
+Transferred 448/499 items from pretrained weights
+Freezing layer 'model.23.dfl.conv.weight'
+<span class=" -Color -Color-Bold -Color-Bold-Blue">AMP: </span>running Automatic Mixed Precision (AMP) checks...
+<span class=" -Color -Color-Bold -Color-Bold-Blue">AMP: </span>checks passed ✅
+<span class=" -Color -Color-Bold -Color-Bold-Blue">train: </span>Fast image access ✅ (ping: 0.4±0.1 ms, read: 77.1±53.5 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">train: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/train.cache... 501 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 501/501 105.1Mit/s 0.0s
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Fast image access ✅ (ping: 0.3±0.0 ms, read: 45.3±61.4 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val.cache... 51 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 51/51 3.1Mit/s 0.0s
+Plotting labels to /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4/labels.jpg... 
+<span class=" -Color -Color-Bold -Color-Bold-Blue">optimizer:</span> 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+<span class=" -Color -Color-Bold -Color-Bold-Blue">optimizer:</span> MuSGD(lr=0.002, momentum=0.9) with parameter groups 81 weight(decay=0.0), 88 weight(decay=0.0005), 87 bias(decay=0.0)
+Image sizes 640 train, 640 val
+Using 8 dataloader workers
+Logging results to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4</span>
+Starting training for 30 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       1/30     0.393G      1.149      3.051      1.087        644        640: 100% ━━━━━━━━━━━━ 32/32 2.4s/it 1:160.5sss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.6s/it 5.3s&lt;10.7s
+                   all         51       4089     0.0882       0.33     0.0814     0.0546
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       2/30      4.74G     0.9549      1.773     0.9981        499        640: 100% ━━━━━━━━━━━━ 32/32 2.1it/s 15.2s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.3it/s 0.9s1.8s
+                   all         51       4089      0.967      0.272      0.434      0.274
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       3/30      5.32G     0.8817      0.966      0.968        330        640: 100% ━━━━━━━━━━━━ 32/32 2.3it/s 13.9s0.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.2it/s 0.6s1.6s
+                   all         51       4089      0.832      0.412      0.509      0.328
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       4/30      5.96G     0.8476     0.8046     0.9304        544        640: 100% ━━━━━━━━━━━━ 32/32 1.1it/s 28.1s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.5it/s 0.8s1.9s
+                   all         51       4089      0.743      0.529      0.582      0.362
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       5/30      5.96G     0.8104     0.7361     0.9134        441        640: 100% ━━━━━━━━━━━━ 32/32 1.2it/s 25.6s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.0it/s 1.0s1.7s
+                   all         51       4089      0.766      0.501      0.554       0.36
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       6/30      5.96G     0.7725     0.6877     0.8999        513        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 20.8s0.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.2it/s 0.9s1.8s
+                   all         51       4089      0.804      0.482      0.535      0.352
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       7/30      5.96G     0.7466     0.6635     0.8918        527        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.1s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.2it/s 0.9s2.0s
+                   all         51       4089      0.827      0.476      0.538      0.351
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       8/30      5.97G        0.7     0.6285     0.8787        371        640: 100% ━━━━━━━━━━━━ 32/32 1.6it/s 20.3s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.6it/s 1.2s1.9s
+                   all         51       4089      0.819      0.493      0.552       0.37
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       9/30      5.98G     0.6902     0.6091     0.8697        375        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.0s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.7it/s 1.1s2.4s
+                   all         51       4089      0.812      0.503      0.555      0.365
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      10/30         6G     0.6677     0.5864     0.8635        399        640: 100% ━━━━━━━━━━━━ 32/32 1.6it/s 20.0s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.6it/s 1.2s2.5s
+                   all         51       4089      0.849      0.497      0.557      0.364
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      11/30         6G     0.6517     0.5759     0.8602        369        640: 100% ━━━━━━━━━━━━ 32/32 1.8it/s 18.1s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.7it/s 1.2s2.3s
+                   all         51       4089      0.851      0.508      0.566      0.373
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      12/30      6.64G     0.6366     0.5567     0.8584        404        640: 100% ━━━━━━━━━━━━ 32/32 1.7it/s 19.2s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.7it/s 0.5s1.1s
+                   all         51       4089      0.857      0.517      0.573      0.383
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      13/30      6.64G      0.629     0.5409     0.8535        671        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.3s0.5ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.1it/s 1.0s2.1s
+                   all         51       4089      0.864       0.51      0.567      0.373
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      14/30      6.64G     0.6149     0.5285     0.8501        444        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.5s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.0it/s 1.0s1.9s
+                   all         51       4089      0.868      0.519      0.577      0.385
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      15/30      6.64G     0.6081     0.5259     0.8474        690        640: 100% ━━━━━━━━━━━━ 32/32 2.0it/s 16.0s0.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.9it/s 1.0s2.2s
+                   all         51       4089      0.874       0.52      0.576      0.383
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      16/30      6.64G     0.5985     0.5126      0.844        625        640: 100% ━━━━━━━━━━━━ 32/32 1.4it/s 22.8s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.6it/s 0.8s1.6s
+                   all         51       4089      0.873      0.529      0.583      0.392
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      17/30      7.33G     0.5886     0.5068     0.8445        383        640: 100% ━━━━━━━━━━━━ 32/32 1.4it/s 22.7s0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.1it/s 0.7s1.3s
+                   all         51       4089      0.873      0.517      0.571      0.374
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      18/30      7.33G     0.5727     0.4981     0.8413        406        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.5s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.5it/s 0.8s1.8s
+                   all         51       4089      0.877      0.518      0.574      0.374
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      19/30      7.33G     0.5764     0.4913     0.8399        536        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.9s0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.8it/s 0.7s1.4s
+                   all         51       4089      0.874      0.527      0.577      0.383
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      20/30      7.33G     0.5729     0.4861     0.8413        472        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.7s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.1it/s 0.9s1.5s
+                   all         51       4089       0.87      0.524      0.577      0.383
+Closing dataloader mosaic
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      21/30      7.33G     0.5346     0.5203     0.8367        368        640: 100% ━━━━━━━━━━━━ 32/32 4.1it/s 7.8s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.5it/s 0.3s0.6s
+                   all         51       4089      0.879       0.53      0.574      0.382
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      22/30      7.33G     0.5311     0.4954     0.8284        316        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.8it/s 0.3s0.5s
+                   all         51       4089      0.871      0.527      0.572      0.376
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      23/30      7.33G     0.5171     0.4734     0.8255        320        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.4it/s 0.3s0.6s
+                   all         51       4089      0.889      0.524      0.574       0.38
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      24/30      7.35G     0.5142     0.4703     0.8261        380        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.7it/s 0.3s0.5s
+                   all         51       4089      0.878      0.533      0.579      0.391
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      25/30      7.36G     0.5055     0.4603     0.8244        359        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.6it/s 0.3s0.5s
+                   all         51       4089      0.876      0.536      0.582      0.392
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      26/30      7.36G     0.5083     0.4612      0.826        211        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.7it/s 0.3s0.5s
+                   all         51       4089      0.875      0.537      0.582       0.39
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      27/30      7.36G     0.4967     0.4527     0.8241        290        640: 100% ━━━━━━━━━━━━ 32/32 5.1it/s 6.3s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.7it/s 0.3s0.5s
+                   all         51       4089      0.876      0.533      0.577      0.384
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      28/30      7.36G     0.4907     0.4484     0.8238        254        640: 100% ━━━━━━━━━━━━ 32/32 5.2it/s 6.2s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.7it/s 0.3s0.5s
+                   all         51       4089      0.878      0.538      0.582       0.39
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      29/30      7.36G     0.4918     0.4489     0.8233        361        640: 100% ━━━━━━━━━━━━ 32/32 5.1it/s 6.3s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 7.8it/s 0.3s0.5s
+                   all         51       4089      0.873      0.535      0.579      0.387
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      30/30      7.36G     0.4902      0.446     0.8228        244        640: 100% ━━━━━━━━━━━━ 32/32 5.1it/s 6.3s0.2s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 6.5it/s 0.3s0.5s
+                   all         51       4089      0.874      0.541      0.583      0.393
+
+30 epochs completed in 0.164 hours.
+Optimizer stripped from /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4/weights/last.pt, 5.5MB
+Optimizer stripped from /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4/weights/best.pt, 5.5MB
+
+Validating /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4/weights/best.pt...
+Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+YOLO11n summary (fused): 101 layers, 2,582,347 parameters, 0 gradients, 6.3 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 6.4it/s 0.3s0.6s
+                   all         51       4089      0.874      0.541      0.583      0.393
+Speed: 0.1ms preprocess, 0.8ms inference, 0.0ms loss, 1.6ms postprocess per image
+Results saved to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/runs/glass-fibre-detect4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Evaluate detection on the validation set ───────────────────</span>
+<span class="n">det_metrics</span> <span class="o">=</span> <span class="n">det_model</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">det_yaml_path</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mAP@50     : </span><span class="si">{</span><span class="n">det_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map50</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mAP@50-95  : </span><span class="si">{</span><span class="n">det_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Precision  : </span><span class="si">{</span><span class="n">det_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">mp</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Recall     : </span><span class="si">{</span><span class="n">det_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">mr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+YOLO11n summary (fused): 101 layers, 2,582,347 parameters, 0 gradients, 6.3 GFLOPs
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 7974.2±1500.3 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val.cache... 51 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 51/51 21.4Mit/s 0.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 4/4 1.6s/it 6.4s2.1ss
+                   all         51       4089      0.872      0.539      0.582      0.393
+Speed: 2.5ms preprocess, 75.9ms inference, 0.0ms loss, 2.0ms postprocess per image
+Results saved to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/detect/val3</span>
+mAP@50     : 0.5820
+mAP@50-95  : 0.3927
+Precision  : 0.8723
+Recall     : 0.5388
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Run detection on sample images ─────────────────────────────</span>
+<span class="n">sample_images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">VAL_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*.tiff'</span><span class="p">))[:</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="n">det_preds</span> <span class="o">=</span> <span class="n">det_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sample_images</span><span class="p">],</span>
+    <span class="n">conf</span>   <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">save</span>   <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">det_preds</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">orig_img</span>
+    <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">rect</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">,</span>
+                                 <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'lime'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">conf</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lime'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Detection results (bounding boxes)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0: 640x640 66 fibers, 278.0ms
+1: 640x640 64 fibers, 278.0ms
+2: 640x640 61 fibers, 278.0ms
+3: 640x640 59 fibers, 278.0ms
+Speed: 1.8ms preprocess, 278.0ms inference, 0.7ms postprocess per image at shape (1, 3, 640, 640)
+</pre></div>
+</div>
+<img alt="../../_images/ac031924b824dae9de4832c2321396668abbb02b29cb00c1fdf7450916303858.png" src="../../_images/ac031924b824dae9de4832c2321396668abbb02b29cb00c1fdf7450916303858.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="b-yolo-instance-segmentation-pixel-masks">
+<h2>4(b) — YOLO Instance Segmentation (pixel masks)<a class="headerlink" href="#b-yolo-instance-segmentation-pixel-masks" title="Link to this heading">¶</a></h2>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">yolo11n-seg.pt</span></code> (a segmentation pretrained model).<br />
+The polygon labels in the dataset are used directly as segmentation targets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the segmentation model</span>
+<span class="n">seg_model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">'yolo11n-seg.pt'</span><span class="p">)</span>   <span class="c1"># pretrained COCO segmentation weights</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">seg_model</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>YOLO11n-seg summary: 203 layers, 2,876,848 parameters, 0 gradients, 9.9 GFLOPs
+(203, 2876848, 0, 9.900352)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Train segmentation ─────────────────────────────────────────</span>
+<span class="n">seg_results</span> <span class="o">=</span> <span class="n">seg_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">data</span>   <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seg_yaml_path</span><span class="p">),</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">imgsz</span>  <span class="o">=</span> <span class="mi">640</span><span class="p">,</span>
+    <span class="n">batch</span>  <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">name</span>   <span class="o">=</span> <span class="s1">'glass-fibre-segment'</span><span class="p">,</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="s1">'runs'</span><span class="p">,</span>
+    <span class="n">patience</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">pretrained</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New https://pypi.org/project/ultralytics/8.4.170 available 😃 Update with 'pip install -U ultralytics'
+Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">engine/trainer: </span>agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=16, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibre-segment.yaml, degrees=0.0, deterministic=True, device=None, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=30, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolo11n-seg.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=glass-fibre-segment2, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=10, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=runs, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=segment, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+Overriding model.yaml nc=80 with nc=1
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      
+  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]                 
+ 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  1    111296  ultralytics.nn.modules.block.C3k2            [384, 128, 1, False]          
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  1     32096  ultralytics.nn.modules.block.C3k2            [256, 64, 1, False]           
+ 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  1     86720  ultralytics.nn.modules.block.C3k2            [192, 128, 1, False]          
+ 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  1    378880  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True]           
+ 23        [16, 19, 22]  1    683635  ultralytics.nn.modules.head.Segment          [1, 32, 64, 16, None, [64, 128, 256]]
+YOLO11n-seg summary: 204 layers, 2,842,803 parameters, 2,842,787 gradients, 9.7 GFLOPs
+
+Transferred 510/561 items from pretrained weights
+Freezing layer 'model.23.dfl.conv.weight'
+<span class=" -Color -Color-Bold -Color-Bold-Blue">AMP: </span>running Automatic Mixed Precision (AMP) checks...
+<span class=" -Color -Color-Bold -Color-Bold-Blue">AMP: </span>checks passed ✅
+<span class=" -Color -Color-Bold -Color-Bold-Blue">train: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 8721.0±1333.7 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">train: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/train.cache... 501 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 501/501 175.1Mit/s 0.0s
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Fast image access ✅ (ping: 0.1±0.0 ms, read: 1949.7±936.3 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val.cache... 51 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 51/51 1.9Mit/s 0.0s
+Plotting labels to /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2/labels.jpg... 
+<span class=" -Color -Color-Bold -Color-Bold-Blue">optimizer:</span> 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+<span class=" -Color -Color-Bold -Color-Bold-Blue">optimizer:</span> MuSGD(lr=0.002, momentum=0.9) with parameter groups 90 weight(decay=0.0), 101 weight(decay=0.0005), 100 bias(decay=0.0)
+Image sizes 640 train, 640 val
+Using 8 dataloader workers
+Logging results to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2</span>
+Starting training for 30 epochs...
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       1/30      1.04G      1.228      4.823      3.156      1.106          0        644        640: 100% ━━━━━━━━━━━━ 32/32 1.5s/it 47.8s0.9ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 2.1s/it 4.2s9.0s
+                   all         51       4089      0.068      0.255      0.055     0.0359     0.0341      0.128     0.0224    0.00518
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       2/30      6.82G     0.9994      2.917      2.549     0.9915          0        499        640: 100% ━━━━━━━━━━━━ 32/32 1.6it/s 19.5s0.5ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.4it/s 1.5s3.0s
+                   all         51       4089        0.1      0.375      0.125     0.0806      0.051      0.191     0.0434     0.0101
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       3/30       7.4G     0.9217      2.386      1.355     0.9672          0        330        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.5s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.3it/s 1.5s2.2s
+                   all         51       4089      0.911      0.359      0.476      0.299      0.657      0.258      0.277     0.0902
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       4/30      8.04G     0.8768      2.107     0.9397     0.9456          0        544        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.1s0.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.4s/it 2.8s7.1s
+                   all         51       4089      0.817      0.445      0.511      0.336      0.413      0.232      0.164      0.051
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       5/30      8.04G     0.8323      1.893     0.8173     0.9207          0        441        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.6s0.7ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.7s3.5s
+                   all         51       4089      0.825      0.487      0.551      0.362       0.54      0.348      0.291     0.0895
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       6/30      8.05G      0.787      1.678     0.7444     0.9014          0        513        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 21.1s0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.7s3.4s
+                   all         51       4089      0.834      0.511      0.578       0.39      0.659      0.401       0.37      0.121
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       7/30      8.05G     0.7599      1.564     0.7017     0.8929          0        527        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 20.8s0.5ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.1it/s 1.8s3.7s
+                   all         51       4089      0.844      0.512      0.576      0.372      0.641      0.383      0.362      0.123
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       8/30      8.07G     0.7109      1.388     0.6607     0.8805          0        371        640: 100% ━━━━━━━━━━━━ 32/32 1.4it/s 22.6s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.4it/s 1.5s2.0s
+                   all         51       4089      0.845      0.505      0.569      0.363      0.665      0.398      0.392      0.137
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+       9/30      8.07G     0.7036      1.362     0.6405     0.8726          0        375        640: 100% ━━━━━━━━━━━━ 32/32 1.4it/s 23.1s0.8ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.7s3.4s
+                   all         51       4089      0.809      0.511       0.56      0.356      0.644      0.386      0.363      0.122
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      10/30      8.08G     0.6836      1.286     0.6128     0.8662          0        399        640: 100% ━━━━━━━━━━━━ 32/32 1.6it/s 20.3s0.5ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.7s3.1s
+                   all         51       4089      0.855       0.52      0.572      0.381      0.612      0.389      0.339      0.109
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      11/30      8.08G     0.6615      1.225     0.6004     0.8628          0        369        640: 100% ━━━━━━━━━━━━ 32/32 1.4it/s 23.6s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.1s/it 2.1s4.4s
+                   all         51       4089      0.859      0.519      0.575      0.384      0.593      0.364      0.311     0.0997
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      12/30      8.72G      0.649      1.174     0.5825     0.8608          0        404        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.0s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.4it/s 1.5s3.5s
+                   all         51       4089      0.856      0.516      0.566      0.373      0.627       0.38      0.341      0.108
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      13/30      8.74G      0.648      1.171     0.5697      0.857          0        671        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.1s0.5ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.7s3.7s
+                   all         51       4089      0.869      0.522      0.574      0.378      0.658        0.4      0.371      0.125
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      14/30      8.74G      0.638      1.134     0.5576     0.8542          0        444        640: 100% ━━━━━━━━━━━━ 32/32 1.5it/s 22.1s0.7ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.8it/s 1.1s2.6s
+                   all         51       4089      0.875      0.524      0.577      0.384      0.611       0.38      0.324      0.107
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      15/30      8.76G     0.6273      1.111     0.5508     0.8496          0        690        640: 100% ━━━━━━━━━━━━ 32/32 1.6it/s 19.7s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.1s/it 2.2s4.4s
+                   all         51       4089      0.867      0.526       0.58      0.383      0.636      0.391      0.356      0.125
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      16/30      8.76G     0.6199      1.085     0.5414     0.8481          0        625        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 25.0s0.8s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.0it/s 1.9s4.4s
+                   all         51       4089      0.872      0.537      0.588       0.39      0.649      0.407      0.374      0.137
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      17/30      9.44G     0.6162      1.077     0.5348     0.8486          0        383        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.2s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.1s/it 2.2s5.4s
+                   all         51       4089      0.873      0.531      0.585       0.39      0.629      0.395      0.351      0.118
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      18/30      9.44G      0.596      1.024     0.5276     0.8454          0        406        640: 100% ━━━━━━━━━━━━ 32/32 1.3it/s 24.3s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.2it/s 1.6s3.2s
+                   all         51       4089      0.869      0.527      0.579      0.382      0.619      0.381      0.328      0.109
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      19/30      9.44G     0.5994      1.033     0.5191     0.8434          0        536        640: 100% ━━━━━━━━━━━━ 32/32 1.1it/s 27.9s0.6ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.5it/s 1.4s3.1s
+                   all         51       4089      0.867      0.534      0.583      0.389      0.626      0.392       0.34      0.116
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      20/30      9.44G     0.5945       1.02      0.514     0.8444          0        472        640: 100% ━━━━━━━━━━━━ 32/32 1.8it/s 18.2s0.4ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.6it/s 1.2s2.4s
+                   all         51       4089      0.854       0.53      0.578      0.383      0.597      0.375       0.31      0.103
+Closing dataloader mosaic
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      21/30      9.44G      0.564      0.947     0.5559     0.8424          0        368        640: 100% ━━━━━━━━━━━━ 32/32 3.4it/s 9.5s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.5it/s 0.6s1.2s
+                   all         51       4089      0.869      0.547      0.594      0.402      0.601      0.396      0.322      0.106
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      22/30      9.44G     0.5542     0.9213     0.5225     0.8341          0        316        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.7s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.5it/s 0.6s1.2s
+                   all         51       4089       0.86      0.545      0.596      0.398      0.622      0.405      0.339      0.113
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      23/30      9.44G      0.537     0.8806     0.5036     0.8303          0        320        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.8s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.5it/s 0.6s1.2s
+                   all         51       4089      0.866      0.541      0.596      0.392      0.658      0.413      0.398      0.163
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      24/30      9.44G     0.5368     0.8752     0.4992     0.8306          0        380        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.7s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.5it/s 0.6s1.2s
+                   all         51       4089      0.863      0.547      0.596      0.395      0.654      0.417      0.383      0.147
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      25/30      9.44G     0.5304     0.8559     0.4942     0.8304          0        359        640: 100% ━━━━━━━━━━━━ 32/32 3.6it/s 8.9s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.6it/s 0.6s1.2s
+                   all         51       4089      0.868      0.554        0.6      0.402      0.648      0.417       0.36      0.126
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      26/30      9.44G     0.5335     0.8652     0.4931     0.8316          0        211        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.7s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.6it/s 0.6s1.2s
+                   all         51       4089      0.861      0.545      0.589      0.392      0.626      0.404      0.338      0.112
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      27/30      9.44G       0.52     0.8443     0.4842     0.8296          0        290        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.7s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.6it/s 0.6s1.2s
+                   all         51       4089      0.862      0.548      0.592      0.392      0.624      0.404      0.338      0.114
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      28/30      9.44G     0.5161     0.8195     0.4814     0.8303          0        254        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.8s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.5it/s 0.6s1.2s
+                   all         51       4089      0.865      0.554      0.597        0.4       0.63       0.41      0.344      0.116
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      29/30      9.44G     0.5147     0.8237     0.4803     0.8277          0        361        640: 100% ━━━━━━━━━━━━ 32/32 3.6it/s 8.8s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.6it/s 0.6s1.2s
+                   all         51       4089      0.864      0.552      0.596        0.4      0.637      0.418      0.353      0.117
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss   sem_loss  Instances       Size
+      30/30      9.44G     0.5159     0.8326     0.4802     0.8289          0        244        640: 100% ━━━━━━━━━━━━ 32/32 3.7it/s 8.8s0.3s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 3.6it/s 0.5s1.2s
+                   all         51       4089      0.865      0.552      0.596        0.4      0.639       0.42      0.356      0.118
+
+30 epochs completed in 0.178 hours.
+Optimizer stripped from /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2/weights/last.pt, 6.0MB
+Optimizer stripped from /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2/weights/best.pt, 6.0MB
+
+Validating /pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2/weights/best.pt...
+Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+YOLO11n-seg summary (fused): 114 layers, 2,834,763 parameters, 0 gradients, 9.6 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 1.9it/s 1.1s1.8s
+                   all         51       4089      0.865      0.543      0.596      0.392      0.656      0.414      0.397      0.162
+Speed: 0.1ms preprocess, 0.9ms inference, 0.0ms loss, 3.7ms postprocess per image
+Results saved to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/runs/glass-fibre-segment2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Evaluate segmentation on the validation set ────────────────</span>
+<span class="n">seg_metrics</span> <span class="o">=</span> <span class="n">seg_model</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">seg_yaml_path</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'=== Box metrics ==='</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  mAP@50     : </span><span class="si">{</span><span class="n">seg_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map50</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  mAP@50-95  : </span><span class="si">{</span><span class="n">seg_metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'=== Mask metrics ==='</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  mAP@50     : </span><span class="si">{</span><span class="n">seg_metrics</span><span class="o">.</span><span class="n">seg</span><span class="o">.</span><span class="n">map50</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  mAP@50-95  : </span><span class="si">{</span><span class="n">seg_metrics</span><span class="o">.</span><span class="n">seg</span><span class="o">.</span><span class="n">map</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ultralytics 8.4.7 🚀 Python-3.12.3 torch-2.9.1+rocm6.4 CUDA:0 (AMD Instinct MI250X, 65520MiB)
+YOLO11n-seg summary (fused): 114 layers, 2,834,763 parameters, 0 gradients, 9.6 GFLOPs
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 9067.3±1667.0 MB/s, size: 2935.8 KB)
+<span class=" -Color -Color-Bold -Color-Bold-Blue">val: </span>Scanning /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val.cache... 51 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 51/51 23.8Mit/s 0.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 4/4 1.1it/s 3.7s1.1ss
+                   all         51       4089      0.865      0.543      0.596      0.393      0.642      0.404      0.385      0.159
+Speed: 2.2ms preprocess, 39.6ms inference, 0.0ms loss, 7.3ms postprocess per image
+Results saved to <span class=" -Color -Color-Bold">/pfs/lustrep4/users/xieruiwe/YOLO_1001_test/runs/segment/val4</span>
+=== Box metrics ===
+  mAP@50     : 0.5962
+  mAP@50-95  : 0.3932
+
+=== Mask metrics ===
+  mAP@50     : 0.3851
+  mAP@50-95  : 0.1590
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Run segmentation on sample images ──────────────────────────</span>
+<span class="n">seg_preds</span> <span class="o">=</span> <span class="n">seg_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sample_images</span><span class="p">],</span>
+    <span class="n">conf</span>   <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">save</span>   <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_images</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">seg_preds</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">orig_img</span>
+    <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+
+    <span class="c1"># Overlay masks</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">masks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">overlay</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="o">*</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mask_xy</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">masks</span><span class="o">.</span><span class="n">xy</span><span class="p">):</span>
+            <span class="n">contour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mask_xy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="o">*</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="p">[</span><span class="n">contour</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="p">[</span><span class="n">contour</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">overlay</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">overlay</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">overlay</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'Segmentation results (instance masks)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0: 640x640 68 fibers, 143.8ms
+1: 640x640 65 fibers, 143.8ms
+2: 640x640 65 fibers, 143.8ms
+3: 640x640 67 fibers, 143.8ms
+Speed: 1.5ms preprocess, 143.8ms inference, 3.0ms postprocess per image at shape (1, 3, 640, 640)
+</pre></div>
+</div>
+<img alt="../../_images/70fb46e8d8afc3c12c3fe42c2d9acf07686077577c3ac55e6ad42c385b932cf9.png" src="../../_images/70fb46e8d8afc3c12c3fe42c2d9acf07686077577c3ac55e6ad42c385b932cf9.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="compare-detection-vs-segmentation">
+<h2>5 — Compare Detection vs Segmentation<a class="headerlink" href="#compare-detection-vs-segmentation" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Side-by-side comparison on a single image</span>
+<span class="n">test_img</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">VAL_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*.tiff'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">det_r</span> <span class="o">=</span> <span class="n">det_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_img</span><span class="p">),</span> <span class="n">conf</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">seg_r</span> <span class="o">=</span> <span class="n">seg_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_img</span><span class="p">),</span> <span class="n">conf</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># ── Detection ──</span>
+<span class="n">img_det</span> <span class="o">=</span> <span class="n">det_r</span><span class="o">.</span><span class="n">orig_img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">img_det</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">img_det</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">img_det</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_det</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_det</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">det_r</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">det_r</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">,</span>
+                             <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'lime'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'(a) Detection — </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">det_r</span><span class="o">.</span><span class="n">boxes</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">det_r</span><span class="o">.</span><span class="n">boxes</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s1"> fibres'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<span class="c1"># ── Segmentation ──</span>
+<span class="n">img_seg</span> <span class="o">=</span> <span class="n">seg_r</span><span class="o">.</span><span class="n">orig_img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">img_seg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">img_seg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">img_seg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_seg</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_seg</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">seg_r</span><span class="o">.</span><span class="n">masks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">mask_combined</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">img_seg</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mask_xy</span> <span class="ow">in</span> <span class="n">seg_r</span><span class="o">.</span><span class="n">masks</span><span class="o">.</span><span class="n">xy</span><span class="p">:</span>
+        <span class="n">contour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mask_xy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">mask_combined</span><span class="p">,</span> <span class="p">[</span><span class="n">contour</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask_combined</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Reds'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">n_masks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_r</span><span class="o">.</span><span class="n">masks</span><span class="o">.</span><span class="n">xy</span><span class="p">)</span> <span class="k">if</span> <span class="n">seg_r</span><span class="o">.</span><span class="n">masks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'(b) Segmentation — </span><span class="si">{</span><span class="n">n_masks</span><span class="si">}</span><span class="s1"> fibres'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Detection vs Segmentation — </span><span class="si">{</span><span class="n">test_img</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>image 1/1 /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val/450.tiff: 640x640 66 fibers, 11.3ms
+Speed: 1.9ms preprocess, 11.3ms inference, 1.0ms postprocess per image at shape (1, 3, 640, 640)
+
+image 1/1 /pfs/lustrep4/projappl/project_465002387/DEEP_Inspection_Material_Science/YOLO_1001/glass-fibres/val/450.tiff: 640x640 68 fibers, 10.1ms
+Speed: 1.6ms preprocess, 10.1ms inference, 2.8ms postprocess per image at shape (1, 3, 640, 640)
+</pre></div>
+</div>
+<img alt="../../_images/3bc83fe84b3e768fb8eaa304e5e3700dcff6ffcd4a712016ff8196a9dd6780b9.png" src="../../_images/3bc83fe84b3e768fb8eaa304e5e3700dcff6ffcd4a712016ff8196a9dd6780b9.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="export-reload-best-weights">
+<h2>6 — Export &amp; Reload Best Weights<a class="headerlink" href="#export-reload-best-weights" title="Link to this heading">¶</a></h2>
+<p>After training, the best weights are saved under <code class="docutils literal notranslate"><span class="pre">runs/</span></code>.<br />
+Use the cells below to reload a trained model for inference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Reload detection model ─────────────────────────────────────</span>
+<span class="c1"># det_best = YOLO('runs/glass-fibre-detect/weights/best.pt')</span>
+
+<span class="c1"># ── Reload segmentation model ──────────────────────────────────</span>
+<span class="c1"># seg_best = YOLO('runs/glass-fibre-segment/weights/best.pt')</span>
+
+<span class="c1"># ── Or use the previously trained segmentation model ───────────</span>
+<span class="c1"># seg_prev = YOLO('runs/segment/train14/weights/best.pt')</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Uncomment the model you want to reload.'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Uncomment the model you want to reload.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Export to ONNX (optional) ──────────────────────────────────</span>
+<span class="c1"># det_model.export(format='onnx', imgsz=640)</span>
+<span class="c1"># seg_model.export(format='onnx', imgsz=640)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Uncomment to export models.'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Uncomment to export models.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Sweden AI Factory, Benedikt Neyses, Andreas Thore, Marzieh Saeedimasine, Ruiwen Xie, Yuvarajendra Anjaneya Reddy, Smita Chakraborty, Yonglei Wang and contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">YOLO on Glass Fibre Dataset</a><ul>
+<li><a class="reference internal" href="#imports-paths">0 — Imports &amp; paths</a></li>
+<li><a class="reference internal" href="#explore-the-glass-fibre-mechanical-data">1 — Explore the Glass-Fibre Mechanical Data</a></li>
+<li><a class="reference internal" href="#inspect-the-tomography-image-dataset">2 — Inspect the Tomography Image Dataset</a></li>
+<li><a class="reference internal" href="#dataset-yaml-configuration">3 — Dataset YAML Configuration</a></li>
+<li><a class="reference internal" href="#a-yolo-object-detection-bounding-boxes">4(a) — YOLO Object Detection (bounding boxes)</a></li>
+<li><a class="reference internal" href="#b-yolo-instance-segmentation-pixel-masks">4(b) — YOLO Instance Segmentation (pixel masks)</a></li>
+<li><a class="reference internal" href="#compare-detection-vs-segmentation">5 — Compare Detection vs Segmentation</a></li>
+<li><a class="reference internal" href="#export-reload-best-weights">6 — Export &amp; Reload Best Weights</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-domain="learn.mimer-ai.eu/DEEP-Inspection-Material-Science" defer="defer" src="https://plausible.io/js/script.js"></script>
+    </body>
+</html>

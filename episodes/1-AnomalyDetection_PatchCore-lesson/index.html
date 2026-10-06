@@ -1,0 +1,1269 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/"><link rel="next" title="CNN Fundamentals &amp; Multi-class Classification" href="../2-CNN-LeNet-AlexNet-lesson/"><link rel="prev" title="Week2 - Setting Up YOLO" href="../0b-setting-up-YOLO-Week2/">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+
+    <link rel="shortcut icon" href="../../_static/swe-aif.png"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>Deep Learning-based Anomaly Detection - DEEP Inspection for Materials Science</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/overrides.css?v=1c72d2de" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../"><div class="brand">DEEP Inspection for Materials Science</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/swe-aif.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/swe-aif.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">DEEP Inspection for Materials Science</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../0-setting-up-programming-environment/">Setting Up Programming Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../0b-setting-up-YOLO-Week2/">Week2 - Setting Up YOLO</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Episodes</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Deep Learning-based Anomaly Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2-CNN-LeNet-AlexNet-lesson/">CNN Fundamentals &amp; Multi-class Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-TL-VGG-ResNet-ViT-lesson/">Advanced Vision Architectures &amp; Transfer learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-YOLO_Unet_SegFormer-lesson/">Object Detection and Image Segmentation</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/blob/main//content/episodes/1-AnomalyDetection_PatchCore-lesson.ipynb?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/edit/main//content/episodes/1-AnomalyDetection_PatchCore-lesson.ipynb" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-based-anomaly-detection">
+<h1>Deep Learning-based Anomaly Detection<a class="headerlink" href="#deep-learning-based-anomaly-detection" title="Link to this heading">¶</a></h1>
+<p>Industrial quality inspection has a hard problem at its core: the set of things that can go wrong on a production line is never fully known in advance. A new scratch pattern, stain, lighting artifact, or surface texture can show up on the line that nobody has photographed before. This material covers why that matters, and how to build a system that can flag “this does not look right” without first being shown every possible way something can be wrong.</p>
+<p>The idea rests on two building blocks:</p>
+<ul class="simple">
+<li><p><strong>Feature embeddings</strong>: a pretrained deep learning model can turn an image into a vector of numbers that describes what the image looks like, without us ever training it on our steel images. Visually similar images end up with similar vectors.</p></li>
+<li><p><strong>PatchCore</strong>: a practical algorithm that stores the feature vectors of many normal images as a memory of what normal looks like, then flags a new image as anomalous when its local features are far from anything in that memory.</p></li>
+</ul>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Running theme</strong>: a single quality inspector working the same steel line. She has seen enough normal steel over the years that something unfamiliar catches her eye immediately, even a defect type she couldn’t name. Section 1 shows what happens when she is instead only allowed to recognize defect types she has personally been shown a labeled photo of. The rest of the notebook is about building a system that can do the same thing she does, without needing to be shown every possible defect type in advance.</p>
+</div>
+</div><div class='alert alert-info'>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Supervised classification, and why it struggles when the set of possible defects is open-ended</p></li>
+<li><p>Feature embeddings: how a pretrained neural network turns an image into vectors</p></li>
+<li><p>Anomaly detection with PatchCore: using those vectors to ask “have we seen something like this in normal production?” instead of “which class is this?”</p></li>
+</ul>
+</div>
+</div><div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<section id="what-problem-are-we-solving">
+<h2>1. What Problem Are We Solving?<a class="headerlink" href="#what-problem-are-we-solving" title="Link to this heading">¶</a></h2>
+<p>Typically in vision tasks, we have a closed set of classes and a closed set of labels. For example:</p>
+<ul class="simple">
+<li><p>a classifier learns from labeled classes;</p></li>
+<li><p>a detector learns from boxes;</p></li>
+<li><p>a segmenter learns from masks.</p></li>
+</ul>
+<p>The problem is that in many real cases, the defect space is open ended: a new scratch pattern, stain, lighting artifact, inclusion, or surface texture can appear even if it was never present in the training labels. So the learning problem changes from <strong>recognize this known class</strong> to <strong>learn normality well enough to flag what does not fit</strong>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/335bb412abebb445ede261bfc09ad8d7013b538624979e096b050eaf078f6166.png"><img alt="../../_images/335bb412abebb445ede261bfc09ad8d7013b538624979e096b050eaf078f6166.png" src="../../_images/335bb412abebb445ede261bfc09ad8d7013b538624979e096b050eaf078f6166.png" style="width: 650px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 1: The anomaly detection workflow. During training, only normal images are used to build a representation of acceptable appearance. During testing, new images are compared against that normal representation.</em></p>
+<p>A concrete example is an experienced quality inspector working on a steel production line. She may not know the name of every possible defect, but after years on the line she has seen enough normal steel that something unfamiliar catches her eye immediately, even a defect type she couldn’t name. Anomaly detection tries to formalize that instinct with feature vectors. Section 1.3 shows what happens if we instead only let her flag defects she has been explicitly shown a labeled photo of.</p>
+<section id="normality-is-the-training-signal">
+<h3>1.1 Normality is the Training Signal<a class="headerlink" href="#normality-is-the-training-signal" title="Link to this heading">¶</a></h3>
+<p>A one-class setup trains on normal images only. That does not mean defects are useless. Defect images are still useful for validation, threshold selection, and evaluating whether the anomaly score is meaningful.</p>
+<p>In this module:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset/anomaly/train/normal</span></code> contains normal images for PatchCore memory building;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset/anomaly/test/normal</span></code> contains held-out normal images;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset/anomaly/test/defect</span></code> contains defect images for evaluation.</p></li>
+</ul>
+<p>The model never needs defect images to build the memory bank. This is the key distinction from ordinary binary classification.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/26d7f3fb06c57528dbac2b037914764da88ab26d2a7a67d1ee4f7d86b271cbf5.png"><img alt="../../_images/26d7f3fb06c57528dbac2b037914764da88ab26d2a7a67d1ee4f7d86b271cbf5.png" src="../../_images/26d7f3fb06c57528dbac2b037914764da88ab26d2a7a67d1ee4f7d86b271cbf5.png" style="width: 650px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 2: The prepared workshop split. The training set contains only normal images, while the test set contains both normal and defective images.</em></p>
+<p>This split is deliberately different from a supervised classifier split. A classifier would usually train with both “normal” and “defect” labels. The PatchCore anomaly detection method only stores what normal looks like, then asks whether test images fit that stored normal appearance.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/e6d7076286a3f25d497ae577533d67a01a985d1b62b33a7ede042af3027ba16c.png"><img alt="../../_images/e6d7076286a3f25d497ae577533d67a01a985d1b62b33a7ede042af3027ba16c.png" src="../../_images/e6d7076286a3f25d497ae577533d67a01a985d1b62b33a7ede042af3027ba16c.png" style="width: 950px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 3: Example steel strips from the prepared workshop dataset. The normal images define the reference behavior. The defect images are used to evaluate whether the model can flag abnormal appearance.</em></p>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that the whole image is mostly steel even when a defect exists. This matters because a single image-level vector can wash out a small local defect. PatchCore therefore works with local patch features, but we are getting ahead of ourselves. First, the obvious idea.</p>
+</div>
+</div></section>
+<section id="a-simple-tirst-model-the-mlp">
+<h3>1.2 A Simple Tirst Model: the MLP<a class="headerlink" href="#a-simple-tirst-model-the-mlp" title="Link to this heading">¶</a></h3>
+<p>Before reaching for a pretrained backbone, it is worth asking: what is the simplest possible model we could train directly on these images? The classic starting point (see e.g. <a class="reference external" href="https://github.com/bentrevett/pytorch-image-classification">bentrevett/pytorch-image-classification</a>) is a <strong>multi-layer perceptron (MLP)</strong>: flatten the image into one long list of pixel values and feed it through a few fully-connected layers.</p>
+<p>An MLP has no notion of “nearby pixels belong together” – it treats pixel 1 and pixel 10,000 exactly the same way, as two unrelated numbers in a long list. That makes it a reasonable first thing to try and a useful reference point, but a weak choice for real images: it cannot exploit the fact that a scratch is a local pattern of neighboring pixels, and flattening even a fairly low resolution color image already produces a very long input vector before the network does anything useful with it.</p>
+<p>The cell below trains a tiny MLP directly on flattened, downsized workshop images, purely to make this concrete. Do not read too much into its accuracy, the point is the architecture, not the number.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">PILImage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
+
+<span class="n">mlp_metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="s1">'metadata.csv'</span><span class="p">)</span>
+<span class="n">mlp_normal</span> <span class="o">=</span> <span class="n">mlp_metadata</span><span class="p">[</span><span class="n">mlp_metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'normal'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mlp_defect</span> <span class="o">=</span> <span class="n">mlp_metadata</span><span class="p">[</span><span class="n">mlp_metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">MLP_IMAGE_SIZE</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># deliberately tiny -- an MLP has no way to exploit spatial structure anyway</span>
+<span class="n">mlp_transform</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="n">MLP_IMAGE_SIZE</span><span class="p">,</span> <span class="n">MLP_IMAGE_SIZE</span><span class="p">)),</span> <span class="n">T</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(),</span> <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_flat</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlp_transform</span><span class="p">(</span><span class="n">PILImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="n">row</span><span class="p">[</span><span class="s1">'relative_path'</span><span class="p">])</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">X_mlp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">load_flat</span><span class="p">(</span><span class="n">mlp_normal</span><span class="p">),</span> <span class="n">load_flat</span><span class="p">(</span><span class="n">mlp_defect</span><span class="p">)])</span>
+<span class="n">y_mlp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mlp_normal</span><span class="p">)),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mlp_defect</span><span class="p">))])</span>
+
+<span class="n">mlp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">MLP_IMAGE_SIZE</span> <span class="o">*</span> <span class="n">MLP_IMAGE_SIZE</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">mlp</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="n">X_mlp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y_mlp</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">mlp_accuracy</span> <span class="o">=</span> <span class="p">((</span><span class="n">mlp</span><span class="p">(</span><span class="n">X_mlp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_mlp</span><span class="o">.</span><span class="n">bool</span><span class="p">())</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Tiny MLP training accuracy on </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_mlp</span><span class="p">)</span><span class="si">}</span><span class="s1"> flattened </span><span class="si">{</span><span class="n">MLP_IMAGE_SIZE</span><span class="si">}</span><span class="s1">x</span><span class="si">{</span><span class="n">MLP_IMAGE_SIZE</span><span class="si">}</span><span class="s1"> grayscale images: </span><span class="si">{</span><span class="n">mlp_accuracy</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tiny MLP training accuracy on 120 flattened 32x32 grayscale images: 84.2%
+</pre></div>
+</div>
+</div>
+</div>
+<p>Treating every pixel as an independent input, with no notion of neighboring structure, is exactly the MLP’s limitation. In practice, for real images, we do not train a network from raw pixels at all: we reuse a large <strong>pretrained</strong> deep learning model as a fixed feature extractor, and only train a small classifier on top of the vectors it produces. The next section builds exactly that, and shows where even that more realistic setup runs into trouble.</p>
+</section>
+<section id="a-more-realistic-classifier-pretrained-backbone-head">
+<h3>1.3 A More Realistic Classifier: Pretrained Backbone + Head<a class="headerlink" href="#a-more-realistic-classifier-pretrained-backbone-head" title="Link to this heading">¶</a></h3>
+<p>Every experienced ML engineer’s first instinct here is reasonable: we have labeled images (<code class="docutils literal notranslate"><span class="pre">defect_1</span></code>, <code class="docutils literal notranslate"><span class="pre">defect_2</span></code>, <code class="docutils literal notranslate"><span class="pre">defect_3</span></code>, <code class="docutils literal notranslate"><span class="pre">defect_4</span></code>, and combinations), so why not train an ordinary supervised classifier (normal vs. defect, or even normal vs. each defect type) and skip anomaly detection entirely?</p>
+<p>Rather than argue about this in the abstract, let’s actually do it, on the real prepared dataset, and see exactly where it breaks.</p>
+<p>First, some vocabulary that shows up throughout this notebook: most modern image models split into a <strong>backbone</strong> and a <strong>head</strong>. The backbone is the large pretrained part that turns an image into a feature vector (Section 2 covers this in detail); the head is a small, task-specific piece bolted on top of that vector to produce the actual prediction. Swapping the head lets you reuse the same expensive, pretrained backbone for different tasks.</p>
+<p>We will:</p>
+<ol class="arabic simple">
+<li><p>Deliberately <strong>hold out one entire real defect type</strong> (<code class="docutils literal notranslate"><span class="pre">defect_4</span></code>, 46 images) from training entirely, as a stand-in for “a defect that shows up on the line next year that nobody has photographed yet.”</p></li>
+<li><p>Pass images through a frozen, pretrained deep learning model to get a feature vector for each one (the backbone), then train a <strong>logistic regression</strong> classifier on top of those vectors (the head) on normal images plus the <em>other</em> defect types.</p></li>
+<li><p>Check accuracy on defect types the classifier <em>did</em> see in training.</p></li>
+<li><p>Then check what happens when we show it the held-out type it never saw.</p></li>
+</ol>
+<p>Why logistic regression as the head, instead of a small neural network? It is a really simple classifier head, and we use it to make a point: once you have a good feature vector, <em>any</em> classifier – a traditional ML method like logistic regression, or a small neural fully-connected (FC) layer – can act as the head on top of it. The choice of head is fairly independent of the choice of backbone; later modules in this workshop series replace this logistic regression head with a neural-network head, while the underlying idea of “frozen backbone, trainable head” stays the same.</p>
+<p>The point of the experiment below is not to get the best possible classifier, but to see what happens when we try to use a supervised approach in an open-ended defect space.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">PILImage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">timm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">theory_metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="s1">'metadata.csv'</span><span class="p">)</span>
+<span class="n">HELD_OUT_CLASS</span> <span class="o">=</span> <span class="s1">'defect_4'</span>  <span class="c1"># pretend this defect type has never been photographed before</span>
+
+<span class="n">normals</span> <span class="o">=</span> <span class="n">theory_metadata</span><span class="p">[</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'normal'</span><span class="p">]</span>
+<span class="n">seen_defects</span> <span class="o">=</span> <span class="n">theory_metadata</span><span class="p">[(</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'defect_class'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">HELD_OUT_CLASS</span><span class="p">)]</span>
+<span class="n">unseen_defects</span> <span class="o">=</span> <span class="n">theory_metadata</span><span class="p">[</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'defect_class'</span><span class="p">]</span> <span class="o">==</span> <span class="n">HELD_OUT_CLASS</span><span class="p">]</span>
+
+<span class="n">N_PER_GROUP</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">normal_sample</span> <span class="o">=</span> <span class="n">normals</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">N_PER_GROUP</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">normals</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">defect_sample</span> <span class="o">=</span> <span class="n">seen_defects</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">N_PER_GROUP</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seen_defects</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">unseen_sample</span> <span class="o">=</span> <span class="n">unseen_defects</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">N_PER_GROUP</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unseen_defects</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">train_normal</span><span class="p">,</span> <span class="n">test_normal</span> <span class="o">=</span> <span class="n">normal_sample</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">N_PER_GROUP</span><span class="p">],</span> <span class="n">normal_sample</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">N_PER_GROUP</span><span class="p">:]</span>
+<span class="n">train_defect</span><span class="p">,</span> <span class="n">test_defect</span> <span class="o">=</span> <span class="n">defect_sample</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">N_PER_GROUP</span><span class="p">],</span> <span class="n">defect_sample</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">N_PER_GROUP</span><span class="p">:]</span>
+
+<span class="n">classifier_backbone</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="s1">'resnet18'</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">global_pool</span><span class="o">=</span><span class="s1">'avg'</span><span class="p">)</span>
+<span class="n">classifier_backbone</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">classifier_transform</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]),</span>
+<span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">embed_images</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="c1"># One image at a time, for readability -- the hands-on notebook batches this for speed.</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">PILImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="n">row</span><span class="p">[</span><span class="s1">'relative_path'</span><span class="p">])</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">)</span>
+            <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classifier_backbone</span><span class="p">(</span><span class="n">classifier_transform</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">embed_images</span><span class="p">(</span><span class="n">train_normal</span><span class="p">),</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">train_defect</span><span class="p">)])</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_normal</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_defect</span><span class="p">))])</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">X_test_normal</span><span class="p">,</span> <span class="n">X_test_defect</span> <span class="o">=</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">test_normal</span><span class="p">),</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">test_defect</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">X_test_normal</span><span class="p">,</span> <span class="n">X_test_defect</span><span class="p">])</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_normal</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_defect</span><span class="p">))])</span>
+<span class="n">seen_accuracy</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">seen_catch_rate</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_defect</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">X_unseen</span> <span class="o">=</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">unseen_sample</span><span class="p">)</span>
+<span class="n">unseen_catch_rate</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_unseen</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Overall accuracy on defect types SEEN during training: </span><span class="si">{</span><span class="n">seen_accuracy</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Catch rate on SEEN defect types:                       </span><span class="si">{</span><span class="n">seen_catch_rate</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Catch rate on "</span><span class="si">{</span><span class="n">HELD_OUT_CLASS</span><span class="si">}</span><span class="s1">" (NEVER seen during training):    </span><span class="si">{</span><span class="n">unseen_catch_rate</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\coding\MIMER\Training01_DL_in_MS\V1_D2_Anomaly_Detection\.venv\Lib\site-packages\tqdm\auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall accuracy on defect types SEEN during training: 78.3%
+Catch rate on SEEN defect types:                       87.8%
+Catch rate on "defect_4" (NEVER seen during training):    56.5%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">'seen defect types</span><span class="se">\n</span><span class="s1">(in training)'</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">HELD_OUT_CLASS</span><span class="si">}</span><span class="s1">"</span><span class="se">\n</span><span class="s1">(never trained on)'</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">seen_catch_rate</span><span class="p">,</span> <span class="n">unseen_catch_rate</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">'#2563eb'</span><span class="p">,</span> <span class="s1">'#dc2626'</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="p">[</span><span class="n">seen_catch_rate</span><span class="p">,</span> <span class="n">unseen_catch_rate</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'fraction correctly flagged as defect'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'A supervised classifier catches what it was trained on'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d11f1c35d021aa18009b7e7b75fadf4e9e0d6192bca00a0cd8b2d1d18ce45ee1.png" src="../../_images/d11f1c35d021aa18009b7e7b75fadf4e9e0d6192bca00a0cd8b2d1d18ce45ee1.png" />
+</div>
+</div>
+<p>This is a real, measured result on real steel images, not a hypothetical. Whatever the exact numbers were on your run, the pattern should be clear: the classifier is much better at catching defect types it trained on than the one type it never saw, even though, to a human inspector, <code class="docutils literal notranslate"><span class="pre">defect_4</span></code> is just as visibly “not normal steel” as the others.</p>
+<p>This is not because logistic regression is a weak classifier, and it is not fixable by using a bigger neural network. It is a <strong>structural</strong> property of closed-set supervised learning: the model’s decision boundary is shaped entirely by the classes it was shown, and a genuinely new pattern can land anywhere relative to that boundary, including confidently on the “normal” side.</p>
+<p>Why this happens: a decision boundary only knows what it was shown!</p>
+<p>The plot below makes the same failure concrete in a 2D toy feature space, where we can actually draw the boundary. Three known defect “clusters” and one normal cluster are used to fit a classifier; then a fourth cluster – a defect type the classifier never saw – is added afterward, without retraining. You don’t need to read the plotting code; watch where the new (yellow) points fall relative to the shaded decision regions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">ToyClassifier</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">normal_2d</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">known_defect_a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mf">3.2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">known_defect_b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.2</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">unseen_defect</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="o">-</span><span class="mf">2.8</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># never shown to the classifier</span>
+
+<span class="n">X_toy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">normal_2d</span><span class="p">,</span> <span class="n">known_defect_a</span><span class="p">,</span> <span class="n">known_defect_b</span><span class="p">])</span>
+<span class="n">y_toy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">normal_2d</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">known_defect_a</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">known_defect_b</span><span class="p">))])</span>
+<span class="n">toy_classifier</span> <span class="o">=</span> <span class="n">ToyClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_toy</span><span class="p">,</span> <span class="n">y_toy</span><span class="p">)</span>
+
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">grid_pred</span> <span class="o">=</span> <span class="n">toy_classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">grid_pred</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">'#dbeafe'</span><span class="p">,</span> <span class="s1">'#fecaca'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">normal_2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2563eb'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'normal (training)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">known_defect_a</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#b91c1c'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'known defect type A (training)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">known_defect_b</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#7f1d1d'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'known defect type B (training)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">unseen_defect</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#f59e0b'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'D'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'new defect type (never trained on)'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Decision boundary shaped only by classes it was shown'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower right'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/867ff4ea98dd2e7c0b954a82405761be47087cdfd3b03f3f789cadcf040a3914.png" src="../../_images/867ff4ea98dd2e7c0b954a82405761be47087cdfd3b03f3f789cadcf040a3914.png" />
+</div>
+</div>
+<p><em>Caption: Blue-shaded region = “predicted normal”, red-shaded region = “predicted defect”. The classifier’s boundary was fit using only the blue and red training points – it has no way of knowing where a truly new defect type will fall, and here the new type lands mostly inside the “normal” region.</em></p>
+<p>This is exactly what an <strong>open-set recognition</strong> problem looks like: the model was trained under a closed-world assumption (every category it will ever see was present during training), but the real world keeps introducing categories it never “knew” about.</p>
+<p><strong>It gets worse with class imbalance</strong>.</p>
+<p>The held-out-class experiment isolates one failure mode. A second, compounding problem is visible directly in this workshop’s own data: real defect classes are not evenly represented.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_counts</span> <span class="o">=</span> <span class="n">theory_metadata</span><span class="p">[</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">][</span><span class="s1">'defect_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">class_counts</span><span class="o">.</span><span class="n">index</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">class_counts</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#0891b2'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'number of labeled images in this workshop dataset'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Real defect classes are not evenly represented'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/028efad98dfa423f35ad6e658304fbc940a3c9f73f28403c0298ee7c7210152c.png" src="../../_images/028efad98dfa423f35ad6e658304fbc940a3c9f73f28403c0298ee7c7210152c.png" />
+</div>
+</div>
+<p><em>Caption: Live counts from <code class="docutils literal notranslate"><span class="pre">dataset/metadata.csv</span></code>. A classifier trained on this distribution will, by default, get very little signal about the rarest combinations – and combinations with only 1-2 examples cannot be meaningfully learned or evaluated at all.</em></p>
+<div class='alert alert-warning'>
+<div class="admonition-callout callout admonition" id="callout-0">
+<p class="admonition-title">Callout</p>
+<p>Put the two problems together – a closed-set boundary, fit on an imbalanced and incomplete label set – and “just train a classifier” doesn’t look like a shortcut anymore. It will require re-labeling and re-training every time production introduces a new defect pattern or the class balance drifts.</p>
+<p>This is the reason why many automated inspection initiatives fail in practice: the model is only as good as the labels it was trained on, and the labels are only as good as the human effort that produced them. Once something changes, the model is no longer valid, and nobody has the time or budget to collect and label a new dataset every time a new defect appears on the line.</p>
+</div>
+</div></section>
+<section id="from-classifier-to-anomaly-detector">
+<h3>1.4 From Classifier to Anomaly Detector<a class="headerlink" href="#from-classifier-to-anomaly-detector" title="Link to this heading">¶</a></h3>
+<p>None of this means supervised classifiers are bad – they are usually the <em>right</em> choice when the category list is genuinely closed and stable (this is what the V1_D4 transfer-learning module covers). Anomaly detection shines when that assumption breaks down, which is common in inspection settings.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Supervised binary classifier</p></th>
+<th class="head"><p>One-class anomaly detector (PatchCore)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Needs labeled defect examples?</p></td>
+<td><p>Yes, for every category it should catch</p></td>
+<td><p>No, trains on normal images only</p></td>
+</tr>
+<tr class="row-odd"><td><p>New, never-seen defect type appears</p></td>
+<td><p>Likely missed</p></td>
+<td><p>Can be caught, if it looks unlike normal</p></td>
+</tr>
+<tr class="row-even"><td><p>Rare / imbalanced defect classes</p></td>
+<td><p>Hurts training directly</p></td>
+<td><p>Irrelevant, defects are never a training class</p></td>
+</tr>
+<tr class="row-odd"><td><p>Output</p></td>
+<td><p>A label (and maybe a probability)</p></td>
+<td><p>A continuous “how far from normal” score</p></td>
+</tr>
+<tr class="row-even"><td><p>When production changes</p></td>
+<td><p>Usually needs re-labeling + re-training</p></td>
+<td><p>Memory bank can be rebuilt from new normal images only, no re-labeling needed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Best suited for</p></td>
+<td><p>A stable, fully-enumerated set of known categories</p></td>
+<td><p>Open-ended, evolving, or rare-defect inspection settings</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The rest of this notebook builds the one-class alternative from the ground up: same idea of turning images into feature vectors, but the question asked of those vectors changes from <em>“which learned category is this closest to?”</em> to <em>“have we seen anything like this in normal production?”</em></p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/e319a0f9757fce19c9c55fb559e882c82825cbb1a616664a2de3a0f0776367ca.png"><img alt="../../_images/e319a0f9757fce19c9c55fb559e882c82825cbb1a616664a2de3a0f0776367ca.png" src="../../_images/e319a0f9757fce19c9c55fb559e882c82825cbb1a616664a2de3a0f0776367ca.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 4: One-class anomaly detection as a normal catalog. The central question is not “which defect class is this?” but “does this new local pattern have a close match among normal patterns?”</em></p>
+<p>This is why anomaly detection can handle unknown defect types better than a closed-set classifier: it does not need a class name for a new defect. It only needs the new region to be sufficiently unlike normal regions – exactly the property the yellow diamonds in Figure 3b were missing.</p>
+</section>
+</section>
+<section id="from-images-to-patch-embeddings">
+<h2>2. From Images to Patch Embeddings<a class="headerlink" href="#from-images-to-patch-embeddings" title="Link to this heading">¶</a></h2>
+<p>A pretrained backbone converts pixels into feature vectors.</p>
+<p>For anomaly detection, the classifier head introduced in Section 1.3 is discarded entirely. The useful object is the intermediate representation:</p>
+<ul class="simple">
+<li><p>early layers capture edges, local contrast, and texture;</p></li>
+<li><p>middle layers capture repeated motifs and local shapes;</p></li>
+<li><p>later layers capture larger semantic patterns.</p></li>
+</ul>
+<p>Steel defects are often local texture disruptions, so intermediate patch features are very valuable.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/965cf60bba82dc5f5e455e0f397e834fbd35147161e707e422655e39f9851544.png"><img alt="../../_images/965cf60bba82dc5f5e455e0f397e834fbd35147161e707e422655e39f9851544.png" src="../../_images/965cf60bba82dc5f5e455e0f397e834fbd35147161e707e422655e39f9851544.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 5: Image-level embeddings summarize the whole image. Patch-level embeddings preserve local information.</em></p>
+<p>Think of an embedding as a compressed description. A good embedding does not store every pixel. It stores the aspects of the image that the backbone has learned are useful: edges, repeated textures, shapes, transitions, and eventually larger visual patterns.</p>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>A handwriting analogy</strong>: two people can write the word “steel” in wildly different handwriting – different pixels, different stroke widths, different slant – and you still read the same word. Somewhere between the raw ink strokes and the meaning “steel”, your visual system threw away everything that doesn’t matter (exact pixel positions) and kept only what does (the pattern of letters). A pretrained backbone’s embedding is doing the same kind of lossy-but-useful compression for steel surface texture instead of handwriting.</p>
+</div>
+</div><section id="image-embeddings-vs-patch-embeddings">
+<h3>2.1 Image Embeddings vs Patch Embeddings<a class="headerlink" href="#image-embeddings-vs-patch-embeddings" title="Link to this heading">¶</a></h3>
+<p>An image embedding compresses the whole image into one vector. That is convenient, but it can hide small local defects.</p>
+<p>A patch embedding keeps a spatial grid of feature vectors. If a feature map has shape <code class="docutils literal notranslate"><span class="pre">[C,</span> <span class="pre">H,</span> <span class="pre">W]</span></code>, it contains <code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">x</span> <span class="pre">W</span></code> patch descriptors, each with <code class="docutils literal notranslate"><span class="pre">C</span></code> channels. PatchCore stores these local descriptors from normal images.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/e427ad367cca97e2e940473d53e19e1def49c00d23af417cf5535f17a2f4fb02.png"><img alt="../../_images/e427ad367cca97e2e940473d53e19e1def49c00d23af417cf5535f17a2f4fb02.png" src="../../_images/e427ad367cca97e2e940473d53e19e1def49c00d23af417cf5535f17a2f4fb02.png" style="width: 950px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 6: The long steel strip is treated as many local neighborhoods. PatchCore scores those local neighborhoods rather than relying only on one global image summary.</em></p>
+<p>In practice, these patches are not literally non-overlapping yellow boxes. CNN (convolutional neural network) and ViT (Vision Transformer) features have receptive fields and patch tokens that overlap in what they “see”. The figure is a simplified teaching view: anomaly detection becomes easier when the model can ask many local questions instead of one global question.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span>
+<span class="n">feature_map</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">patch_table</span> <span class="o">=</span> <span class="n">feature_map</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">channels</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Feature map:'</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">feature_map</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Patch table:'</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">patch_table</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Patches per image:'</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature map: (2, 512, 28, 28)
+Patch table: (1568, 512)
+Patches per image: 784
+</pre></div>
+</div>
+</div>
+</div>
+<p>The tensor example above is the shape conversion behind the intuition:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[batch,</span> <span class="pre">channels,</span> <span class="pre">height,</span> <span class="pre">width]</span></code> is how CNN feature maps are usually stored in PyTorch.</p></li>
+<li><p>Each <code class="docutils literal notranslate"><span class="pre">(height,</span> <span class="pre">width)</span></code> location is one local feature descriptor.</p></li>
+<li><p>PatchCore reshapes the grid so each row is one patch vector.</p></li>
+</ul>
+<p>If <code class="docutils literal notranslate"><span class="pre">height</span> <span class="pre">=</span> <span class="pre">28</span></code> and <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">28</span></code>, then one image contributes <code class="docutils literal notranslate"><span class="pre">784</span></code> local descriptors before any memory reduction. This is why memory-bank size becomes important quickly.</p>
+<p>This is not just a shape trick on random numbers. You don’t need to read every line below; just notice that the same <code class="docutils literal notranslate"><span class="pre">permute</span></code> + <code class="docutils literal notranslate"><span class="pre">reshape</span></code> step works on a <strong>real</strong> steel image passed through a <strong>real</strong> pretrained backbone.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">PILImage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">timm</span>
+
+<span class="n">theory_metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="s1">'metadata.csv'</span><span class="p">)</span>
+<span class="n">sample_row</span> <span class="o">=</span> <span class="n">theory_metadata</span><span class="p">[</span><span class="n">theory_metadata</span><span class="p">[</span><span class="s1">'workshop_split'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'train/normal'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sample_image</span> <span class="o">=</span> <span class="n">PILImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="n">sample_row</span><span class="p">[</span><span class="s1">'relative_path'</span><span class="p">])</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">)</span>
+
+<span class="n">preprocess</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span> <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()])</span>
+<span class="n">sample_tensor</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">sample_image</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">real_backbone</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="s1">'resnet18'</span><span class="p">,</span> <span class="n">features_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">out_indices</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+<span class="n">real_backbone</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">real_feature_map</span> <span class="o">=</span> <span class="n">real_backbone</span><span class="p">(</span><span class="n">sample_tensor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">real_patch_table</span> <span class="o">=</span> <span class="n">real_feature_map</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">real_feature_map</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sample_image</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Real workshop image'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">real_feature_map</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'One channel of its feature map'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Real feature map:'</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">real_feature_map</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Real patch table:'</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">real_patch_table</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+</pre></div>
+</div>
+<img alt="../../_images/b03407810e2fe34e5830a21d1d7711b9a95c27056ed07e734973475236adf0e5.png" src="../../_images/b03407810e2fe34e5830a21d1d7711b9a95c27056ed07e734973475236adf0e5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Real feature map: (1, 128, 28, 28)
+Real patch table: (784, 128)
+</pre></div>
+</div>
+</div>
+</div>
+<p>A pretrained deep learning model turned the photo above into a <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W]</span></code> feature map, and the same reshape from the toy example turns it into a table of real patch vectors. The hands-on notebooks do exactly this, for every image in the dataset, at a larger scale.</p>
+</section>
+</section>
+<section id="one-class-reasoning-in-feature-space">
+<h2>3. One-class Reasoning in Feature Space<a class="headerlink" href="#one-class-reasoning-in-feature-space" title="Link to this heading">¶</a></h2>
+<p>Imagine every normal patch as a point in feature space. Normal steel texture should occupy recurring regions in that space. A defect patch should often land far away from those normal regions.</p>
+<p>This idea does not require a learned classifier. It only requires a useful feature space and a distance function.</p>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the same trick your immune system uses. T-cells are trained (via a selection process in the thymus) to recognize the body’s own healthy cells as “self” and are discarded if they react to self. They are never shown a catalog of every virus and bacterium that might attack later; anything that doesn’t match “self” closely enough is treated as suspicious by default. That is a one-class system: define normal well, then flag whatever fails to match it, without needing a name for the threat in advance. PatchCore’s memory bank of normal patches plays the same role as the body’s catalog of “self”.</p>
+</div>
+</div><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/a6cdec6b00cd58115b851d2f9487c1cb84fa285472ffa3b81822c0cd60f99309.png"><img alt="../../_images/a6cdec6b00cd58115b851d2f9487c1cb84fa285472ffa3b81822c0cd60f99309.png" src="../../_images/a6cdec6b00cd58115b851d2f9487c1cb84fa285472ffa3b81822c0cd60f99309.png" style="width: 650px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 7: A simplified feature-space picture. Normal examples form a region. Defect examples are suspicious when they fall far from that normal region.</em></p>
+<p>In real models this space is not two-dimensional. It may have hundreds or thousands of dimensions. We draw it in 2D because the idea is easier to see: “near normal” is reassuring, “far from normal” is suspicious.</p>
+<section id="patchcore-anomaly-detection-algorithm-nearest-neighbor-scoring">
+<h3>3.1 PatchCore Anomaly Detection Algorithm: Nearest-neighbor Scoring<a class="headerlink" href="#patchcore-anomaly-detection-algorithm-nearest-neighbor-scoring" title="Link to this heading">¶</a></h3>
+<p>Section 3 just argued that “near normal” should mean “not anomalous” in feature space. PatchCore turns that idea into a concrete algorithm:</p>
+<ol class="arabic simple">
+<li><p>Save many normal patch vectors in a memory bank.</p></li>
+<li><p>For a test patch, compute the distance – the Euclidean (L2) distance between feature vectors – from it to every vector in the memory bank, and keep the <em>smallest</em> one: the distance to its closest normal patch.</p></li>
+<li><p>Use that smallest distance as the local, per-patch anomaly score.</p></li>
+<li><p>Aggregate all of a test image’s per-patch scores into one image-level anomaly score, usually by taking the <strong>maximum</strong> over patches: the single most suspicious patch determines the whole image’s score, since a defect can be small and confined to one region.</p></li>
+</ol>
+<p>The intuition is direct: if the closest normal patch is still far away, the test patch is suspicious. The toy demo below computes exactly this – nearest-neighbor distance, then a max over patches – end to end, on synthetic feature vectors.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/0dfa2732400ad94f40740a8ca7f606211ebae64500e17e701dfbd993fb86186f.png"><img alt="../../_images/0dfa2732400ad94f40740a8ca7f606211ebae64500e17e701dfbd993fb86186f.png" src="../../_images/0dfa2732400ad94f40740a8ca7f606211ebae64500e17e701dfbd993fb86186f.png" style="width: 700px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 8: Every test patch asks for its closest normal patch. The longer the dashed line, the more unusual that test patch is.</em></p>
+<p>This is not a probability from a softmax classifier. It is a distance-based score. That distinction matters: the model is not saying “this is defect type 3 with 91% probability”. It is saying “this local pattern is far from the normal patterns I stored”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">normal_memory</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+<span class="n">num_toy_images</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">patches_per_image</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">normal_images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_toy_images</span><span class="p">,</span> <span class="n">patches_per_image</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">abnormal_images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_toy_images</span><span class="p">,</span> <span class="n">patches_per_image</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">1.4</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">image_score</span><span class="p">(</span><span class="n">test_patches</span><span class="p">,</span> <span class="n">memory_bank</span><span class="p">):</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">test_patches</span><span class="p">,</span> <span class="n">memory_bank</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">distances</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="n">normal_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">image_score</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">normal_memory</span><span class="p">)</span> <span class="k">for</span> <span class="n">patches</span> <span class="ow">in</span> <span class="n">normal_images</span><span class="p">])</span>
+<span class="n">abnormal_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">image_score</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">normal_memory</span><span class="p">)</span> <span class="k">for</span> <span class="n">patches</span> <span class="ow">in</span> <span class="n">abnormal_images</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Mean normal image score:   </span><span class="si">{</span><span class="n">normal_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Mean abnormal image score: </span><span class="si">{</span><span class="n">abnormal_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean normal image score:   5.045
+Mean abnormal image score: 12.109
+</pre></div>
+</div>
+</div>
+</div>
+<p>The toy example is deliberately simple: forty “abnormal” toy images are built from patches shifted away from the normal memory. The same principle applies in a real backbone feature space, but the shift is not manually created. It comes from visual differences in texture, edges, contrast, and local structure.</p>
+<p>Each image’s score uses its single most suspicious local patch (the maximum over per-patch nearest-neighbor distances). This is useful for industrial defects because a defect may occupy only a small part of a large image. We will reuse <code class="docutils literal notranslate"><span class="pre">normal_scores</span></code> and <code class="docutils literal notranslate"><span class="pre">abnormal_scores</span></code> in Section 5.2 to compute a real AUROC number.</p>
+</section>
+</section>
+<section id="patchcore-step-by-step">
+<h2>4. PatchCore Step by Step<a class="headerlink" href="#patchcore-step-by-step" title="Link to this heading">¶</a></h2>
+<p><strong>PatchCore</strong> is a practical engineering recipe around nearest-neighbor scoring:</p>
+<ul class="simple">
+<li><p>choose a pretrained backbone;</p></li>
+<li><p>select intermediate layers;</p></li>
+<li><p>extract normal patch features;</p></li>
+<li><p>reduce the memory bank with coreset sampling;</p></li>
+<li><p>compare test patches to the memory bank;</p></li>
+<li><p>upsample patch scores into an anomaly heatmap.</p></li>
+</ul>
+<p>Its strength is that it often works well without training a task-specific deep network. But in some cases, fine-tuning the backbone on normal images can improve performance.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/55ac571216594727d8d6c0929309ee9ffe26a8dd80257bd60218557a03d02613.png"><img alt="../../_images/55ac571216594727d8d6c0929309ee9ffe26a8dd80257bd60218557a03d02613.png" src="../../_images/55ac571216594727d8d6c0929309ee9ffe26a8dd80257bd60218557a03d02613.png" style="width: 950px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 9: PatchCore has a training phase and an inference phase. Training creates the normal memory. Inference compares new image patches to that memory.</em></p>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The word “training” can be misleading here. PatchCore is not doing the same kind of gradient-based training as a CNN classifier. It does not spend epochs updating millions of weights for a new classification head. Most of the work is feature extraction and memory-bank construction.</p>
+</div>
+</div><section id="the-memory-bank">
+<h3>4.1 The Memory Bank<a class="headerlink" href="#the-memory-bank" title="Link to this heading">¶</a></h3>
+<p>The memory bank is the set of normal patch descriptors. It is not a neural network layer and it is not learned by backpropagation. It is closer to a lookup table of normal examples in feature space.</p>
+<p>Larger memory banks can represent normal variation better, but they also increase runtime and memory usage. This is why PatchCore includes <strong>coreset sampling</strong>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/63f06caa417e61c330401f919a067e48d3209a1092cb03a9bd197fdb29e9aae3.png"><img alt="../../_images/63f06caa417e61c330401f919a067e48d3209a1092cb03a9bd197fdb29e9aae3.png" src="../../_images/63f06caa417e61c330401f919a067e48d3209a1092cb03a9bd197fdb29e9aae3.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 10: The memory bank stores local normal patch embeddings. At test time, every new patch is compared with this bank.</em></p>
+<p>A useful analogy is a library of normal texture snippets. If a test snippet resembles something in the library, it is probably normal. If it has no good match, it deserves attention.</p>
+</section>
+<section id="coreset-sampling">
+<h3>4.2 Coreset Sampling<a class="headerlink" href="#coreset-sampling" title="Link to this heading">¶</a></h3>
+<p>Coreset sampling keeps a representative subset of normal patch vectors. The goal is to cover the same feature-space territory with fewer points.</p>
+<p>In the hands-on notebook, <code class="docutils literal notranslate"><span class="pre">coreset_sampling_ratio</span></code> is one of the main knobs:</p>
+<ul class="simple">
+<li><p>higher ratio: more memory, potentially better coverage, slower inference;</p></li>
+<li><p>lower ratio: faster and lighter, but may miss normal variation.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/8daa50fede7faa176c9cb96de1d9a324eb2a8e960795c74a1416c539bcc40716.png"><img alt="../../_images/8daa50fede7faa176c9cb96de1d9a324eb2a8e960795c74a1416c539bcc40716.png" src="../../_images/8daa50fede7faa176c9cb96de1d9a324eb2a8e960795c74a1416c539bcc40716.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 11: Coreset sampling removes redundancy while trying to keep coverage of the normal feature distribution.</em></p>
+<p>If many normal patches are almost identical, keeping all of them is wasteful. Coreset sampling tries to keep the patches that best represent the spread of normality. This is one reason PatchCore can be practical even when each image contributes many patch descriptors.</p>
+<p>A concrete look at coreset sampling</p>
+<p>Coreset sampling is not a vague “keep some points” idea. Anomalib’s PatchCore uses a <strong>greedy farthest-point</strong> algorithm (also called k-center greedy, or minimax facility location):</p>
+<ol class="arabic simple">
+<li><p>Start with all normal patch points, and an empty selected set, a placeholder for the coreset.</p></li>
+<li><p>Pick one starting point at random and add it to the selected set.</p></li>
+<li><p>Repeat until the selected set reaches the target size:</p>
+<ul class="simple">
+<li><p>for every point, compute its distance to the <em>nearest</em> point already selected;</p></li>
+<li><p>pick the point with the <strong>largest</strong> such distance — the point currently worst represented;</p></li>
+<li><p>add that point to the selected set.</p></li>
+</ul>
+</li>
+</ol>
+<p>This is repeated until the coreset reaches the desired size. The result is a set of points that are spread out in feature space, capturing the diversity of normal patches without redundancy.</p>
+<p>You don’t need to trace every line of the code below. Focus on the plot: the coreset should spread out and pick boundary/representative points rather than piling up inside the dense clusters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cluster_centers</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">normal_patches_2d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">center</span> <span class="ow">in</span> <span class="n">cluster_centers</span><span class="p">]),</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 240 redundant "normal patch" points in 6 clusters</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">greedy_coreset</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">generator</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Generator</span><span class="p">()</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">generator</span><span class="o">=</span><span class="n">generator</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span>
+    <span class="n">min_dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">selected</span><span class="p">])</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">min_dist</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">min_dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">min_dist</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">selected</span>
+
+<span class="n">coreset_idx</span> <span class="o">=</span> <span class="n">greedy_coreset</span><span class="p">(</span><span class="n">normal_patches_2d</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">normal_patches_2d</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">normal_patches_2d</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#94a3b8'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'all normal patches (240)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">normal_patches_2d</span><span class="p">[</span><span class="n">coreset_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">normal_patches_2d</span><span class="p">[</span><span class="n">coreset_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#dc2626'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'*'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'greedy coreset (24)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Greedy farthest-point coreset selection'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c9f846aebc7152845a4a08542ee927654c64bd0c46879e05a3ea53f2ed0c3dcc.png" src="../../_images/c9f846aebc7152845a4a08542ee927654c64bd0c46879e05a3ea53f2ed0c3dcc.png" />
+</div>
+</div>
+<p>This is not a simplified analogy — it is essentially the same algorithm <code class="docutils literal notranslate"><span class="pre">anomalib</span></code>’s <code class="docutils literal notranslate"><span class="pre">KCenterGreedy</span></code> sampler runs internally on real patch embeddings. At production scale, PatchCore first applies a random projection to shrink the embedding dimensionality before running this loop, purely for speed; the selection logic itself is identical to what you just ran.</p>
+<p>Notice how the coreset (red stars) avoids clustering inside the dense blobs. It prefers points that are still far from everything already chosen, which is exactly what “keep coverage of the normal distribution while dropping redundancy” means in practice.</p>
+</section>
+</section>
+<section id="heatmaps-image-scores-and-thresholds">
+<h2>5. Heatmaps, Image Scores, and Thresholds<a class="headerlink" href="#heatmaps-image-scores-and-thresholds" title="Link to this heading">¶</a></h2>
+<p>A PatchCore heatmap is a spatial view of patch distances. Bright regions are patches that look far from the normal memory bank.</p>
+<p>The image-level score is usually derived from the strongest suspicious region. A threshold then turns the continuous score into a decision:</p>
+<ul class="simple">
+<li><p>below threshold: accept as normal;</p></li>
+<li><p>above threshold: flag as anomalous.</p></li>
+</ul>
+<p>Thresholds are operational choices. A steel mill may prefer more false alarms if missed defects are expensive.</p>
+<div class='alert alert-info'>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A smoke detector faces the identical tradeoff. Set the sensitivity too low and it stays silent while the kitchen fills with smoke from burning oil. Set it too high and it screams every time someone browns butter. Nobody asks “what is the <em>correct</em> sensitivity for a smoke detector” in the abstract. The right answer depends on how costly a missed fire is versus how annoying a false alarm is. A PatchCore threshold is the same knob, tuned for a specific production line instead of a specific kitchen.</p>
+</div>
+</div><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/868e30a2a88da2dc4a28564fe84e9eba1b72287aa05e4176484f63c61706e2d1.png"><img alt="../../_images/868e30a2a88da2dc4a28564fe84e9eba1b72287aa05e4176484f63c61706e2d1.png" src="../../_images/868e30a2a88da2dc4a28564fe84e9eba1b72287aa05e4176484f63c61706e2d1.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 12: Local patch scores become a heatmap. A threshold turns continuous scores into a binary decision.</em></p>
+<p>Heatmaps are often as important as the final number. If the model flags an image as anomalous but the heatmap highlights an irrelevant border artifact, the model may be learning the wrong cue.</p>
+<p>From a coarse score grid to a smooth heatmap</p>
+<p>The heatmap in Figure 12 does not appear out of thin air. PatchCore scores a coarse grid of patches (for example <code class="docutils literal notranslate"><span class="pre">28x28</span></code> for a <code class="docutils literal notranslate"><span class="pre">224x224</span></code> image), then has to turn that coarse grid into a full-resolution heatmap. Anomalib does this in two steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Upsample</strong> the coarse grid to image resolution with nearest-neighbor interpolation — each coarse cell is simply repeated into a block of pixels.</p></li>
+<li><p><strong>Smooth</strong> the result with a Gaussian blur, which turns the blocky upsampled grid into the soft heatmap you actually see.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="n">coarse_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.15</span>
+<span class="n">coarse_scores</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">3.0</span>  <span class="c1"># simulated local defect region</span>
+
+<span class="n">nearest_upsampled</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">coarse_scores</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian_blur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-</span> <span class="n">kernel_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">kernel_1d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">coords</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">kernel_1d</span> <span class="o">/=</span> <span class="n">kernel_1d</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">kernel_2d</span> <span class="o">=</span> <span class="p">(</span><span class="n">kernel_1d</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">kernel_1d</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_2d</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">kernel_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">smooth_heatmap</span> <span class="o">=</span> <span class="n">gaussian_blur</span><span class="p">(</span><span class="n">nearest_upsampled</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coarse_scores</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'magma'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Coarse 8x8 patch scores'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">nearest_upsampled</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'magma'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Nearest-neighbor upsampled (blocky)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">smooth_heatmap</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'magma'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'+ Gaussian blur (matches Anomalib)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/145770884956f1536e1b2231ab6e9430855677edbe2d419b96a7f02878e91ed2.png" src="../../_images/145770884956f1536e1b2231ab6e9430855677edbe2d419b96a7f02878e91ed2.png" />
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/6614c6b77aea34460e8550a6beda29d2b441b2888d9dbb9555588d2c2fff9a4d.png"><img alt="../../_images/6614c6b77aea34460e8550a6beda29d2b441b2888d9dbb9555588d2c2fff9a4d.png" src="../../_images/6614c6b77aea34460e8550a6beda29d2b441b2888d9dbb9555588d2c2fff9a4d.png" style="width: 700px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 13: Score distributions and thresholding. Moving the threshold changes the balance between false alarms and missed defects.</em></p>
+<p>There is no universally correct threshold. A threshold is a business and engineering choice. In safety-critical inspection, missing a defect may be much worse than sending extra images to manual review. In a high-throughput line, too many false alarms can also be costly.</p>
+<section id="metrics-for-this-workshop">
+<h3>5.1 Metrics for This Workshop<a class="headerlink" href="#metrics-for-this-workshop" title="Link to this heading">¶</a></h3>
+<p>We focus on image-level evaluation:</p>
+<ul class="simple">
+<li><p>AUROC: how well scores rank defects above normals across thresholds;</p></li>
+<li><p>F1: a threshold-dependent balance of precision and recall;</p></li>
+<li><p>qualitative heatmaps: do highlighted regions make visual sense?</p></li>
+</ul>
+<p>Pixel-level metrics are useful when masks are available, but they add annotation conversion work. We intentionally keep them out of this module.</p>
+</section>
+<section id="how-to-interpret-auroc-and-f1">
+<h3>5.2 How to interpret AUROC and F1<a class="headerlink" href="#how-to-interpret-auroc-and-f1" title="Link to this heading">¶</a></h3>
+<p>AUROC asks: if we randomly pick one normal image and one defect image, how often does the defect image receive a higher anomaly score? It is threshold-independent and useful for comparing score quality.</p>
+<p>F1 depends on a chosen threshold. It combines precision and recall:</p>
+<ul class="simple">
+<li><p>precision asks: when the model raises an alarm, how often is it correct?</p></li>
+<li><p>recall asks: of all actual defects, how many did the model catch?</p></li>
+</ul>
+<p>In the hands-on section, do not only chase one metric. Also inspect heatmaps and failure cases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">normal_scores</span></code> and <code class="docutils literal notranslate"><span class="pre">abnormal_scores</span></code> from Section 3.1 are exactly what AUROC measures. We don’t need a real dataset to make the metric concrete: label those toy image scores (0 = normal, 1 = abnormal) and compute a real AUROC number and ROC curve right now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">roc_curve</span>
+
+<span class="n">toy_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">normal_scores</span><span class="p">,</span> <span class="n">abnormal_scores</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">toy_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">normal_scores</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">abnormal_scores</span><span class="p">))])</span>
+
+<span class="n">toy_auroc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">toy_labels</span><span class="p">,</span> <span class="n">toy_scores</span><span class="p">)</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">toy_labels</span><span class="p">,</span> <span class="n">toy_scores</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2563eb'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'toy AUROC = </span><span class="si">{</span><span class="n">toy_auroc</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#94a3b8'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'random guessing'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'false positive rate'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'true positive rate'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'ROC curve for the toy PatchCore scores from Section 3.1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4f711f4fff411a5c566e9302283d8d2f0b40b4d4107dbe0ac8f31d5289915a15.png" src="../../_images/4f711f4fff411a5c566e9302283d8d2f0b40b4d4107dbe0ac8f31d5289915a15.png" />
+</div>
+</div>
+<p>This toy AUROC is very high because the abnormal patches were hand-shifted far away from the normal memory. In the hands-on notebook, the same computation runs on real steel images, and the separation between normal and defect scores is rarely this clean — that gap between “toy AUROC” and “real AUROC” is itself a useful discussion point.</p>
+<p>Think of AUROC as grading your model on how perfectly it orders your predictions. If your positive examples always score higher than your negative examples, your AUROC is perfect (1.0). If your model is no better than random guessing, your AUROC is 0.5. If your model is worse than random, your AUROC is below 0.5.</p>
+<p>However, even if the AUROC is perfect, the F1 score could be low. This happens if your chosen classification threshold doesn’t cleanly separate the two groups, resulting in poor Precision or Recall. In practice, you will often tune the threshold to balance these metrics according to your operational needs.</p>
+</section>
+</section>
+<section id="backbone-choice">
+<h2>6. Backbone Choice<a class="headerlink" href="#backbone-choice" title="Link to this heading">¶</a></h2>
+<p>PatchCore is not tied to one architecture. The backbone defines the feature geometry.</p>
+<p>In this workshop:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet18</span></code> is the fast smoke-test option;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wide_resnet50_2</span></code> is the recommended CNN baseline; CNNs are fast and memory-efficient, and have been the standard for industrial inspection for years, at least until the “transformer revolution”. They are still a strong choice for many defect types.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vit_small_patch14_dinov2.lvd142m</span></code> tests transformer-style DINOv2 features. The transformer architecture is more computationally expensive, but it can capture larger context and may produce better embeddings for certain defect types.</p></li>
+</ul>
+<p>The best choice depends on accuracy, runtime, memory, and heatmap usefulness.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/3d4e3731061fdb29c798d8cdeca90cc382784acbcaf24d43249467292df2f9ba.png"><img alt="../../_images/3d4e3731061fdb29c798d8cdeca90cc382784acbcaf24d43249467292df2f9ba.png" src="../../_images/3d4e3731061fdb29c798d8cdeca90cc382784acbcaf24d43249467292df2f9ba.png" style="width: 850px;" />
+</a>
+</div>
+</div>
+<p><em>Figure 14: The same PatchCore method can use different pretrained backbones. The backbone changes what “similar” means in feature space.</em></p>
+<p>Practical intuition:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet18</span></code> is useful when you want quick feedback. It has fewer parameters and usually runs faster.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wide_resnet50_2</span></code> is often a strong PatchCore baseline because the wider feature channels provide rich local descriptors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vit_small_patch14_dinov2.lvd142m</span></code> uses transformer-style features. It may capture different structure, but it can be slower and heavier.</p></li>
+</ul>
+<p>The the best answer is empirical.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">timm</span>
+    <span class="k">for</span> <span class="n">backbone</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'resnet18'</span><span class="p">,</span> <span class="s1">'wide_resnet50_2'</span><span class="p">,</span> <span class="s1">'vit_small_patch14_dinov2.lvd142m'</span><span class="p">]:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="n">backbone</span><span class="p">,</span> <span class="n">features_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">backbone</span><span class="p">,</span> <span class="s1">'feature layers:'</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_info</span><span class="o">.</span><span class="n">module_name</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Could not inspect timm feature layers:'</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>resnet18 feature layers: ['act1', 'layer1', 'layer2', 'layer3', 'layer4']
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wide_resnet50_2 feature layers: ['act1', 'layer1', 'layer2', 'layer3', 'layer4']
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>vit_small_patch14_dinov2.lvd142m feature layers: ['blocks.9', 'blocks.10', 'blocks.11']
+</pre></div>
+</div>
+</div>
+</div>
+<div style="background-color:#f0f4ff; border-left:5px solid #4a6fa5; padding:16px 20px; border-radius:6px; margin:16px 0; max-width:90%;">
+<strong>💡 Looking ahead — Episode 3</strong>
+<p>This section uses <code>resnet18</code>, <code>wide_resnet50_2</code>, and a ViT backbone as fixed feature extractors — the same concept introduced in Section 1.3. The internal architecture of these models (why ResNet's skip connections matter, how ViT processes image patches) and the practical question of when to freeze vs fine-tune are covered in depth in <a href="../3-TL-VGG-ResNet-ViT-lesson/">Episode 3 (Transfer Learning — VGG, ResNet, ViT)</a>.</p>
+</div></section>
+<section id="practical-failure-modes">
+<h2>7. Practical Failure Modes<a class="headerlink" href="#practical-failure-modes" title="Link to this heading">¶</a></h2>
+<p>Of course, not all methods are perfect. Common anomaly detection failure modes:</p>
+<ul class="simple">
+<li><p>the normal training set is too narrow, so normal variation is flagged as anomalous;</p></li>
+<li><p>the backbone is too semantic and ignores small texture defects;</p></li>
+<li><p>the image resize distorts important geometry;</p></li>
+<li><p>the threshold is selected on too few examples;</p></li>
+<li><p>heatmaps highlight edges, shadows, or acquisition artifacts instead of defects.</p></li>
+</ul>
+<p>The hands-on notebooks are designed to expose these tradeoffs rather than hide them.</p>
+<section id="what-good-troubleshooting-looks-like">
+<h3>7.1 What good troubleshooting looks like<a class="headerlink" href="#what-good-troubleshooting-looks-like" title="Link to this heading">¶</a></h3>
+<p>When PatchCore behaves badly, ask concrete questions:</p>
+<ul class="simple">
+<li><p>Are the training images truly normal?</p></li>
+<li><p>Are the test images preprocessed the same way as training images?</p></li>
+<li><p>Is the heatmap pointing to the defect, or to a border/crop/lighting cue?</p></li>
+<li><p>Does the backbone preserve texture detail at the selected layers?</p></li>
+<li><p>Is the memory bank too small after coreset sampling?</p></li>
+</ul>
+<p>These questions are more useful than simply trying random hyperparameters. They connect the result back to the method’s assumptions.</p>
+<div class='alert alert-success'>
+<div class="admonition-exercise exercise important admonition" id="exercise-0">
+<p class="admonition-title">Exercise</p>
+<ul class="simple">
+<li><p>In this episode:</p>
+<ul>
+<li><p>Re-run the Section 1.3 classifier experiment holding out a <em>different</em> defect class (for example <code class="docutils literal notranslate"><span class="pre">defect_1</span></code> or <code class="docutils literal notranslate"><span class="pre">defect_2</span></code> instead of <code class="docutils literal notranslate"><span class="pre">defect_4</span></code>) – is the catch-rate gap always this large, or does it depend on how visually distinct the held-out class is from the others?</p></li>
+<li><p>Re-run the coreset demo in Section 4.2 with a smaller <code class="docutils literal notranslate"><span class="pre">k</span></code> (for example 8 instead of 24) and see how coverage of the clusters degrades.</p></li>
+<li><p>In the hands-on Anomalib notebook, compare <code class="docutils literal notranslate"><span class="pre">coreset_sampling_ratio</span></code> and <code class="docutils literal notranslate"><span class="pre">num_neighbors</span></code> across backbones and connect the result back to what you saw in the toy demo.</p></li>
+<li><p>Read about <strong>PaDiM</strong> and <strong>SPADE</strong>, two other feature-embedding-based anomaly detection methods that predate PatchCore, to see what problem PatchCore’s coreset sampling and patch-level scoring were specifically designed to solve.</p></li>
+<li><p>Try swapping the toy backbone in Section 2.1 for <code class="docutils literal notranslate"><span class="pre">wide_resnet50_2</span></code> or a ViT and compare the real feature map shapes.</p></li>
+</ul>
+</li>
+<li><p>In the hands-on notebooks:</p>
+<ul>
+<li><p>First visualize feature embeddings with PCA and t-SNE;</p></li>
+<li><p>Then use Anomalib to train and evaluate PatchCore end to end on the prepared Severstal subset.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div><div class='alert alert-info'>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<p>If one phrase should stay with you, it is this: <strong>PatchCore is a nearest-neighbor method over pretrained local image features.</strong> - The more important habit to leave with, though, is the one built in Section 1: before reaching for an unfamiliar method, build the boring baseline first and let its failure mode tell you what you actually need.</p>
+<ul class="simple">
+<li><p>The path through this notebook was deliberately not a straight line to PatchCore:</p>
+<ul>
+<li><p>Section 1 built increasingly realistic “obvious” solutions – a tiny MLP, then a pretrained-backbone classifier – on real steel images, and showed the latter structurally fails on a defect type it never trained on. That is an <strong>open-set recognition</strong> problem, not a “use a bigger model” problem.</p></li>
+<li><p>Sections 2-6 built a different answer from the ground up: turn images into feature vectors, then ask “have we seen something like this in normal production?” instead of “which known class is this?”</p></li>
+</ul>
+</li>
+<li><p>PatchCore is a strong industrial anomaly detection baseline because it combines:</p>
+<ul>
+<li><p>pretrained visual representations;</p></li>
+<li><p>local patch-level comparison;</p></li>
+<li><p>a normal memory bank, reduced by greedy coreset sampling;</p></li>
+<li><p>nearest-neighbor anomaly scores, upsampled and blurred into a heatmap;</p></li>
+<li><p>a threshold-dependent decision (F1) plus a threshold-free ranking measure (AUROC).</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div><div class='alert alert-info'>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>Roth et al., <a class="reference external" href="https://arxiv.org/abs/2106.08265">“Towards Total Recall in Industrial Anomaly Detection”</a>, CVPR 2022 – the PatchCore paper.</p></li>
+<li><p>Defard et al., <a class="reference external" href="https://arxiv.org/abs/2011.08785">“PaDiM: a Patch Distribution Modeling Framework for Anomaly Detection and Localization”</a>, 2020 – an earlier patch-based method PatchCore builds on conceptually.</p></li>
+<li><p>Cohen and Hoshen, <a class="reference external" href="https://arxiv.org/abs/2005.02357">“Sub-Image Anomaly Detection with Deep Pyramid Correspondences”</a> (SPADE), 2020.</p></li>
+<li><p>Scheirer et al., <a class="reference external" href="https://ieeexplore.ieee.org/document/6365193">“Toward Open Set Recognition”</a>, TPAMI 2013 – the formal framing behind Section 1.3’s “held-out class” experiment.</p></li>
+<li><p><a class="reference external" href="https://anomalib.readthedocs.io/">Anomalib 2.5 documentation</a> for <code class="docutils literal notranslate"><span class="pre">Folder</span></code>, <code class="docutils literal notranslate"><span class="pre">Patchcore</span></code>, and <code class="docutils literal notranslate"><span class="pre">Engine</span></code>.</p></li>
+<li><p><a class="reference external" href="https://github.com/huggingface/pytorch-image-models">Timm model library</a> for PyTorch backbones.</p></li>
+</ul>
+</div>
+</div></section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../2-CNN-LeNet-AlexNet-lesson/">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">CNN Fundamentals &amp; Multi-class Classification</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../0b-setting-up-YOLO-Week2/">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Week2 - Setting Up YOLO</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Sweden AI Factory, Benedikt Neyses, Andreas Thore, Marzieh Saeedimasine, Ruiwen Xie, Yuvarajendra Anjaneya Reddy, Smita Chakraborty, Yonglei Wang and contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Deep Learning-based Anomaly Detection</a><ul>
+<li><a class="reference internal" href="#what-problem-are-we-solving">1. What Problem Are We Solving?</a><ul>
+<li><a class="reference internal" href="#normality-is-the-training-signal">1.1 Normality is the Training Signal</a></li>
+<li><a class="reference internal" href="#a-simple-tirst-model-the-mlp">1.2 A Simple Tirst Model: the MLP</a></li>
+<li><a class="reference internal" href="#a-more-realistic-classifier-pretrained-backbone-head">1.3 A More Realistic Classifier: Pretrained Backbone + Head</a></li>
+<li><a class="reference internal" href="#from-classifier-to-anomaly-detector">1.4 From Classifier to Anomaly Detector</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#from-images-to-patch-embeddings">2. From Images to Patch Embeddings</a><ul>
+<li><a class="reference internal" href="#image-embeddings-vs-patch-embeddings">2.1 Image Embeddings vs Patch Embeddings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#one-class-reasoning-in-feature-space">3. One-class Reasoning in Feature Space</a><ul>
+<li><a class="reference internal" href="#patchcore-anomaly-detection-algorithm-nearest-neighbor-scoring">3.1 PatchCore Anomaly Detection Algorithm: Nearest-neighbor Scoring</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#patchcore-step-by-step">4. PatchCore Step by Step</a><ul>
+<li><a class="reference internal" href="#the-memory-bank">4.1 The Memory Bank</a></li>
+<li><a class="reference internal" href="#coreset-sampling">4.2 Coreset Sampling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heatmaps-image-scores-and-thresholds">5. Heatmaps, Image Scores, and Thresholds</a><ul>
+<li><a class="reference internal" href="#metrics-for-this-workshop">5.1 Metrics for This Workshop</a></li>
+<li><a class="reference internal" href="#how-to-interpret-auroc-and-f1">5.2 How to interpret AUROC and F1</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#backbone-choice">6. Backbone Choice</a></li>
+<li><a class="reference internal" href="#practical-failure-modes">7. Practical Failure Modes</a><ul>
+<li><a class="reference internal" href="#what-good-troubleshooting-looks-like">7.1 What good troubleshooting looks like</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-domain="learn.mimer-ai.eu/DEEP-Inspection-Material-Science" defer="defer" src="https://plausible.io/js/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1613 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/"><link rel="prev" title="Advanced Vision Architectures &amp; Transfer learning" href="../3-TL-VGG-ResNet-ViT-lesson/">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+
+    <link rel="shortcut icon" href="../../_static/swe-aif.png"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>Object Detection and Image Segmentation - DEEP Inspection for Materials Science</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/overrides.css?v=1c72d2de" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../"><div class="brand">DEEP Inspection for Materials Science</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/swe-aif.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/swe-aif.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">DEEP Inspection for Materials Science</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../0-setting-up-programming-environment/">Setting Up Programming Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../0b-setting-up-YOLO-Week2/">Week2 - Setting Up YOLO</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Episodes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1-AnomalyDetection_PatchCore-lesson/">Deep Learning-based Anomaly Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2-CNN-LeNet-AlexNet-lesson/">CNN Fundamentals &amp; Multi-class Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-TL-VGG-ResNet-ViT-lesson/">Advanced Vision Architectures &amp; Transfer learning</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Object Detection and Image Segmentation</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/blob/main//content/episodes/4-YOLO_Unet_SegFormer-lesson.ipynb?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/edit/main//content/episodes/4-YOLO_Unet_SegFormer-lesson.ipynb" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="object-detection-and-image-segmentation">
+<h1>Object Detection and Image Segmentation<a class="headerlink" href="#object-detection-and-image-segmentation" title="Link to this heading">¶</a></h1>
+<div class='alert alert-warning'>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The audiences are welcome to have a deep dive using the book <a class="reference external" href="https://d2l.ai/index.html">here</a>, which is also the material the current notebook refers to. Of course we encourage the participants to check the cited paper as well if they want to gain a more thorough understanding.</p>
+</div>
+</div><section id="introduction-to-object-detection-and-image-segmentation">
+<h2>1. Introduction to object detection and image segmentation<a class="headerlink" href="#introduction-to-object-detection-and-image-segmentation" title="Link to this heading">¶</a></h2>
+<section id="difference-between-classification-localization-and-detection">
+<h3>1.1 Difference between classification, localization and detection<a class="headerlink" href="#difference-between-classification-localization-and-detection" title="Link to this heading">¶</a></h3>
+<img src="https://cdn.labellerr.com/why%20do%20autonomous%20vehicles%20Need%20object%20detection%3F/3.webp" width="500"/>
+<p><strong>Image classification:</strong> Predict the class of an object</p>
+<p><strong>Object localization:</strong> Locate the presence of objects and indicate their location with bounding boxes</p>
+<p><strong>Object detection:</strong> Locate the presence of objects with bounding boxes and classes of the located objects</p>
+</section>
+<section id="image-segmentation">
+<h3>1.2 Image segmentation<a class="headerlink" href="#image-segmentation" title="Link to this heading">¶</a></h3>
+<section id="object-detection-vs-instance-segmentation">
+<h4><strong>Object detection vs. Instance segmentation</strong><a class="headerlink" href="#object-detection-vs-instance-segmentation" title="Link to this heading">¶</a></h4>
+<img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*VX1UNfrNgjRD24Kq.jpg" width="400"/><p>Image segmentation is a further extension of object detection in the sense that the presence of the object is marked through pixel-wise masks. This can help us in determining the shape of each object present in the image. Such granularity is needed in various fields such as material defect characterization, medical image processing, satellite image, and etc.</p>
+<p>In the example shown above, we have two dogs in the image and they would be represented as two different label classes in <em>Instance segmention</em></p>
+</section>
+<section id="instance-segmentation-vs-semantic-segmentaion">
+<h4><strong>Instance segmentation vs. Semantic segmentaion</strong><a class="headerlink" href="#instance-segmentation-vs-semantic-segmentaion" title="Link to this heading">¶</a></h4>
+<p>While in semantic segmentation, two dogs or two cats in an image will be labelled as one class as “dog” or “cat”, instead of “dog1, dog2”, or “cat1, cat2” as in instance segmentation.</p>
+<img src="https://datahacker.rs/wp-content/uploads/2021/11/image-19-1024x313.png" width="600"/></section>
+</section>
+<section id="objection-detection-as-a-combination-of-classification-and-regression-problems">
+<h3>1.3 Objection detection as a combination of classification and regression problems<a class="headerlink" href="#objection-detection-as-a-combination-of-classification-and-regression-problems" title="Link to this heading">¶</a></h3>
+<p>The definition of object detection naturally consists of two parts:</p>
+<p>(1) Detecting the class of the object (classification)</p>
+<p>Note that in object detection, we want to detect all the objects whether they belong to the same class or not.</p>
+<p>(2) Detecting the position of the object using bounding boxes (Regression)</p>
+<p>In object detection, the regression network needs to predict four floating-point number per detected object, representing the bounding box coordinates (upper-left x and y, lower-right x and y) for each object.</p>
+<p>More specifically speaking:</p>
+<p>Object classification outputs a probability for each class, for example, <span class="math notranslate nohighlight">\(\left[c_1, c_2\right]\)</span> where <span class="math notranslate nohighlight">\(c_1\)</span> and <span class="math notranslate nohighlight">\(c_2\)</span> are the probabilities of class 1 and class 2.</p>
+<p>Object detection extends this with localization: the model must also predict where the object is. Each detection therefore outputs <span class="math notranslate nohighlight">\(\left[P, C_x, C_y, w, h, c_1, c_2\right]\)</span>, where <span class="math notranslate nohighlight">\(P\)</span> is the confidence that an object is present, <span class="math notranslate nohighlight">\(\left(C_x, C_y\right)\)</span> is the bounding box centre, <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(h\)</span> are its width and height, and <span class="math notranslate nohighlight">\(c_1, c_2\)</span> are the class probabilities.</p>
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*2HzDlBGgL8iTyfEaWDb5QQ.png" width="600"/><p>Before we dive into the methods used for object detection and segmentation, let’s first learn about some foundamental concepts!</p>
+</section>
+</section>
+<section id="object-detection-fundamentals">
+<h2>2. Object Detection Fundamentals<a class="headerlink" href="#object-detection-fundamentals" title="Link to this heading">¶</a></h2>
+<section id="bounding-box">
+<h3>2.1 Bounding box<a class="headerlink" href="#bounding-box" title="Link to this heading">¶</a></h3>
+<p>In object detection, a <strong>bounding box</strong> is usually used to describe the spatial location of an object. The bounding box is in rectangular shape, which can be determined by the x, y coordinates of the upper-left corner and lower-right corner. Another commonly used representation is the (x, y)-axis coordinates of the bounding box center, and the width and height of the box. Nevertheless, it is easy to define functions that convert between these two representations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesIO</span>
+
+<span class="c1"># ── Bounding box conversion functions ──────────────────────────────────────────</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">box_corner_to_center</span><span class="p">(</span><span class="n">boxes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Convert from (upper-left, lower-right) to (center, width, height)."""</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">box_center_to_corner</span><span class="p">(</span><span class="n">boxes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Convert from (center, width, height) to (upper-left, lower-right)."""</span>
+    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">w</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">h</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">w</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">h</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># The input argument boxes should be a two-dimensional tensor of shape (n, 4), where n is the number of bounding boxes.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s try to add bounding boxes to our dog-cat image.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../../_images/c24e391be3891daf0db7ff5ea44434081b42edb76477f8d819cb5ffd2af5f09e.png" src="../../_images/c24e391be3891daf0db7ff5ea44434081b42edb76477f8d819cb5ffd2af5f09e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a helper function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bbox_to_rect</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Convert bounding box to a matplotlib Rectangle patch."""</span>
+    <span class="c1"># bbox: (upper-left x, upper-left y, lower-right x, lower-right y)</span>
+    <span class="k">return</span> <span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span>
+        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Verify round-trip conversion ───────────────────────────────────────────────</span>
+
+<span class="n">dog_bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">,</span> <span class="mf">378.0</span><span class="p">,</span> <span class="mf">516.0</span><span class="p">]</span>
+<span class="n">cat_bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">400.0</span><span class="p">,</span> <span class="mf">112.0</span><span class="p">,</span> <span class="mf">655.0</span><span class="p">,</span> <span class="mf">493.0</span><span class="p">]</span>
+
+<span class="n">boxes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">((</span><span class="n">dog_bbox</span><span class="p">,</span> <span class="n">cat_bbox</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">box_center_to_corner</span><span class="p">(</span><span class="n">box_corner_to_center</span><span class="p">(</span><span class="n">boxes</span><span class="p">))</span> <span class="o">==</span> <span class="n">boxes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[True, True, True, True],
+        [True, True, True, True]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Plot image with bounding boxes ─────────────────────────────────────────────</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">bbox_to_rect</span><span class="p">(</span><span class="n">dog_bbox</span><span class="p">,</span> <span class="s1">'blue'</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">bbox_to_rect</span><span class="p">(</span><span class="n">cat_bbox</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6238ff0205a0b82ee6bd97c223df182e510e81e3d54e254a83e6518e9cb8d554.png" src="../../_images/6238ff0205a0b82ee6bd97c223df182e510e81e3d54e254a83e6518e9cb8d554.png" />
+</div>
+</div>
+</section>
+<section id="anchor-boxes">
+<h3>2.2 Anchor Boxes<a class="headerlink" href="#anchor-boxes" title="Link to this heading">¶</a></h3>
+<section id="anchor-generation">
+<h4>2.2.1 Anchor generation<a class="headerlink" href="#anchor-generation" title="Link to this heading">¶</a></h4>
+<p>Suppose that the input image has a height of <span class="math notranslate nohighlight">\(H\)</span> and width of <span class="math notranslate nohighlight">\(W\)</span>. Given <span class="math notranslate nohighlight">\(n\)</span> scales and <span class="math notranslate nohighlight">\(m\)</span> aspect ratios, anchor boxes are generated centered on each pixel of the image. Rather than using all <span class="math notranslate nohighlight">\(n \times m\)</span> combinations, each pixel gets <span class="math notranslate nohighlight">\(n + m - 1\)</span> anchors (one per scale paired with <span class="math notranslate nohighlight">\(r_1\)</span>, plus <span class="math notranslate nohighlight">\(s_1\)</span> paired with each remaining ratio). All coordinates are normalised to <span class="math notranslate nohighlight">\([0, 1]\)</span>.</p>
+<p><strong>Why only combinations with <span class="math notranslate nohighlight">\(s_1\)</span> or <span class="math notranslate nohighlight">\(r_1\)</span>?</strong>
+With <span class="math notranslate nohighlight">\(n\)</span> scales and <span class="math notranslate nohighlight">\(m\)</span> ratios, using every <span class="math notranslate nohighlight">\((s_i, r_j)\)</span> pair would produce <span class="math notranslate nohighlight">\(n \times m\)</span> anchors per pixel — for the 3×3 case 9 instead of 5 — multiplying memory and NMS cost across all pixels. The reduction is justified because extreme cross-combinations like <span class="math notranslate nohighlight">\((s_3, r_3)\)</span> (a large-scale, wide-ratio box) are rarely matched to real objects and add little coverage that the other anchors don’t already provide.</p>
+<p><strong>The rule of thumb is:</strong> vary aspect ratio at the smallest scale <span class="math notranslate nohighlight">\((s_1, r_k)\)</span> because small objects appear in the most diverse shapes, and vary scale at the default ratio <span class="math notranslate nohighlight">\((s_k, r_1)\)</span> because larger objects tend to have near-square bounding boxes. This <span class="math notranslate nohighlight">\(n + m - 1\)</span> heuristic originates from the <a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD paper</a>; later approaches like YOLOv2+ replaced it by running <span class="math notranslate nohighlight">\(k\)</span>-means clustering on all ground-truth box dimensions in the training set. The idea is simple: collect every annotated box in your dataset, plot them by width and height, and let the algorithm automatically find <span class="math notranslate nohighlight">\(k\)</span> “typical shapes” that best represent the spread. Those <span class="math notranslate nohighlight">\(k\)</span> representative shapes become the anchors, so instead of guessing a hand-crafted grid of scales and ratios, you get priors that directly reflect what objects in your specific dataset actually look like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multibox_prior</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">ratios</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Generate anchor boxes with different shapes centered on each pixel."""</span>
+    <span class="n">in_height</span><span class="p">,</span> <span class="n">in_width</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">num_sizes</span><span class="p">,</span> <span class="n">num_ratios</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span>
+    <span class="n">boxes_per_pixel</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_sizes</span> <span class="o">+</span> <span class="n">num_ratios</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">size_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">ratio_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">ratios</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># Offsets are required to move the anchor to the center of a pixel. Since</span>
+    <span class="c1"># a pixel has height=1 and width=1, we choose to offset our centers by 0.5</span>
+    <span class="n">offset_h</span><span class="p">,</span> <span class="n">offset_w</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span>
+    <span class="n">steps_h</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">in_height</span>  <span class="c1"># Scaled steps in y axis</span>
+    <span class="n">steps_w</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">in_width</span>  <span class="c1"># Scaled steps in x axis</span>
+
+    <span class="c1"># Generate all center points for the anchor boxes</span>
+    <span class="n">center_h</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">in_height</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset_h</span><span class="p">)</span> <span class="o">*</span> <span class="n">steps_h</span>
+    <span class="n">center_w</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">in_width</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset_w</span><span class="p">)</span> <span class="o">*</span> <span class="n">steps_w</span>
+    <span class="n">shift_y</span><span class="p">,</span> <span class="n">shift_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">center_h</span><span class="p">,</span> <span class="n">center_w</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">'ij'</span><span class="p">)</span>
+    <span class="n">shift_y</span><span class="p">,</span> <span class="n">shift_x</span> <span class="o">=</span> <span class="n">shift_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">shift_x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Generate `boxes_per_pixel` number of heights and widths that are later</span>
+    <span class="c1"># used to create anchor box corner coordinates (xmin, xmax, ymin, ymax)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">size_tensor</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ratio_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                   <span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ratio_tensor</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>\
+                   <span class="o">*</span> <span class="n">in_height</span> <span class="o">/</span> <span class="n">in_width</span>  <span class="c1"># Handle rectangular inputs</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">size_tensor</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ratio_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                   <span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ratio_tensor</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
+    <span class="c1"># Divide by 2 to get half height and half width</span>
+    <span class="n">anchor_manipulations</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="o">-</span><span class="n">w</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                                        <span class="n">in_height</span> <span class="o">*</span> <span class="n">in_width</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Each center point will have `boxes_per_pixel` number of anchor boxes, so</span>
+    <span class="c1"># generate a grid of all anchor box centers with `boxes_per_pixel` repeats</span>
+    <span class="n">out_grid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">shift_x</span><span class="p">,</span> <span class="n">shift_y</span><span class="p">,</span> <span class="n">shift_x</span><span class="p">,</span> <span class="n">shift_y</span><span class="p">],</span>
+                <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">boxes_per_pixel</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">out_grid</span> <span class="o">+</span> <span class="n">anchor_manipulations</span>
+    <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">img_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">))</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+<span class="n">h</span><span class="p">,</span> <span class="n">w</span>  <span class="o">=</span> <span class="n">img_t</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Image size: </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s1">×</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">anchors</span> <span class="o">=</span> <span class="n">multibox_prior</span><span class="p">(</span><span class="n">img_t</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Anchor tensor shape: </span><span class="si">{</span><span class="n">anchors</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Expected (1, </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s1">×</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s1">×5, 4) = (1, </span><span class="si">{</span><span class="n">h</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">5</span><span class="si">}</span><span class="s1">, 4)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Image size: 561×728
+Anchor tensor shape: torch.Size([1, 2042040, 4])
+Expected (1, 561×728×5, 4) = (1, 2042040, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise the 5 anchor shapes at a single pixel</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">show_bboxes</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">bboxes</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Show bounding boxes."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_list</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">default_values</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">default_values</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">make_list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">make_list</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="p">[</span><span class="s1">'b'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'m'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bbox</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bboxes</span><span class="p">):</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">bbox_to_rect</span><span class="p">(</span><span class="n">bbox</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">color</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">text_color</span> <span class="o">=</span> <span class="s1">'k'</span> <span class="k">if</span> <span class="n">color</span> <span class="o">==</span> <span class="s1">'w'</span> <span class="k">else</span> <span class="s1">'w'</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rect</span><span class="o">.</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                      <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">text_color</span><span class="p">,</span>
+                      <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">boxes_per_pixel</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">pixel_row</span><span class="p">,</span> <span class="n">pixel_col</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">250</span>
+<span class="n">pixel_idx</span>     <span class="o">=</span> <span class="n">pixel_row</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="n">pixel_col</span>
+<span class="n">pixel_anchors</span> <span class="o">=</span> <span class="n">anchors</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">pixel_idx</span><span class="o">*</span><span class="n">boxes_per_pixel</span> <span class="p">:</span> <span class="p">(</span><span class="n">pixel_idx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">boxes_per_pixel</span><span class="p">]</span>
+
+<span class="c1"># Convert [0,1] → pixel coordinates</span>
+<span class="n">pixel_anchors_px</span> <span class="o">=</span> <span class="n">pixel_anchors</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">show_bboxes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pixel_anchors_px</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'s=0.75,r=1'</span><span class="p">,</span><span class="s1">'s=0.5,r=1'</span><span class="p">,</span><span class="s1">'s=0.25,r=1'</span><span class="p">,</span><span class="s1">'s=0.75,r=2'</span><span class="p">,</span><span class="s1">'s=0.75,r=0.5'</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'5 anchors at pixel (</span><span class="si">{</span><span class="n">pixel_col</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">pixel_row</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e97b2de6a988d12693a0fd5baad8d0bd34ec2c9e07999675492814bc78ab3b13.png" src="../../_images/e97b2de6a988d12693a0fd5baad8d0bd34ec2c9e07999675492814bc78ab3b13.png" />
+</div>
+</div>
+<p>The blue anchor box with a scale of 0.75 and an aspect ratio of 1 well surrounds the dog in the image.</p>
+<p>But the question is: how can “well” here be quantified?</p>
+<p><strong>The answer is: by measuring similarities</strong></p>
+</section>
+<section id="intersection-over-union-iou-as-an-evaluation-metric">
+<h4>2.2.2 Intersection over Union (IoU) as an evaluation metric<a class="headerlink" href="#intersection-over-union-iou-as-an-evaluation-metric" title="Link to this heading">¶</a></h4>
+<p>IoU is a key metric for measuring the overlap between a predicted bounding box and the groundtruth bounding box.
+Also known as Jaccard index, IoU is defined as the ratio of the intersection area to the union area between the two bounding boxes (<span class="math notranslate nohighlight">\(J(\mathcal{A}, \mathcal{B})=\frac{|\mathcal{A} \cap \mathcal{B}|}{|\mathcal{A} \cup \mathcal{B}|}\)</span>).</p>
+<p>We will use IoU to measure the similarity between anchor boxes and ground-truth bounding boxes.
+A higher IoU value indicates better alignment between the predicted and groundtruth bounding boxes.</p>
+<img src="https://d2l.ai/_images/iou.svg" width="400"/>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">box_iou</span><span class="p">(</span><span class="n">boxes1</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Compute pairwise IoU across two lists of anchor or bounding boxes."""</span>
+    <span class="n">box_area</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">boxes</span><span class="p">:</span> <span class="p">((</span><span class="n">boxes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span>
+                              <span class="p">(</span><span class="n">boxes</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="c1"># Shape of `boxes1`, `boxes2`, `areas1`, `areas2`: (no. of boxes1, 4),</span>
+    <span class="c1"># (no. of boxes2, 4), (no. of boxes1,), (no. of boxes2,)</span>
+    <span class="n">areas1</span> <span class="o">=</span> <span class="n">box_area</span><span class="p">(</span><span class="n">boxes1</span><span class="p">)</span>
+    <span class="n">areas2</span> <span class="o">=</span> <span class="n">box_area</span><span class="p">(</span><span class="n">boxes2</span><span class="p">)</span>
+    <span class="c1"># Shape of `inter_upperlefts`, `inter_lowerrights`, `inters`: (no. of</span>
+    <span class="c1"># boxes1, no. of boxes2, 2)</span>
+    <span class="n">inter_upperlefts</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">boxes1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">boxes2</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">inter_lowerrights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">boxes1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">:],</span> <span class="n">boxes2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span>
+    <span class="n">inters</span> <span class="o">=</span> <span class="p">(</span><span class="n">inter_lowerrights</span> <span class="o">-</span> <span class="n">inter_upperlefts</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Shape of `inter_areas` and `union_areas`: (no. of boxes1, no. of boxes2)</span>
+    <span class="n">inter_areas</span> <span class="o">=</span> <span class="n">inters</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">inters</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">union_areas</span> <span class="o">=</span> <span class="n">areas1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">areas2</span> <span class="o">-</span> <span class="n">inter_areas</span>
+    <span class="k">return</span> <span class="n">inter_areas</span> <span class="o">/</span> <span class="n">union_areas</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>— Preparing training labels (offline, uses ground truth) —</p>
+</div></blockquote>
+</section>
+<section id="assigning-ground-truth-boxes-to-anchors">
+<h4>2.2.3 Assigning ground-truth boxes to anchors<a class="headerlink" href="#assigning-ground-truth-boxes-to-anchors" title="Link to this heading">¶</a></h4>
+<p>Before training, every anchor box must be told what it is responsible for predicting. This is decided once, offline, using the ground-truth boxes already provided in the dataset.</p>
+<p>Given an image, suppose the anchor boxes are <span class="math notranslate nohighlight">\(A_1, A_2, \ldots, A_{n_a}\)</span> and the ground-truth boxes are <span class="math notranslate nohighlight">\(B_1, B_2, \ldots, B_{n_b}\)</span>, where <span class="math notranslate nohighlight">\(n_a \geq n_b\)</span> (there are always more anchors than objects). Define the matrix <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n_a \times n_b}\)</span>, where each element <span class="math notranslate nohighlight">\(x_{ij}\)</span> is the IoU between anchor <span class="math notranslate nohighlight">\(A_i\)</span> and ground-truth box <span class="math notranslate nohighlight">\(B_j\)</span>.</p>
+<p><strong>Assignment algorithm:</strong></p>
+<ol class="arabic simple">
+<li><p>Find the largest element in <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> across all remaining rows and columns — this identifies the anchor-ground-truth pair with highest overlap.</p></li>
+<li><p>Assign that pair: the anchor takes on the corresponding ground-truth box.</p></li>
+<li><p>Discard that anchor’s row and that ground-truth box’s column from further consideration — each anchor and each ground-truth box can only be matched once at this stage.</p></li>
+<li><p>Repeat steps 1–3 until every ground-truth box has been assigned to an anchor.</p></li>
+</ol>
+<p>This guarantees each ground-truth box gets matched to its single best-overlapping anchor, and no anchor is “wasted” on a box that’s already been claimed by a better match.</p>
+<p><strong>Leftover anchors</strong></p>
+<p>Since <span class="math notranslate nohighlight">\(n_a \geq n_b\)</span>, most anchors will not be assigned by this process. For each leftover anchor, compute its IoU with every ground-truth box and take the maximum:</p>
+<ul class="simple">
+<li><p>If this maximum IoU exceeds a chosen threshold (e.g. 0.5), the anchor is assigned to that ground-truth box’s class.</p></li>
+<li><p>Otherwise, the anchor is labelled <strong>background</strong> — it isn’t responsible for predicting any object.</p></li>
+</ul>
+<p>This second pass ensures anchors with a strong but non-maximal overlap still contribute useful training signal, rather than being discarded just because another anchor matched the same box even more closely.</p>
+<img src="https://d2l.ai/_images/anchor-label.svg" width="600"/><p>Process: finding global max –&gt; discarding the row and column it is located –&gt; repeat this process until we have assigned <span class="math notranslate nohighlight">\(n_b\)</span> ground-truth bounding boxes.</p>
+<p>As demonstrated in the figure above, <span class="math notranslate nohighlight">\(B_3\)</span> is assigned to <span class="math notranslate nohighlight">\(A_2\)</span>, <span class="math notranslate nohighlight">\(B_1\)</span> is assigned to <span class="math notranslate nohighlight">\(A_7\)</span>, <span class="math notranslate nohighlight">\(B_4\)</span> is assigned to <span class="math notranslate nohighlight">\(A_5\)</span>, and <span class="math notranslate nohighlight">\(B_2\)</span> is assigned to <span class="math notranslate nohighlight">\(A_9\)</span>. Then, according to the threshold, it will be determined for the remaining anchor boxes <span class="math notranslate nohighlight">\(A_1, A_3, A_4, A_6, A_8\)</span> if they will be assigned a ground-truth bounding box or not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">assign_anchor_to_bbox</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">,</span> <span class="n">anchors</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Assign closest ground-truth bounding boxes to anchor boxes."""</span>
+    <span class="n">num_anchors</span><span class="p">,</span> <span class="n">num_gt_boxes</span> <span class="o">=</span> <span class="n">anchors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Element x_ij in the i-th row and j-th column is the IoU of the anchor</span>
+    <span class="c1"># box i and the ground-truth bounding box j</span>
+    <span class="n">jaccard</span> <span class="o">=</span> <span class="n">box_iou</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span>
+    <span class="c1"># Initialize the tensor to hold the assigned ground-truth bounding box for</span>
+    <span class="c1"># each anchor</span>
+    <span class="n">anchors_bbox_map</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">num_anchors</span><span class="p">,),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span>
+                                  <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># Assign ground-truth bounding boxes according to the threshold</span>
+    <span class="n">max_ious</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jaccard</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">anc_i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">max_ious</span> <span class="o">&gt;=</span> <span class="n">iou_threshold</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">box_j</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">max_ious</span> <span class="o">&gt;=</span> <span class="n">iou_threshold</span><span class="p">]</span>
+    <span class="n">anchors_bbox_map</span><span class="p">[</span><span class="n">anc_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">box_j</span>
+    <span class="n">col_discard</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">num_anchors</span><span class="p">,),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">row_discard</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">num_gt_boxes</span><span class="p">,),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gt_boxes</span><span class="p">):</span>
+        <span class="n">max_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">jaccard</span><span class="p">)</span>  <span class="c1"># Find the largest IoU</span>
+        <span class="n">box_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_idx</span> <span class="o">%</span> <span class="n">num_gt_boxes</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">anc_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_idx</span> <span class="o">/</span> <span class="n">num_gt_boxes</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">anchors_bbox_map</span><span class="p">[</span><span class="n">anc_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">box_idx</span>
+        <span class="n">jaccard</span><span class="p">[:,</span> <span class="n">box_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_discard</span>
+        <span class="n">jaccard</span><span class="p">[</span><span class="n">anc_idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">row_discard</span>
+    <span class="k">return</span> <span class="n">anchors_bbox_map</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="labels-for-each-anchor">
+<h4>2.2.4 Labels for each anchor<a class="headerlink" href="#labels-for-each-anchor" title="Link to this heading">¶</a></h4>
+<p>Once every anchor has been assigned (either to a ground-truth box, or to background), two labels are derived for it:</p>
+<p><strong>Class label</strong></p>
+<p>For an anchor box <span class="math notranslate nohighlight">\(A\)</span> that is matched to ground-truth box <span class="math notranslate nohighlight">\(B\)</span>, the class of <span class="math notranslate nohighlight">\(A\)</span> is labelled as the class of <span class="math notranslate nohighlight">\(B\)</span>. Anchors matched to no ground-truth box (background) receive a special background class.</p>
+<p><strong>Offset label</strong></p>
+<p>Regarding the offset, we apply transformations to the relative positions and sizes of boxes <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, given the varying positions and sizes of different boxes in the dataset, in order to work with more uniformly distributed offsets that are easier to fit.</p>
+<p>A common transformation, given the central coordinates of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> as <span class="math notranslate nohighlight">\((x_a, y_a)\)</span> and <span class="math notranslate nohighlight">\((x_b, y_b)\)</span>, their widths as <span class="math notranslate nohighlight">\(w_a\)</span> and <span class="math notranslate nohighlight">\(w_b\)</span>, and their heights as <span class="math notranslate nohighlight">\(h_a\)</span> and <span class="math notranslate nohighlight">\(h_b\)</span>, respectively, the offset of <span class="math notranslate nohighlight">\(A\)</span> is labelled as:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\left(\frac{\frac{x_b-x_a}{w_a}-\mu_x}{\sigma_x}, \frac{\frac{y_b-y_a}{h_a}-\mu_y}{\sigma_y}, \frac{\log \frac{w_b}{w_a}-\mu_w}{\sigma_w}, \frac{\log \frac{h_b}{h_a}-\mu_h}{\sigma_h}\right)
+\]</div>
+</div>
+<p>Default values of the constants are <span class="math notranslate nohighlight">\(\mu_x=\mu_y=\mu_w=\mu_h=0\)</span>, <span class="math notranslate nohighlight">\(\sigma_x=\sigma_y=0.1\)</span>, and <span class="math notranslate nohighlight">\(\sigma_w=\sigma_h=0.2\)</span>.</p>
+<p>Background anchors have no meaningful offset, since there is no ground-truth box to regress toward.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">offset_boxes</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">assigned_bb</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Transform for anchor box offsets."""</span>
+    <span class="n">c_anc</span> <span class="o">=</span> <span class="n">box_corner_to_center</span><span class="p">(</span><span class="n">anchors</span><span class="p">)</span>
+    <span class="n">c_assigned_bb</span> <span class="o">=</span> <span class="n">box_corner_to_center</span><span class="p">(</span><span class="n">assigned_bb</span><span class="p">)</span>
+    <span class="n">offset_xy</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">c_assigned_bb</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">c_anc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">c_anc</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>
+    <span class="n">offset_wh</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">eps</span> <span class="o">+</span> <span class="n">c_assigned_bb</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">/</span> <span class="n">c_anc</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">offset_xy</span><span class="p">,</span> <span class="n">offset_wh</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">offset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Brief summary</strong></p>
+<p>Given a set of ground-truth (GT) boxes, each anchor is assigned a label:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Condition</p></th>
+<th class="head"><p>Label</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Best anchor for a GT box (by IoU)</p></td>
+<td><p><strong>Positive</strong> — that GT class</p></td>
+</tr>
+<tr class="row-odd"><td><p>IoU ≥ threshold with any GT box</p></td>
+<td><p><strong>Positive</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>IoU &lt; threshold (and not best)</p></td>
+<td><p><strong>Background (0)</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In the function below, the background class is set to zero and a new class is assigned with an integer index of increments by one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multibox_target</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Label anchor boxes using ground-truth bounding boxes."""</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">anchors</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">anchors</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">batch_offset</span><span class="p">,</span> <span class="n">batch_mask</span><span class="p">,</span> <span class="n">batch_class_labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">num_anchors</span> <span class="o">=</span> <span class="n">anchors</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">anchors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">anchors_bbox_map</span> <span class="o">=</span> <span class="n">assign_anchor_to_bbox</span><span class="p">(</span>
+            <span class="n">label</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">anchors</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">bbox_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">anchors_bbox_map</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># Initialize class labels and assigned bounding box coordinates with</span>
+        <span class="c1"># zeros</span>
+        <span class="n">class_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_anchors</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span>
+                                   <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">assigned_bb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_anchors</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                                  <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># Label classes of anchor boxes using their assigned ground-truth</span>
+        <span class="c1"># bounding boxes. If an anchor box is not assigned any, we label its</span>
+        <span class="c1"># class as background (the value remains zero)</span>
+        <span class="n">indices_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">anchors_bbox_map</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">bb_idx</span> <span class="o">=</span> <span class="n">anchors_bbox_map</span><span class="p">[</span><span class="n">indices_true</span><span class="p">]</span>
+        <span class="n">class_labels</span><span class="p">[</span><span class="n">indices_true</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">bb_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">assigned_bb</span><span class="p">[</span><span class="n">indices_true</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">bb_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="c1"># Offset transformation</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">offset_boxes</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">assigned_bb</span><span class="p">)</span> <span class="o">*</span> <span class="n">bbox_mask</span>
+        <span class="n">batch_offset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">batch_mask</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bbox_mask</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">batch_class_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_labels</span><span class="p">)</span>
+    <span class="n">bbox_offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">batch_offset</span><span class="p">)</span>
+    <span class="n">bbox_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">batch_mask</span><span class="p">)</span>
+    <span class="n">class_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">batch_class_labels</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">bbox_offset</span><span class="p">,</span> <span class="n">bbox_mask</span><span class="p">,</span> <span class="n">class_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bbox_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+<span class="n">ground_truth</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">],</span>
+                         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">]])</span>
+<span class="n">anchors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.63</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.66</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">show_bboxes</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">bbox_scale</span><span class="p">,</span> <span class="p">[</span><span class="s1">'dog'</span><span class="p">,</span> <span class="s1">'cat'</span><span class="p">],</span> <span class="s1">'k'</span><span class="p">)</span>
+<span class="n">show_bboxes</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">anchors</span> <span class="o">*</span> <span class="n">bbox_scale</span><span class="p">,</span> <span class="p">[</span><span class="s1">'0'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'4'</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/65321a007cf6ba4cd584dd0b7a5d1d4a5b185b3f3480eb374f39ef5e0c0d9577.png" src="../../_images/65321a007cf6ba4cd584dd0b7a5d1d4a5b185b3f3480eb374f39ef5e0c0d9577.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ground truth: (class, x1, y1, x2, y2) in [0,1] coords</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span>
+    <span class="p">[</span><span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.1</span><span class="p">,</span>  <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">],</span>   <span class="c1"># dog  (class 0)</span>
+    <span class="p">[</span><span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.9</span><span class="p">,</span>  <span class="mf">0.88</span><span class="p">],</span>   <span class="c1"># cat  (class 1)</span>
+<span class="p">]])</span>
+
+<span class="n">anchors_small</span> <span class="o">=</span> <span class="n">multibox_prior</span><span class="p">(</span><span class="n">img_t</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="n">ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">offsets</span><span class="p">,</span> <span class="n">masks</span><span class="p">,</span> <span class="n">cls_tgts</span> <span class="o">=</span> <span class="n">multibox_target</span><span class="p">(</span><span class="n">anchors_small</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Anchor tensor shape  : </span><span class="si">{</span><span class="n">anchors_small</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Offset targets shape : </span><span class="si">{</span><span class="n">offsets</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Mask shape           : </span><span class="si">{</span><span class="n">masks</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Class targets shape  : </span><span class="si">{</span><span class="n">cls_tgts</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Positive anchors     : </span><span class="si">{</span><span class="p">(</span><span class="n">cls_tgts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Background anchors   : </span><span class="si">{</span><span class="p">(</span><span class="n">cls_tgts</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Anchor tensor shape  : torch.Size([1, 1633632, 4])
+Offset targets shape : torch.Size([1, 6534528])
+Mask shape           : torch.Size([1, 6534528])
+Class targets shape  : torch.Size([1, 1633632])
+Positive anchors     : 51358
+Background anchors   : 1582274
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>— Using the trained model (inference, no ground truth) —</p>
+</div></blockquote>
+</section>
+<section id="bounding-box-prediction-with-non-maximum-suppression-nms">
+<h4>2.2.5 Bounding box prediction with non-maximum suppression (NMS)<a class="headerlink" href="#bounding-box-prediction-with-non-maximum-suppression-nms" title="Link to this heading">¶</a></h4>
+<p>During prediction, multiple anchor boxes would be generated for the image, and the classes and offsets for each of the boxes are predicted. In other words, a predicted bounding box is obtained according to an anchor box with its predicted offset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">offset_inverse</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">offset_preds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Predict bounding boxes based on anchor boxes with predicted offsets."""</span>
+    <span class="n">anc</span> <span class="o">=</span> <span class="n">box_corner_to_center</span><span class="p">(</span><span class="n">anchors</span><span class="p">)</span>
+    <span class="n">pred_bbox_xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">offset_preds</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">anc</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">anc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">pred_bbox_wh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">offset_preds</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">anc</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>
+    <span class="n">pred_bbox</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">pred_bbox_xy</span><span class="p">,</span> <span class="n">pred_bbox_wh</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">predicted_bbox</span> <span class="o">=</span> <span class="n">box_center_to_corner</span><span class="p">(</span><span class="n">pred_bbox</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">predicted_bbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The similar predicted bounding boxes that belong to the same object are merged by using non-maximum suppression (NMS).</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/f2ab06f76a3dbe3141f03317df5d96d0fd4954ce22ae38dabe1c6a67f75af696.png"><img alt="../../_images/f2ab06f76a3dbe3141f03317df5d96d0fd4954ce22ae38dabe1c6a67f75af696.png" src="../../_images/f2ab06f76a3dbe3141f03317df5d96d0fd4954ce22ae38dabe1c6a67f75af696.png" style="width: 800px;" />
+</a>
+<a class="reference internal image-reference" href="../../_images/5b3b14367675eef1f618352192e3f88dd1def9347b2c225ba806bde2b9a2b453.png"><img alt="../../_images/5b3b14367675eef1f618352192e3f88dd1def9347b2c225ba806bde2b9a2b453.png" src="../../_images/5b3b14367675eef1f618352192e3f88dd1def9347b2c225ba806bde2b9a2b453.png" style="width: 800px;" />
+</a>
+</div>
+</div>
+<p>Please refer to this <a class="reference external" href="https://arxiv.org/pdf/2304.00501">paper</a> for more details</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">nms</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Sort confidence scores of predicted bounding boxes."""</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Indices of predicted bounding boxes that will be kept</span>
+    <span class="k">while</span> <span class="n">B</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">keep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">iou</span> <span class="o">=</span> <span class="n">box_iou</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+                      <span class="n">boxes</span><span class="p">[</span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">iou</span> <span class="o">&lt;=</span> <span class="n">iou_threshold</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">inds</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">keep</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">boxes</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multibox_detection</span><span class="p">(</span><span class="n">cls_probs</span><span class="p">,</span> <span class="n">offset_preds</span><span class="p">,</span> <span class="n">anchors</span><span class="p">,</span> <span class="n">nms_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                       <span class="n">pos_threshold</span><span class="o">=</span><span class="mf">0.009999999</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Predict bounding boxes using non-maximum suppression."""</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cls_probs</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">cls_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">anchors</span> <span class="o">=</span> <span class="n">anchors</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">num_classes</span><span class="p">,</span> <span class="n">num_anchors</span> <span class="o">=</span> <span class="n">cls_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cls_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">cls_prob</span><span class="p">,</span> <span class="n">offset_pred</span> <span class="o">=</span> <span class="n">cls_probs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">offset_preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">conf</span><span class="p">,</span> <span class="n">class_id</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">cls_prob</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">predicted_bb</span> <span class="o">=</span> <span class="n">offset_inverse</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">offset_pred</span><span class="p">)</span>
+        <span class="n">keep</span> <span class="o">=</span> <span class="n">nms</span><span class="p">(</span><span class="n">predicted_bb</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">nms_threshold</span><span class="p">)</span>
+        <span class="c1"># Find all non-`keep` indices and set the class to background</span>
+        <span class="n">all_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_anchors</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">keep</span><span class="p">,</span> <span class="n">all_idx</span><span class="p">))</span>
+        <span class="n">uniques</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">non_keep</span> <span class="o">=</span> <span class="n">uniques</span><span class="p">[</span><span class="n">counts</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">all_id_sorted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">keep</span><span class="p">,</span> <span class="n">non_keep</span><span class="p">))</span>
+        <span class="n">class_id</span><span class="p">[</span><span class="n">non_keep</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">class_id</span> <span class="o">=</span> <span class="n">class_id</span><span class="p">[</span><span class="n">all_id_sorted</span><span class="p">]</span>
+        <span class="n">conf</span><span class="p">,</span> <span class="n">predicted_bb</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="n">all_id_sorted</span><span class="p">],</span> <span class="n">predicted_bb</span><span class="p">[</span><span class="n">all_id_sorted</span><span class="p">]</span>
+        <span class="c1"># Here `pos_threshold` is a threshold for positive (non-background)</span>
+        <span class="c1"># predictions</span>
+        <span class="n">below_min_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">conf</span> <span class="o">&lt;</span> <span class="n">pos_threshold</span><span class="p">)</span>
+        <span class="n">class_id</span><span class="p">[</span><span class="n">below_min_idx</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">conf</span><span class="p">[</span><span class="n">below_min_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">conf</span><span class="p">[</span><span class="n">below_min_idx</span><span class="p">]</span>
+        <span class="n">pred_info</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">class_id</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                               <span class="n">conf</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                               <span class="n">predicted_bb</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_info</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To illustrate how the algorithm works in practice, we walk through a concrete example using four anchor boxes. For simplicity, we assume all predicted offsets are zero, meaning the predicted bounding boxes coincide exactly with the anchor boxes. We also define a predicted probability for each class — background, dog, and cat.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">anchors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.56</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.62</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">]])</span>
+<span class="n">offset_preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">anchors</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+<span class="n">cls_probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>  <span class="c1"># Predicted background likelihood</span>
+                      <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>  <span class="c1"># Predicted dog likelihood</span>
+                      <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>  <span class="c1"># Predicted cat likelihood</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The predicted bounding boxes with their confidence can then be plotted on the image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">show_bboxes</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">anchors</span> <span class="o">*</span> <span class="n">bbox_scale</span><span class="p">,</span>
+            <span class="p">[</span><span class="s1">'dog=0.9'</span><span class="p">,</span> <span class="s1">'dog=0.8'</span><span class="p">,</span> <span class="s1">'dog=0.7'</span><span class="p">,</span> <span class="s1">'cat=0.9'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/54fa7e378bd5d2f685247871e1189ffe10950fef556217b60aaecd6e594fa432.png" src="../../_images/54fa7e378bd5d2f685247871e1189ffe10950fef556217b60aaecd6e594fa432.png" />
+</div>
+</div>
+<p>We then invoke the <em>multibox_detection</em> function to perform NMS, where the threshold is set to 0.5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">multibox_detection</span><span class="p">(</span><span class="n">cls_probs</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                            <span class="n">offset_preds</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                            <span class="n">anchors</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                            <span class="n">nms_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">output</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[ 0.0000,  0.9000,  0.1000,  0.0800,  0.5200,  0.9200],
+         [ 1.0000,  0.9000,  0.5500,  0.2000,  0.9000,  0.8800],
+         [-1.0000,  0.8000,  0.0800,  0.2000,  0.5600,  0.9500],
+         [-1.0000,  0.7000,  0.1500,  0.3000,  0.6200,  0.9100]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1, 4, 6])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The shape of the returned result is (batch size, number of anchor boxes, 6).
+The six elements in the innermost dimension gives the output information for the same predicted bounding box.</p>
+<p>The first element is the predicted class index: 0 is dog and 1 is cat; the value -1 indicates background or removal in non-maximum suppression.</p>
+<p>The second element is the confidence of the predicted bounding box.</p>
+<p>The remaining four elements are the <span class="math notranslate nohighlight">\((x, y)\)</span>-axis coordinates of the upper-left corner and the lower-right corner of the predicted bounding box, respectively (range is between 0 and 1).</p>
+<p><strong>After removing class with -1:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'dog='</span><span class="p">,</span> <span class="s1">'cat='</span><span class="p">)[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">show_bboxes</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span> <span class="o">*</span> <span class="n">bbox_scale</span><span class="p">],</span> <span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/20707656ecbbdadfbaa5eea366a199983494e02875fd9c236b3867fc3e3c4820.png" src="../../_images/20707656ecbbdadfbaa5eea366a199983494e02875fd9c236b3867fc3e3c4820.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="from-cnn-to-yolo-you-only-look-it-once">
+<h2>3. From CNN to Yolo (You Only Look it Once)<a class="headerlink" href="#from-cnn-to-yolo-you-only-look-it-once" title="Link to this heading">¶</a></h2>
+<div style="background-color:#f0f4ff; border-left:5px solid #4a6fa5; padding:16px 20px; border-radius:6px; margin:16px 0; max-width:90%;">
+<strong>🔗 Connection to Episodes 2 and 3</strong>
+<p>The CNN classifier used in each crop here is exactly the architecture studied in <a href="../2-CNN-LeNet-AlexNet-lesson/">Episode 2 (CNN Fundamentals — LeNet, AlexNet)</a> and <a href="../3-TL-VGG-ResNet-ViT-lesson/">Episode 3 (Transfer Learning — VGG, ResNet, ViT)</a>. The backbone–head separation introduced in Episode 3 directly maps onto the feature extractor–detection head separation that Faster R-CNN and YOLO formalise: the backbone extracts features once from the full image, and the detection head replaces the classification head to predict boxes and classes instead of a single image-level label.</p>
+</div><section id="cnn">
+<h3>3.1 CNN<a class="headerlink" href="#cnn" title="Link to this heading">¶</a></h3>
+<p>Going back to the classfication + localization problem, the most straightforward idea: slide a fixed-size window across the image at
+multiple scales and positions, run a CNN classifier on each crop, and keep the windows where the classifier fires with high confidence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">each</span> <span class="n">scale</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">each</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="n">position</span><span class="p">:</span>
+        <span class="n">crop</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">]</span>
+        <span class="n">label</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">CNN</span><span class="p">(</span><span class="n">crop</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Problem:</strong> the number of crops is enormous. For a 600×800 image with windows at 3 scales and a stride of 8 pixels, you get tens of thousands of crops - each requiring a full CNN forward pass.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Speed</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sliding window + CNN</p></td>
+<td><p>~minutes/image</p></td>
+<td><p>Too slow for any practical use</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="region-based-cnn-r-cnn">
+<h3>3.2 Region-based CNN (R-CNN)<a class="headerlink" href="#region-based-cnn-r-cnn" title="Link to this heading">¶</a></h3>
+<p><strong>Key insight:</strong> instead of exhaustively scanning all windows, first propose a small set of <em>candidate regions</em> that are likely to contain objects, then
+classify only those.</p>
+<p><strong>How it works</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Region proposals</strong> : use <em>Selective Search</em>, a classical CV algorithm that groups pixels by colour and texture similarity, to generate ~2,000 candidate
+bounding boxes per image.</p></li>
+<li><p><strong>Warp</strong> each proposal to a fixed size (e.g. 227×227).</p></li>
+<li><p><strong>Extract features</strong> : run a CNN on each warped crop to get a feature vector.</p></li>
+<li><p><strong>Classify</strong> : feed each feature vector into a class-specific SVM (support vector machine).</p></li>
+<li><p><strong>Refine</strong> : run a bounding box regression to tighten the box.</p></li>
+</ol>
+<p><strong>Remaining problem</strong></p>
+<ul class="simple">
+<li><p>Each of the ~2,000 proposals is processed <strong>independently</strong>. The CNN runs 2,000 separate forward passes per image! In this regard, the R-CNN is still far too slow for real-time use.</p></li>
+</ul>
+<p>Later <a class="reference external" href="https://arxiv.org/abs/1506.06981">R-CNN minus R</a> replaces Selective Search with static bounding box proposals, which is much faster than R-CNN. However, it still falls short of real-time and suffer from not having good proposals which would lead to significant accuracy decrease.</p>
+</section>
+<section id="fast-r-cnn">
+<h3>3.3 Fast R-CNN<a class="headerlink" href="#fast-r-cnn" title="Link to this heading">¶</a></h3>
+<p><strong>Key insight:</strong> run the CNN <em>once</em> on the whole image to produce a shared feature map, then extract features for each region proposal from that map,
+instead of running the CNN 2000 times.</p>
+<p>*<em>How it works</em>?</p>
+<ol class="arabic simple">
+<li><p>Run a CNN on the full image → shared <strong>feature map</strong> (computed once).</p></li>
+<li><p>Project each region proposal onto the feature map.</p></li>
+<li><p>Use <strong>RoI (Region of Interest) Pooling</strong> to extract a fixed-size feature vector for each proposal from the shared feature map.</p></li>
+<li><p>Feed each feature vector into a classification head and a box regression head.</p></li>
+</ol>
+<p>The CNN runs only <strong>once</strong> regardless of the number of proposals, which is a massive speedup. However, now the proposal step becomes the new bottleneck.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input image
+    │
+    ├─ CNN (once) ──────────────────► shared feature map
+    │                                        │
+    └─ Selective Search → proposals → RoI Pooling → classification + box regression
+                          (CPU, slow!)
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://arxiv.org/abs/1504.08083">reference</a> here.</p>
+</section>
+<section id="faster-r-cnn">
+<h3>3.4 Faster R-CNN<a class="headerlink" href="#faster-r-cnn" title="Link to this heading">¶</a></h3>
+<p><strong>Key insight:</strong> It replace Selective Search with a small neural network, <strong>Region Proposal Network (RPN)</strong>, which shares the same feature map as
+the detection head.</p>
+<p><strong>How it work</strong></p>
+<ol class="arabic simple">
+<li><p>Run a backbone CNN on the full image → shared feature map.</p></li>
+<li><p><strong>RPN</strong> slides over the feature map and, at each position, proposes anchor boxes and scores them as object / not-object. This is fast because it shares the feature map.</p></li>
+<li><p>The top-scoring proposals are passed to the detection head via RoI Pooling (same as Fast R-CNN).</p></li>
+</ol>
+<p>However, it is still a <strong>two-stage</strong> pipeline: first propose, then classify. Each stage adds latency. For real-time applications (video, robotics) this is still too slow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input image
+    │
+    └─ Backbone CNN ──► shared feature map
+                              │           │
+                             RPN    RoI Pooling
+                         (proposals)      │
+                              └──────────►└─► classification + box regression
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://arxiv.org/abs/1506.01497">reference</a> here.</p>
+</section>
+</section>
+<section id="yolo-you-only-look-it-once">
+<h2>4 YOLO - You Only Look it Once<a class="headerlink" href="#yolo-you-only-look-it-once" title="Link to this heading">¶</a></h2>
+<section id="introduction-to-yolo">
+<h3>4.1 Introduction to YOLO<a class="headerlink" href="#introduction-to-yolo" title="Link to this heading">¶</a></h3>
+<p>Yolo is a fundamental shift in object detection. It reframed object detection as a single regression problem. Instead of a two-stage pipeline (propose → classify), predict bounding boxes and class probabilities <strong>directly from the full image in one forward pass</strong>.</p>
+<p>As demontrated in the work of <a class="reference external" href="https://arxiv.org/pdf/1506.02640">Redmon et al.</a> in the figure below,</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/b26d51d8a3a1ec44ffa9a644173fd80ad5b70f509c474f3989c2ef5b419ea5ee.png"><img alt="../../_images/b26d51d8a3a1ec44ffa9a644173fd80ad5b70f509c474f3989c2ef5b419ea5ee.png" src="../../_images/b26d51d8a3a1ec44ffa9a644173fd80ad5b70f509c474f3989c2ef5b419ea5ee.png" style="width: 500px;" />
+</a>
+</div>
+</div>
+<p>It demonstrates Yolo models detection as a regression problem. The image was devided into an <span class="math notranslate nohighlight">\(S \times S\)</span> grid and for each grid cell, <span class="math notranslate nohighlight">\(B\)</span> bounding boxes, confidence for those boxes, and <span class="math notranslate nohighlight">\(C\)</span> class probabilities are predicted. These predictions are encoded as an <span class="math notranslate nohighlight">\(S \times S \times(B * 5+C)\)</span> tensor.</p>
+<blockquote>
+<div><p>In this <span class="math notranslate nohighlight">\(S \times S \times(B * 5 + C)\)</span>, what are the 5 predictions?</p>
+</div></blockquote>
+</section>
+<section id="architecture-and-design-of-yolov1">
+<h3>4.2 Architecture and design of YOLOv1<a class="headerlink" href="#architecture-and-design-of-yolov1" title="Link to this heading">¶</a></h3>
+<section id="network-design">
+<h4>4.2.1 Network design<a class="headerlink" href="#network-design" title="Link to this heading">¶</a></h4>
+<p>YOLOv1 network has 24 convolutionl layers followed by 2 fully connected layers. The alternaing <span class="math notranslate nohighlight">\(1 \times 1\)</span> convolutional layers reduce the features space from preceding layers.</p>
+<p>The model was evaluated on the PASCAL VOC detection dataset with <span class="math notranslate nohighlight">\(S=7, B=2\)</span>, and <span class="math notranslate nohighlight">\(C=20\)</span>, therefore the final prediction is a <span class="math notranslate nohighlight">\(7\times7\times30\)</span> tensor.</p>
+<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*wecnsAKel05Z-Zt2DyzSSg.png" width="700"/><p>As shown in the figure above, the model takes an input image of size <span class="math notranslate nohighlight">\(448\times448\times3\)</span>, and by the end of the feature extraction stage, the network produces a tensor of size <span class="math notranslate nohighlight">\(7\times7\times1024\)</span>. The <span class="math notranslate nohighlight">\(7\times7\)</span> spatial locations encodes rich feature information about a specific region of the image.</p>
+<p>On top of the feature extractor sits the detection head that maps the <span class="math notranslate nohighlight">\(7\times7\times1024\)</span> tensor to a final output of size <span class="math notranslate nohighlight">\(7\times7\times30\)</span>. For the 30 output channels, the first 10 values correspond to the two predicted bounding boxesm and the remaining 20 values represent the class logits for the object categories.</p>
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*HTGCK7Ryjnh8EVFJO_1Umg.png" width="400"/></section>
+<section id="training-the-loss-function">
+<h4>4.2.2 Training: the loss function<a class="headerlink" href="#training-the-loss-function" title="Link to this heading">¶</a></h4>
+<p><span class="math notranslate nohighlight">\(\begin{aligned} \lambda_{\text {coord }} \sum_{i=0}^{S^2} \sum_{j=0}^B \mathbb{1}_{i j}^{\text {obj }} &amp; {\left[\left(x_i-\hat{x}_i\right)^2+\left(y_i-\hat{y}_i\right)^2\right] } \\ +\lambda_{\text {coord }} \sum_{i=0}^{S^2} \sum_{j=0}^B \mathbb{1}_{i j}^{\text {obj }} &amp; {\left[\left(\sqrt{w_i}-\sqrt{\hat{w}_i}\right)^2+\left(\sqrt{h_i}-\sqrt{\hat{h}_i}\right)^2\right] } \\ &amp; +\sum_{i=0}^{S^2} \sum_{j=0}^B \mathbb{1}_{i j}^{\text {obj }}\left(C_i-\hat{C}_i\right)^2 \\ &amp; +\lambda_{\text {noobj }} \sum_{i=0}^{S^2} \sum_{j=0}^B \mathbb{1}_{i j}^{\text {noobj }}\left(C_i-\hat{C}_i\right)^2 \\ &amp; \quad+\sum_{i=0}^{S^2} \mathbb{1}_i^{\text {obj }} \sum_{c \in \text { classes }}\left(p_i(c)-\hat{p}_i(c)\right)^2\end{aligned}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\mathbb{1}_i^{\text {obj }}\)</span> denotes if object appears in cell <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(\mathbb{1}_{i j}^{\text {obj }}\)</span> denotes that the <span class="math notranslate nohighlight">\(j\)</span> th bounding box predictor in cell <span class="math notranslate nohighlight">\(i\)</span> is “responsible” for that prediction.</p>
+<ul class="simple">
+<li><p>The first term focuses on localizing the center of the bounding boxes, and is only activated for the bounding box that is responsible for predicting a specific object, as denoted by <span class="math notranslate nohighlight">\(\mathbb{1}_i^{\text {obj }}\)</span>.</p></li>
+<li><p>The second term handles the width and height of the bounding boxes, with squared roots compared, in order to reflect that small deviations in large boxes matter less than in small
+boxes</p></li>
+<li><p>The third term measures how well the model predicts the confidence score for boxes that contain objects.</p></li>
+<li><p>The fourth term deals with much larger number of bounding boxes that do not contain any object. Actually in every image many grid cells fall into this category, which pushes the “confidence” scores of those cells towards zero, often overpowering the gradient from cells
+that do contain objects. This can cause training to diverge early on. To remedy this problem, the two parameters <span class="math notranslate nohighlight">\(\lambda_{\text {coord }}\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\text {noobj }}\)</span> are applied. By setting <span class="math notranslate nohighlight">\(\lambda_{\text {coord }}=5\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\text {noobj }}=0.5\)</span>, the loss from bounding box coordinate predictions is increased while the loss from confidence predictions for boxes that do no contain objects is decreased.</p></li>
+<li><p>The fifth term is responsible for classification. This classfication loss is only applied to cells that contain objects, ensuring that the background cells do not influence class predictions.</p></li>
+</ul>
+</section>
+<section id="inference-non-maximal-suppression">
+<h4>4.2.3 Inference: Non-maximal suppression<a class="headerlink" href="#inference-non-maximal-suppression" title="Link to this heading">¶</a></h4>
+<p>At this stage, the model produces a large number of overlapping bounding boxes, many referring to the same object. To obtain a clean final result, NMS is applied (introduced in Sec. 2.2.5): it first removes boxes with low confidence scores, then iteratively selects the highest-confidence box and suppresses all others that overlap significantly with it. Redundant detections are eliminated, leaving only the most confident, non-overlapping predictions.</p>
+<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*iPIlR0fWGq5KYkTBtsSaoA.png" width="600"/></section>
+<section id="yolov1-limitations-and-developments-beyond">
+<h4>4.2.4 YOLOv1: limitations and developments beyond<a class="headerlink" href="#yolov1-limitations-and-developments-beyond" title="Link to this heading">¶</a></h4>
+<p>There is no proposal stage, no RoI pooling, no second-stage classifier. The entire computation is a single CNN forward pass, which is directly optimizable end-to-end and way more faster.</p>
+<p>YOLOv1 was significantly faster than Faster R-CNN but less accurate, particularly on small objects and densely packed scenes. Subsequent versions
+(v2–v8) closed this gap by adopting anchor boxes (v2), multiscale detection (v3), better backbones, and eventually anchor-free designs (v8).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input image
+    │
+    └─ CNN (single forward pass)
+              │
+              └─► S×S grid → B boxes + confidence + C class probs per cell
+                                          │
+                                        NMS
+                                          │
+                                    Final detections
+</pre></div>
+</div>
+<p>Feel free to check <a class="reference external" href="https://www.mdpi.com/2504-4990/5/4/83">this review</a> for a comprehensive understanding of evolution of Yolo architectures.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/9d423aa25a783cf8e9495375ca934bbf2eed7766066fe1d2f488bdd9e0058a2c.png"><img alt="../../_images/9d423aa25a783cf8e9495375ca934bbf2eed7766066fe1d2f488bdd9e0058a2c.png" src="../../_images/9d423aa25a783cf8e9495375ca934bbf2eed7766066fe1d2f488bdd9e0058a2c.png" style="width: 1100px;" />
+</a>
+</div>
+</div>
+<p><a class="reference external" href="https://www.nature.com/articles/s41598-025-26645-2">Ref for this figure</a></p>
+<p>While the figure above stops at YOLOv12, a few more steps sit between there and the models we use today. <strong>YOLOv10</strong> (2024) was the first to pioneer NMS-free detection. <strong>YOLO11</strong> (Oct. 2024, official Ultralytics release) is what we will use in the hands-on session. It builds on v8’s anchor-free design with a more efficient backbone and an added attention module, achieving higher accuracy with fewer parameters than v8. The community-driven <strong>YOLOv12/v13</strong> explored attention-centric architectures in parallel but are outside the mainstream Ultralytics line.</p>
+<p><strong>YOLO26</strong> (2025) is the current frontier. It builds further on YOLO11, adding NMS-free end-to-end inference and removing Distribution Focal Loss (DFL) for edge-device efficiency. We cover it briefly in section 4.4 as a pointer to where the field is heading.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                     v1          v8         v10        v11         v26
+                     │           │           │          │           │
+  proposal-free   ✓ (grid)  ✓ (grid)   ✓ (grid)  ✓ (grid)   ✓ (grid)
+  anchor-free        ✗          ✓           ✓          ✓           ✓
+  attention          ✗          ✗           ✗          ✓ (C2PSA)   ✓
+  NMS required        ✓          ✓         ✗ (first)   ✓         ✗ (refined)
+</pre></div>
+</div>
+<p>The following figure illustrates how Ultralytics YOLO has steadily expanded its capabilities beyond detection to become a versatile multi-task vision framework.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/ba1f066eba316577a72d1a0ef8b42703855b401f6b7bbe0fb12ef3098b6cbb37.png"><img alt="../../_images/ba1f066eba316577a72d1a0ef8b42703855b401f6b7bbe0fb12ef3098b6cbb37.png" src="../../_images/ba1f066eba316577a72d1a0ef8b42703855b401f6b7bbe0fb12ef3098b6cbb37.png" style="width: 600px;" />
+</a>
+</div>
+</div>
+<p><a class="reference external" href="https://arxiv.org/abs/2510.09653v2">Ref for this figure</a>
+Timeline of Ultralytics YOLO models. Solid boxes = supported natively, dashed models = not supported. * indicates feature added later via community extensions.</p>
+<blockquote>
+<div><p>The rest of this section covers YOLO11’s architecture in detail (4.3 for detection, 4.4 for segmentation), then briefly introduces what YOLO26 adds on top (4.5).</p>
+</div></blockquote>
+</section>
+</section>
+<section id="yolo11-architecture-for-detection">
+<h3>4.3 YOLO11 architecture for detection<a class="headerlink" href="#yolo11-architecture-for-detection" title="Link to this heading">¶</a></h3>
+<p>YOLO11 follows the standard three-stage YOLO structure: <strong>backbone → neck → head</strong>. Each stage has a specific role and YOLO11 introduces targeted improvements at each one.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input image
+    │
+    └─ Backbone (feature extraction)
+              │
+              └─ Neck (multi-scale feature fusion)
+                        │
+                        └─ Head (prediction: boxes + classes)
+</pre></div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/5d52f0e35ab15a0314b43f16f8bdd9196569c5b974ffabe246ec5ad6dcf3feba.png"><img alt="../../_images/5d52f0e35ab15a0314b43f16f8bdd9196569c5b974ffabe246ec5ad6dcf3feba.png" src="../../_images/5d52f0e35ab15a0314b43f16f8bdd9196569c5b974ffabe246ec5ad6dcf3feba.png" style="width: 900px;" />
+</a>
+</div>
+</div>
+<section id="backbone-c3k2-blocks-sppf-c2psa">
+<h4>4.3.1 Backbone: C3k2 blocks + SPPF + C2PSA<a class="headerlink" href="#backbone-c3k2-blocks-sppf-c2psa" title="Link to this heading">¶</a></h4>
+<p>The backbone extracts hierarchical features from the input image at progressively coarser spatial resolutions. YOLO11 introduces three key building blocks here:</p>
+<p><strong>C3k2 (Cross Stage Partial with bottleneck kernel size 2)</strong>
+Replaces the C2f blocks used in YOLOv8. The CSP design splits the feature map into two paths — one goes through convolutional bottleneck blocks, one bypasses them — then merges both, improving gradient flow and feature reuse. The “k2” refers to the bottleneck convolutions inside the heavy path using smaller <strong>2×2 kernels</strong> (rather than the standard 3×3), while the outer convolutions remain 3×3. This reduces parameters and computation within the bottleneck while preserving the effective receptive field of the overall block, giving C3k2 its efficiency advantage over YOLOv8’s C2f blocks.</p>
+<p><strong>SPPF (Spatial Pyramid Pooling — Fast)</strong>
+Applies max pooling at multiple scales in sequence (rather than in parallel, as in earlier SPP designs) to capture context from different receptive field sizes efficiently. This gives the network a sense of global context without losing local detail, <em>which can be particularly useful for detecting defects at varying scales.</em></p>
+<p><strong>C2PSA (Convolutional block with Parallel Spatial Attention)</strong>
+Adds a lightweight spatial attention mechanism after SPPF, allowing the network to focus on the most relevant regions of the feature map while suppressing background noise and highlighting candidate object regions. This is what makes YOLO11 notably better than v8 at small-object detection.</p>
+</section>
+<section id="neck-pan-fpn-with-c3k2">
+<h4>4.3.2 Neck: PAN/FPN with C3k2<a class="headerlink" href="#neck-pan-fpn-with-c3k2" title="Link to this heading">¶</a></h4>
+<p>The neck fuses feature maps from different backbone stages, combining coarse semantic information (deep layers) with fine spatial detail (shallow layers). YOLO11 uses a <strong>PAN/FPN-style (Path Aggregation Network / Feature Pyramid Network)</strong> neck: features flow top-down (semantic context from deep layers to shallow) and bottom-up (spatial detail from shallow layers to deep), so every scale in the pyramid benefits from both, thus enabling accurate detection of defects at all sizes.</p>
+<p>C3k2 blocks are reused in the neck as well, keeping computational cost low while maintaining discriminative power at each scale.</p>
+<p><em>(This neck is shared infrastructure for both detection and segmentation. The segmentation head in 4.3 reads from the same fused multi-scale features.)</em></p>
+</section>
+</section>
+<section id="detection-head-anchor-free-multi-scale">
+<h3>4.3.3 Detection head: anchor-free, multi-scale<a class="headerlink" href="#detection-head-anchor-free-multi-scale" title="Link to this heading">¶</a></h3>
+<p>The neck produces feature maps at three different scales, each suited to detecting objects of a different size range:</p>
+<ul class="simple">
+<li><p>Large <span class="math notranslate nohighlight">\(80 \times 80\)</span> Small objects (fine spatial detail)</p></li>
+<li><p>Medium <span class="math notranslate nohighlight">\(40 \times 40\)</span> Medium objects</p></li>
+<li><p>Small <span class="math notranslate nohighlight">\(20 \times 20\)</span> Large objects (rich semantic context)</p></li>
+</ul>
+<p>This multi-scale design directly addresses a core challenge in industrial inspection: defects can vary enormously in size: a thin scratch occupies only a few pixels, while a large rolled-in scale defect can span a significant portion of the image. A single-scale detector would need to compromise between spatial resolution and semantic richness, performing poorly at one end of the size spectrum. By maintaining three separate detection layers, each operating at its own resolution, YOLO11 can detect small defects with fine spatial precision <em>and</em> large defects with strong semantic context simultaneously.</p>
+<p>Each detection layer predicts, for every spatial location:</p>
+<ul class="simple">
+<li><p><strong>Box coordinates</strong> (center x, y, width, height): directly regressed, anchor-free</p></li>
+<li><p><strong>Class probabilities</strong>: one score per class</p></li>
+<li><p><strong>Confidence score</strong>: how likely an object is present at this location</p></li>
+</ul>
+<p>Since the model is anchor-free, there are no predefined anchor shapes to match against, i.e., box dimensions are predicted directly, making the model easier to adapt to new datasets (no anchor shape tuning required per domain).</p>
+<p>Candidate predictions from all three scales are then filtered by <strong>NMS</strong> at inference time to remove duplicate detections of the same object.</p>
+</section>
+<section id="yolo11-architecture-for-segmentation">
+<h3>4.4 YOLO11 architecture for segmentation<a class="headerlink" href="#yolo11-architecture-for-segmentation" title="Link to this heading">¶</a></h3>
+<section id="same-backbone-and-neck-added-segmentation-head">
+<h4>4.4.1 Same backbone and neck, added segmentation head<a class="headerlink" href="#same-backbone-and-neck-added-segmentation-head" title="Link to this heading">¶</a></h4>
+<p>YOLO11’s segmentation variant (<strong>YOLO11-seg</strong>) shares the <strong>exact same backbone and neck</strong> as the detection model described in 4.3. No additional feature extraction is needed. Segmentation is detection plus one additional output branch, trained jointly.</p>
+<p>The detection head already identifies <strong>where</strong> each object is (bounding box + class). The segmentation head adds <strong>what shape it is</strong> using the same shared features, which is a pixel-level mask.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/a8fe869d0fe7cba5168ab3f3522337113d179b22e4ec3bf4eb606a4078d4e8e3.png"><img alt="../../_images/a8fe869d0fe7cba5168ab3f3522337113d179b22e4ec3bf4eb606a4078d4e8e3.png" src="../../_images/a8fe869d0fe7cba5168ab3f3522337113d179b22e4ec3bf4eb606a4078d4e8e3.png" style="width: 650px;" />
+</a>
+</div>
+</div>
+</section>
+<section id="prototype-masks-and-mask-coefficients">
+<h4>4.4.2 Prototype masks and mask coefficients<a class="headerlink" href="#prototype-masks-and-mask-coefficients" title="Link to this heading">¶</a></h4>
+<p>Rather than predicting a full-resolution mask per object directly (expensive and slow), YOLO11-seg uses a two-part approach inherited from YOLACT (You Only Look At Coefficients, Bolya et al., ICCV 2019, see the figure above):</p>
+<ol class="arabic">
+<li><p><strong>Prototype masks</strong></p>
+<p>A small auxiliary branch runs in parallel with the detection head, taking the neck’s feature maps as input and producing a fixed set of <strong><span class="math notranslate nohighlight">\(k\)</span> prototype masks</strong> (typically <span class="math notranslate nohighlight">\(k=32\)</span>), each a low-resolution spatial map of the same height and width as the feature map, but with no object-specific meaning on its own.</p>
+<p>Think of the prototypes as a learned <strong>basis</strong> for all possible object shapes in the dataset, which is roughly analogous to how a small set of basis vectors can linearly combine to approximate many different vectors. Each prototype captures a different spatial pattern: one might activate strongly at object edges, another at object centres, another at elongated horizontal regions. These <span class="math notranslate nohighlight">\(k\)</span> prototypes are shared across every object detected in the image.</p>
+</li>
+<li><p><strong>Mask coefficients</strong></p>
+<p>For each detected object, the detection head predicts a vector of <strong><span class="math notranslate nohighlight">\(k\)</span> mask coefficients</strong> <span class="math notranslate nohighlight">\(\mathbf{c} \in \mathbb{R}^k\)</span>, one coefficient per prototype, alongside the usual box coordinates and class scores. These coefficients can be positive or negative, allowing flexible linear combinations.</p>
+<p>The final instance mask for that object is then computed as:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[M=\sigma\left(P C^T\right),\]</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(P\)</span> is an <span class="math notranslate nohighlight">\(h \times w \times k\)</span> matrix of prototype masks and <span class="math notranslate nohighlight">\(C\)</span> is a <span class="math notranslate nohighlight">\(n \times k\)</span> matrix of mask coefficients for <span class="math notranslate nohighlight">\(n\)</span> instances surviving NMS and score thresholding. <span class="math notranslate nohighlight">\(\sigma\)</span> is the sigmoid function that squashes the output to <span class="math notranslate nohighlight">\([0, 1]\)</span> (producing a soft mask, thresholded to binary at inference time).</p>
+</li>
+</ol>
+<p><strong>Why this is efficient</strong></p>
+<p>The key insight is that the <span class="math notranslate nohighlight">\(k\)</span> prototype masks are computed <strong>once</strong> for the entire image, regardless of how many objects are detected. Each object’s mask is then just a cheap linear combination applied to those shared prototypes. This avoids the computational cost of running a separate mask prediction branch for every detected object independently, which is what makes this approach fast enough for real-time use.</p>
+<p><strong>What the network actually learns</strong></p>
+<p>During training, the prototype branch learns to produce spatial patterns that, when linearly combined with the right coefficients, can reconstruct the ground-truth masks of all objects in the image. The detection head simultaneously learns to predict the right coefficients for each detected object. Both are trained jointly end-to-end via a mask loss (binary cross-entropy between the predicted soft mask and the ground-truth binary mask, cropped to the object’s bounding box).</p>
+</section>
+</section>
+<section id="from-yolo11-to-yolo26-brief">
+<h3>4.5 From YOLO11 to YOLO26 (brief)<a class="headerlink" href="#from-yolo11-to-yolo26-brief" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><em>This section is a pointer to where the field is heading — not required for the hands-on session.</em></p>
+</div></blockquote>
+<p>YOLO26 (arXiv 2606.03748, Jocher et al., 2025) builds directly on YOLO11, adding three key changes:</p>
+<ul class="simple">
+<li><p><strong>NMS-free end-to-end inference</strong> (pioneered in v10, now refined): the model produces clean, non-redundant predictions natively, removing the NMS post-processing step entirely</p></li>
+<li><p><strong>DFL removed</strong>: Distribution Focal Loss is replaced by a simpler regression target, improving compatibility with edge hardware and reducing inference latency</p></li>
+<li><p><strong>Training-time improvements</strong> (ProgLoss, STAL, MuSGD): each targets a specific training stability or small-object issue; implementation details, not architectural shifts</p></li>
+</ul>
+<p>The backbone-neck-head structure, anchor-free design, shared segmentation head, and multi-task capability are all inherited directly from YOLO11 — YOLO26 refines the outputs and training, not the core architecture.</p>
+<p>For further reading, see the official paper: <a class="reference external" href="https://arxiv.org/abs/2606.03748">arXiv 2606.03748</a>.</p>
+</section>
+</section>
+<section id="unet-and-transformer-based-segmentation">
+<h2>5. UNet and Transformer-Based Segmentation<a class="headerlink" href="#unet-and-transformer-based-segmentation" title="Link to this heading">¶</a></h2>
+<p>YOLO11-seg (section 4) is designed for <strong>instance segmentation</strong>: detecting and masking individual object instances in real time. This chapter introduces a complementary family of architectures built for <strong>semantic segmentation</strong>, where the goal is to assign a class label to every pixel in the image rather than to individual instances.</p>
+<p>We begin with <strong>classic U-Net</strong>, the foundational encoder-decoder architecture that defined modern segmentation, then examine <strong>why transformers were brought in</strong>, and finally look at <strong>SegFormer</strong> as a representative and widely adopted transformer-based segmentation model. The chapter closes with a structured comparison between these approaches and YOLO11-seg.</p>
+<section id="semantic-segmentation-vs-instance-segmentation">
+<h3>5.1 Semantic segmentation vs instance segmentation<a class="headerlink" href="#semantic-segmentation-vs-instance-segmentation" title="Link to this heading">¶</a></h3>
+<p>Before introducing U-Net, it is worth being precise about what semantic segmentation does and does not do, relative to the instance segmentation covered in section 4.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Semantic segmentation</p></th>
+<th class="head"><p>Instance segmentation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Output</p></td>
+<td><p>Per-pixel class label</p></td>
+<td><p>Per-object mask</p></td>
+</tr>
+<tr class="row-odd"><td><p>Distinguishes instances?</p></td>
+<td><p>✗</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p>Can count objects?</p></td>
+<td><p>✗</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p>Typical architecture</p></td>
+<td><p>U-Net, SegFormer</p></td>
+<td><p>YOLO11-seg, Mask R-CNN</p></td>
+</tr>
+<tr class="row-even"><td><p>Speed</p></td>
+<td><p>Slower</p></td>
+<td><p>Faster (YOLO)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strength</p></td>
+<td><p>Fine boundary detail</p></td>
+<td><p>Multiple overlapping objects</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input image          Semantic segmentation       Instance segmentation
+                     (U-Net)                     (YOLO11-seg)
+┌──────────┐         ┌──────────┐                ┌──────────┐
+│          │         │  bg  bg  │                │  bg  bg  │
+│ ░░   ▓▓  │  ──►    │  def def │                │  #1  #2  │
+│ ░░   ▓▓  │         │  def def │                │  #1  #2  │
+└──────────┘         └──────────┘                └──────────┘
+two defects          merged into one class       distinguished as
+                    'defect'                     separate instances
+</pre></div>
+</div>
+<p>The choice depends on the inspection task: if one only needs to locate and classify defect regions, semantic segmentation suffices. If one needs to count or measure individual defect instances separately, instance segmentation is required.</p>
+</section>
+<section id="classic-u-net">
+<h3>5.2 Classic U-Net<a class="headerlink" href="#classic-u-net" title="Link to this heading">¶</a></h3>
+<p>U-Net was introduced by Ronneberger et al. (2015) for biomedical image segmentation and quickly became the dominant architecture for dense pixel-level prediction tasks in industrial and medical imaging alike.</p>
+<p><strong>Reference</strong>: Ronneberger, O., Fischer, P., &amp; Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation. <em>MICCAI</em>. arXiv: <a class="reference external" href="https://arxiv.org/abs/1505.04597">1505.04597</a></p>
+<section id="encoder-decoder-with-skip-connections">
+<h4>5.2.1 Encoder-decoder with skip connections<a class="headerlink" href="#encoder-decoder-with-skip-connections" title="Link to this heading">¶</a></h4>
+<p>UNet follows a symmetric <strong>encoder-decoder</strong> structure, with the key innovation of <strong>skip connections</strong> between corresponding encoder and decoder stages:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/26b7122ec576ec6a1d87dfa3989dbf5b3ebac2539c0b83e34e47aebffb9b9d86.png"><img alt="../../_images/26b7122ec576ec6a1d87dfa3989dbf5b3ebac2539c0b83e34e47aebffb9b9d86.png" src="../../_images/26b7122ec576ec6a1d87dfa3989dbf5b3ebac2539c0b83e34e47aebffb9b9d86.png" style="width: 1000px;" />
+</a>
+</div>
+</div>
+<p>The core idea of U-Net is to supplement a usual contracting network by successive layers, where pooling operators are replaced by upsampling operators.</p>
+<p><strong>How U-Net differs from traditional CNNs</strong></p>
+<p><strong>1. No fully connected layers — the output is a spatial map, not a single label</strong></p>
+<p>Earlier CNN architectures (VGG, AlexNet) ended with fully connected layers that flatten all spatial information into a single vector, producing one label for the whole image. U-Net replaces these with a 1×1 convolution at the final layer, which classifies each spatial position independently and preserves the 2D structure of the image all the way to the output. The result is a full segmentation map (one class label per pixel) rather than a single image-level prediction.</p>
+<p><strong>2. Valid convolution — predictions are only made where information is complete</strong></p>
+<p>A 3×3 convolution requires a 3×3 neighbourhood around each pixel to compute its output. For pixels at the image border, part of that neighbourhood lies outside the image. U-Net avoids this problem by using <em>valid</em> convolution, i.e., computing outputs only where the full 3×3 neighbourhood is available, and discarding border positions where it is not.</p>
+<p>The consequence is that the output segmentation map is slightly smaller than the input image. Each valid convolution trims 1 pixel from each border, and this shrinkage accumulates across all layers:</p>
+<p>​<code class="docutils literal notranslate"> <span class="pre">Input:</span>&#160; <span class="pre">572×572</span> <span class="pre">--&gt;</span> <span class="pre">repeated</span> <span class="pre">valid</span> <span class="pre">convolutions</span> <span class="pre">(no</span> <span class="pre">padding)</span> <span class="pre">--&gt;</span> <span class="pre">Output:</span> <span class="pre">388×388</span> <span class="pre">(predictions</span> <span class="pre">only</span> <span class="pre">for</span> <span class="pre">pixels</span> <span class="pre">with</span> <span class="pre">complete</span> <span class="pre">context)</span>&#160; <span class="pre">​</span></code></p>
+<p>Only the 388×388 central region of the input has a corresponding prediction. The outer border pixels, whose neighbourhood would extend outside the image, are simply excluded. No zero-padding is used anywhere, so no artificial values are ever introduced into the computation.</p>
+<blockquote>
+<div><p><em>Note: most practical U-Net implementations today use <strong>same padding</strong> instead, producing an output the same size
+as the input. Valid convolution was a deliberate design choice of the original 2015 paper for maximum boundary
+precision, but it is not a fundamental requirement of the UNet architecture.</em></p>
+</div></blockquote>
+</section>
+<section id="why-skip-connections-matter">
+<h4>5.2.2 Why skip connections matter<a class="headerlink" href="#why-skip-connections-matter" title="Link to this heading">¶</a></h4>
+<p>Without skip connections, spatial detail is progressively lost as the encoder downsamples. The decoder receives only a coarse, semantically rich representation and must reconstruct fine boundaries from limited information. Skip connections short-circuit this loss by providing the decoder with access to high-resolution features at every scale:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Without skip connections:          With skip connections (UNet):
+
+Encoder ──► Bottleneck             Encoder ──► Bottleneck
+                 │                    │              │
+              Decoder              (skip)         Decoder
+                 │                    └──────────────┤
+            coarse mask                        fine mask
+        (blurry boundaries)              (sharp boundaries)
+</pre></div>
+</div>
+<p>This is particularly important for industrial defect segmentation, where the precise boundary delineation that distinguishes exactly which pixels belong to a scratch versus background steel, is critical for downstream measurement and classification.</p>
+<div style="background-color:#f0f4ff; border-left:5px solid #4a6fa5; padding:16px 20px; border-radius:6px; margin:16px 0; max-width:90%;">
+<strong>📋 Note: skip connections — same idea, different motivation</strong>
+<p>These skip connections serve a different purpose from ResNet's residual connections (covered in <a href="../3-TL-VGG-ResNet-ViT-lesson/">Episode 3, Sec. 5.2</a>). ResNet's shortcuts address the <em>vanishing gradient problem</em> in very deep networks. They give the training signal a direct path backward so early layers keep learning. U-Net's shortcuts address <em>spatial detail loss caused by pooling</em>. They carry high-resolution encoder features directly to the decoder so fine boundaries can be reconstructed. Same structural idea, different motivation.</p>
+</div></section>
+</section>
+<section id="why-transformers-for-segmentation">
+<h3>5.3 Why transformers for segmentation?<a class="headerlink" href="#why-transformers-for-segmentation" title="Link to this heading">¶</a></h3>
+<p>Classic U-Net is built entirely on convolutional layers, which have a fundamental limitation: <strong>local receptive fields</strong>. Each convolution only looks at a small neighbourhood of pixels at a time. To capture long-range dependencies (e.g. a defect pattern that spans the image), you need many stacked layers, which is slow and may still miss global structure.</p>
+<p><strong>The limitation of pure CNNs for segmentation</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CNN convolution:                    Self-attention (Transformer):
+
+┌─────────────────────┐             ┌─────────────────────┐
+│  . . . . . . . . .  │             │  . . . . . . . . .  │
+│  . ┌───┐ . . . . .  │             │  . ←───────────── . │
+│  . │3×3│ . . . . .  │             │  . . . . . . . ↕ .  │
+│  . └───┘ . . . . .  │             │  . . . . ←───────.  │
+│  . . . . . . . . .  │             │  . . . . . . . . .  │
+└─────────────────────┘             └─────────────────────┘
+sees local neighbourhood only       every pixel attends to
+                                    every other pixel
+</pre></div>
+</div>
+<p><strong>Self-attention</strong> is the core mechanism of transformers and computes relationships between every pair of positions in the image simultaneously, giving the model inherent access to global context at every layer. This is especially valuable for segmentation tasks where:</p>
+<ul class="simple">
+<li><p>Defect appearance depends on surrounding context (e.g. a scratch looks different near an edge vs centre)</p></li>
+<li><p>Long-range spatial patterns need to be recognised (e.g. a rolling defect that spans the full image width)</p></li>
+<li><p>Fine boundaries need to be recovered with global consistency</p></li>
+</ul>
+<p>The challenge is that pure transformer models (like the original ViT applied to segmentation) produce only <strong>single-scale, low-resolution feature maps</strong> while losing spatial detail in the process. Transformer-based segmentation architectures like SegFormer solve this by combining transformer encoders with hierarchical, multi-scale designs.</p>
+</section>
+<section id="segformer">
+<h3>5.4 SegFormer<a class="headerlink" href="#segformer" title="Link to this heading">¶</a></h3>
+<p>SegFormer (Xie et al., 2021) is a simple and efficient transformer-based segmentation framework that addresses the limitations of both pure CNNs (local receptive field only) and early transformer segmentation models (single-scale features, heavy decoders).</p>
+<p><strong>Reference</strong>: Xie, E. et al. (2021). SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers. <em>NeurIPS 2021</em>. arXiv: <a class="reference external" href="https://arxiv.org/abs/2105.15203">2105.15203</a></p>
+<section id="architecture-overview">
+<h4>5.4.1 Architecture overview<a class="headerlink" href="#architecture-overview" title="Link to this heading">¶</a></h4>
+<p>SegFormer has two components: a <strong>hierarchical Mix Transformer (MiT) encoder</strong> and a <strong>lightweight all-MLP decoder</strong>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/b5eb80eb0ec4f15d8246d5df9327f6150baf747d84abad3e717c53a1c27bfdae.png"><img alt="../../_images/b5eb80eb0ec4f15d8246d5df9327f6150baf747d84abad3e717c53a1c27bfdae.png" src="../../_images/b5eb80eb0ec4f15d8246d5df9327f6150baf747d84abad3e717c53a1c27bfdae.png" style="width: 800px;" />
+</a>
+</div>
+</div>
+</section>
+<section id="mix-transformer-encoder-mit">
+<h4>5.4.2 Mix Transformer encoder (MiT)<a class="headerlink" href="#mix-transformer-encoder-mit" title="Link to this heading">¶</a></h4>
+<p>The MiT encoder is inspired by ViT but redesigned for dense prediction tasks. Key differences from standard ViT:</p>
+<p><strong>Hierarchical, multi-scale features</strong>: unlike ViT which produces a single low-resolution feature map, MiT produces feature maps at four different scales (H/4, H/8, H/16, H/32), analogous to the multi-scale features in U-Net’s encoder or YOLO11’s backbone. This is essential for segmentation across object scales.</p>
+<p><strong>Overlapping patch merging</strong>: patches overlap slightly when being merged at each stage, preserving local continuity and boundary detail that non-overlapping patch splitting would lose.</p>
+<p><strong>No positional encoding</strong>: standard transformers require positional encodings to tell the model where in the image each patch is. MiT replaces these with a <strong>Mix-FFN</strong> (a small depthwise convolution inside the feed-forward layers) that implicitly encodes positional information. This means SegFormer generalises to image resolutions different from training without accuracy loss, which is an important practical advantage.</p>
+<p><strong>Efficient self-attention</strong>: standard self-attention scales quadratically with sequence length (i.e. number of patches), which is expensive for high-resolution images. MiT uses <strong>Sequence Reduction</strong> to reduce the key and value sequences before computing attention, dramatically cutting computational cost at high-resolution stages.</p>
+</section>
+<section id="lightweight-all-mlp-decoder">
+<h4>5.4.3 Lightweight all-MLP decoder<a class="headerlink" href="#lightweight-all-mlp-decoder" title="Link to this heading">¶</a></h4>
+<p>The decoder is deliberately simple, which is also a key design choice that SegFormer’s authors argue is made possible precisely <em>because</em> the hierarchical transformer encoder already captures both local and global context. A complex decoder is not needed:</p>
+<ol class="arabic simple">
+<li><p>Each of the four encoder feature maps is passed through a <strong>linear projection</strong> to a common channel dimension <span class="math notranslate nohighlight">\(C\)</span></p></li>
+<li><p>All four maps are <strong>upsampled</strong> to the same spatial resolution (H/4 × W/4)</p></li>
+<li><p>The four maps are <strong>concatenated</strong> and fused with a linear layer</p></li>
+<li><p>A final linear layer projects to the number of classes, and the output is upsampled to full image resolution</p></li>
+</ol>
+<p>The entire decoder adds negligible computational overhead. Most of the model’s capacity is in the encoder, where it belongs.</p>
+<p>This contrasts with U-Net’s decoder, which uses transposed convolutions and skip connections to recover spatial detail — necessary because UNet’s CNN encoder loses fine detail through pooling, so the decoder has to reconstruct it. SegFormer’s encoder retains multi-scale detail throughout (via the hierarchical stages), so the decoder can afford to be minimal.</p>
+<p><strong>Visualization and interpretation regarding the effectiveness of MLP decoder on transformers</strong></p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/dca76ccc4a5baa8ed70f14b951f2f9798d9e32707ab8633b68af841d08856859.png"><img alt="../../_images/dca76ccc4a5baa8ed70f14b951f2f9798d9e32707ab8633b68af841d08856859.png" src="../../_images/dca76ccc4a5baa8ed70f14b951f2f9798d9e32707ab8633b68af841d08856859.png" style="width: 600px;" />
+</a>
+</div>
+</div>
+<ul class="simple">
+<li><p>SegFormer’s encoder naturally produces local attentions which resemble convolutions at lower
+stages, while able to output highly non-local attentions that effectively capture contexts at Stage-4.</p></li>
+<li><p>The ERF of the MLP head (blue box) is different from that of Stage-4 (red box), demonstrating a significant stronger local attention besides the non-local attention.</p></li>
+<li><p>DeepLabv3+’s CNN-based encoder remains limited to a relatively small, spatially fixed receptive field even at its deepest stage.</p></li>
+</ul>
+</section>
+</section>
+<section id="comparison-u-net-vs-segformer-vs-yolo11-seg">
+<h3>5.5 Comparison: U-Net vs SegFormer vs YOLO11-seg<a class="headerlink" href="#comparison-u-net-vs-segformer-vs-yolo11-seg" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>U-Net</p></th>
+<th class="head"><p>SegFormer</p></th>
+<th class="head"><p>YOLO11-seg</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Task</strong></p></td>
+<td><p>Semantic</p></td>
+<td><p>Semantic</p></td>
+<td><p>Instance</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Encoder</strong></p></td>
+<td><p>CNN (ResNet variants)</p></td>
+<td><p>Transformer (MiT)</p></td>
+<td><p>CNN (C3k2 + C2PSA)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Decoder</strong></p></td>
+<td><p>CNN + skip connections</p></td>
+<td><p>Lightweight MLP</p></td>
+<td><p>Prototype masks + coefficients</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Multi-scale features</strong></p></td>
+<td><p>Via skip connections</p></td>
+<td><p>Via hierarchical stages</p></td>
+<td><p>Via PAN/FPN neck</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Global context</strong></p></td>
+<td><p>Limited (local conv)</p></td>
+<td><p>Strong (self-attention)</p></td>
+<td><p>Partial (C2PSA attention)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Positional encoding</strong></p></td>
+<td><p>N/A</p></td>
+<td><p>No (Mix-FFN)</p></td>
+<td><p>N/A</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Real-time capable</strong></p></td>
+<td><p>✗</p></td>
+<td><p>✗ (approx.)</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Distinguishes instances</strong></p></td>
+<td><p>✗</p></td>
+<td><p>✗</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Typical use case</strong></p></td>
+<td><p>Medical/industrial masks</p></td>
+<td><p>Scene parsing, high-res images</p></td>
+<td><p>Real-time multi-object detection + segmentation</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Design philosophy comparison</strong></p>
+<ul class="simple">
+<li><p><strong>U-Net</strong>: recover spatial detail in the decoder via skip connections. What the encoder loses through pooling, the decoder rebuilds by referencing earlier encoder features</p></li>
+<li><p><strong>SegFormer</strong>: preserve multi-scale detail in the encoder via hierarchical transformer stages. The decoder stays lightweight because the encoder never throws away spatial detail in the first place</p></li>
+<li><p><strong>YOLO11-seg</strong>: share backbone features between detection and segmentation. Segmentation is an additional output branch, not a separate pipeline, prioritising speed and real-time capability</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="../3-TL-VGG-ResNet-ViT-lesson/">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Advanced Vision Architectures &amp; Transfer learning</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Sweden AI Factory, Benedikt Neyses, Andreas Thore, Marzieh Saeedimasine, Ruiwen Xie, Yuvarajendra Anjaneya Reddy, Smita Chakraborty, Yonglei Wang and contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Object Detection and Image Segmentation</a><ul>
+<li><a class="reference internal" href="#introduction-to-object-detection-and-image-segmentation">1. Introduction to object detection and image segmentation</a><ul>
+<li><a class="reference internal" href="#difference-between-classification-localization-and-detection">1.1 Difference between classification, localization and detection</a></li>
+<li><a class="reference internal" href="#image-segmentation">1.2 Image segmentation</a><ul>
+<li><a class="reference internal" href="#object-detection-vs-instance-segmentation"><strong>Object detection vs. Instance segmentation</strong></a></li>
+<li><a class="reference internal" href="#instance-segmentation-vs-semantic-segmentaion"><strong>Instance segmentation vs. Semantic segmentaion</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objection-detection-as-a-combination-of-classification-and-regression-problems">1.3 Objection detection as a combination of classification and regression problems</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#object-detection-fundamentals">2. Object Detection Fundamentals</a><ul>
+<li><a class="reference internal" href="#bounding-box">2.1 Bounding box</a></li>
+<li><a class="reference internal" href="#anchor-boxes">2.2 Anchor Boxes</a><ul>
+<li><a class="reference internal" href="#anchor-generation">2.2.1 Anchor generation</a></li>
+<li><a class="reference internal" href="#intersection-over-union-iou-as-an-evaluation-metric">2.2.2 Intersection over Union (IoU) as an evaluation metric</a></li>
+<li><a class="reference internal" href="#assigning-ground-truth-boxes-to-anchors">2.2.3 Assigning ground-truth boxes to anchors</a></li>
+<li><a class="reference internal" href="#labels-for-each-anchor">2.2.4 Labels for each anchor</a></li>
+<li><a class="reference internal" href="#bounding-box-prediction-with-non-maximum-suppression-nms">2.2.5 Bounding box prediction with non-maximum suppression (NMS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#from-cnn-to-yolo-you-only-look-it-once">3. From CNN to Yolo (You Only Look it Once)</a><ul>
+<li><a class="reference internal" href="#cnn">3.1 CNN</a></li>
+<li><a class="reference internal" href="#region-based-cnn-r-cnn">3.2 Region-based CNN (R-CNN)</a></li>
+<li><a class="reference internal" href="#fast-r-cnn">3.3 Fast R-CNN</a></li>
+<li><a class="reference internal" href="#faster-r-cnn">3.4 Faster R-CNN</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yolo-you-only-look-it-once">4 YOLO - You Only Look it Once</a><ul>
+<li><a class="reference internal" href="#introduction-to-yolo">4.1 Introduction to YOLO</a></li>
+<li><a class="reference internal" href="#architecture-and-design-of-yolov1">4.2 Architecture and design of YOLOv1</a><ul>
+<li><a class="reference internal" href="#network-design">4.2.1 Network design</a></li>
+<li><a class="reference internal" href="#training-the-loss-function">4.2.2 Training: the loss function</a></li>
+<li><a class="reference internal" href="#inference-non-maximal-suppression">4.2.3 Inference: Non-maximal suppression</a></li>
+<li><a class="reference internal" href="#yolov1-limitations-and-developments-beyond">4.2.4 YOLOv1: limitations and developments beyond</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yolo11-architecture-for-detection">4.3 YOLO11 architecture for detection</a><ul>
+<li><a class="reference internal" href="#backbone-c3k2-blocks-sppf-c2psa">4.3.1 Backbone: C3k2 blocks + SPPF + C2PSA</a></li>
+<li><a class="reference internal" href="#neck-pan-fpn-with-c3k2">4.3.2 Neck: PAN/FPN with C3k2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#detection-head-anchor-free-multi-scale">4.3.3 Detection head: anchor-free, multi-scale</a></li>
+<li><a class="reference internal" href="#yolo11-architecture-for-segmentation">4.4 YOLO11 architecture for segmentation</a><ul>
+<li><a class="reference internal" href="#same-backbone-and-neck-added-segmentation-head">4.4.1 Same backbone and neck, added segmentation head</a></li>
+<li><a class="reference internal" href="#prototype-masks-and-mask-coefficients">4.4.2 Prototype masks and mask coefficients</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#from-yolo11-to-yolo26-brief">4.5 From YOLO11 to YOLO26 (brief)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unet-and-transformer-based-segmentation">5. UNet and Transformer-Based Segmentation</a><ul>
+<li><a class="reference internal" href="#semantic-segmentation-vs-instance-segmentation">5.1 Semantic segmentation vs instance segmentation</a></li>
+<li><a class="reference internal" href="#classic-u-net">5.2 Classic U-Net</a><ul>
+<li><a class="reference internal" href="#encoder-decoder-with-skip-connections">5.2.1 Encoder-decoder with skip connections</a></li>
+<li><a class="reference internal" href="#why-skip-connections-matter">5.2.2 Why skip connections matter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#why-transformers-for-segmentation">5.3 Why transformers for segmentation?</a></li>
+<li><a class="reference internal" href="#segformer">5.4 SegFormer</a><ul>
+<li><a class="reference internal" href="#architecture-overview">5.4.1 Architecture overview</a></li>
+<li><a class="reference internal" href="#mix-transformer-encoder-mit">5.4.2 Mix Transformer encoder (MiT)</a></li>
+<li><a class="reference internal" href="#lightweight-all-mlp-decoder">5.4.3 Lightweight all-MLP decoder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#comparison-u-net-vs-segformer-vs-yolo11-seg">5.5 Comparison: U-Net vs SegFormer vs YOLO11-seg</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script data-domain="learn.mimer-ai.eu/DEEP-Inspection-Material-Science" defer="defer" src="https://plausible.io/js/script.js"></script>
+    </body>
+</html>

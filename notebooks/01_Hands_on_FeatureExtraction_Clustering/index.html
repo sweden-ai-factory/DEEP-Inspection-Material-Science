@@ -1,0 +1,999 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+        <link rel="prefetch" href="../../_static/swe-aif.png" as="image">
+
+    <link rel="shortcut icon" href="../../_static/swe-aif.png"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>Hands-on: Feature Extraction and Clustering - DEEP Inspection for Materials Science</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/overrides.css?v=1c72d2de" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../"><div class="brand">DEEP Inspection for Materials Science</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/swe-aif.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/swe-aif.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">DEEP Inspection for Materials Science</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/0-setting-up-programming-environment/">Setting Up Programming Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/0b-setting-up-YOLO-Week2/">Week2 - Setting Up YOLO</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Episodes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/1-AnomalyDetection_PatchCore-lesson/">Deep Learning-based Anomaly Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/2-CNN-LeNet-AlexNet-lesson/">CNN Fundamentals &amp; Multi-class Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/3-TL-VGG-ResNet-ViT-lesson/">Advanced Vision Architectures &amp; Transfer learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../episodes/4-YOLO_Unet_SegFormer-lesson/">Object Detection and Image Segmentation</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/blob/main//content/notebooks/01_Hands_on_FeatureExtraction_Clustering.ipynb?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science/edit/main//content/notebooks/01_Hands_on_FeatureExtraction_Clustering.ipynb" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="hands-on-feature-extraction-and-clustering">
+<h1>Hands-on: Feature Extraction and Clustering<a class="headerlink" href="#hands-on-feature-extraction-and-clustering" title="Link to this heading">¶</a></h1>
+<p>This notebook uses the prepared workshop dataset which is based on the Severstal dataset. It is self-contained: no external Severstal path is required during the workshop.</p>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Link to this heading">¶</a></h2>
+<p>The theory notebook showed that a pretrained backbone turns an image into a feature vector, and that “normal” images should occupy their own region of that feature space while defect images tend to land elsewhere. This notebook is where you check whether that claim actually holds on real steel images, before trusting it inside PatchCore.</p>
+<p>Concretely, you will:</p>
+<ol class="arabic simple">
+<li><p>Turn a few hundred real images into feature vectors with a pretrained backbone (no training involved, the backbone’s weights never change here).</p></li>
+<li><p>Compress those vectors down to 2 dimensions with two different techniques (PCA and t-SNE) so they can be plotted and eyeballed.</p></li>
+<li><p>Ask, visually and then quantitatively, whether normal and defect images actually separate in that space.</p></li>
+<li><p>Repeat the whole thing with a different backbone, and compare.</p></li>
+</ol>
+<p>One deliberate simplification: this notebook uses one embedding <strong>per whole image</strong>. PatchCore, in the next notebook, instead keeps a whole grid of <strong>local patch</strong> embeddings per image. Whole-image embeddings are enough to sanity-check “does this backbone see a difference between normal and defective steel at all?”,  but they can hide a small local defect inside one big averaged vector, which is exactly why PatchCore does not stop here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/projappl/project_465002387/DEEP_Inspection_Material_Science/workshopvenv/bin/python
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USER"</span><span class="p">]</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_CUSTOM_CACHE_DIR"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/tmp/miopen-cache-</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_USER_DB_PATH"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/tmp/miopen-config-</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_CUSTOM_CACHE_DIR"</span><span class="p">],</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MIOPEN_USER_DB_PATH"</span><span class="p">],</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code sets up the module root and dataset paths for the anomaly detection workshop.</span>
+<span class="c1"># It also configures model caching for PyTorch and Hugging Face to avoid repeated downloads of pretrained models.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">MODULE_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/projappl/project_465002387/DEEP_Inspection_Material_Science/users/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'USER'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">DATASET_ROOT</span> <span class="o">=</span>  <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">'/projappl/project_465002387/DEEP_Inspection_Material_Science/data'</span><span class="p">)</span> <span class="o">/</span> <span class="s1">'dataset_anomaly'</span>
+
+<span class="n">MODEL_CACHE</span> <span class="o">=</span> <span class="n">MODULE_ROOT</span> <span class="o">/</span> <span class="s1">'_model_cache'</span>
+<span class="n">MODEL_CACHE</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">'TORCH_HOME'</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">MODEL_CACHE</span> <span class="o">/</span> <span class="s1">'torch'</span><span class="p">))</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">'HF_HOME'</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">MODEL_CACHE</span> <span class="o">/</span> <span class="s1">'huggingface'</span><span class="p">))</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">'HF_HUB_DISABLE_SYMLINKS_WARNING'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Module root:'</span><span class="p">,</span> <span class="n">MODULE_ROOT</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Dataset root:'</span><span class="p">,</span> <span class="n">DATASET_ROOT</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Model cache:'</span><span class="p">,</span> <span class="n">MODEL_CACHE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Module root: /projappl/project_465002387/DEEP_Inspection_Material_Science/users/xieruiwe
+Dataset root: /projappl/project_465002387/DEEP_Inspection_Material_Science/data/dataset_anomaly
+Model cache: /projappl/project_465002387/DEEP_Inspection_Material_Science/users/xieruiwe/_model_cache
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code cell imports all the libraries used in the workshop.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">timm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/venv/lib/python3.12/site-packages/apex/transformer/functional/fused_rope.py:54: UserWarning: Using the native apex kernel for RoPE.
+  warnings.warn("Using the native apex kernel for RoPE.", UserWarning)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-prepared-metadata">
+<h2>1. Load Prepared Metadata<a class="headerlink" href="#load-prepared-metadata" title="Link to this heading">¶</a></h2>
+<p>We have already adapted the Severstal dataset to the anomaly detection task, decided which images count as “normal” vs “defect”, and copied a subset into <code class="docutils literal notranslate"><span class="pre">dataset/anomaly/</span></code>. <code class="docutils literal notranslate"><span class="pre">metadata.csv</span></code> is the index into that work, one row per image, with its label, defect class, and file path.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="s1">'metadata.csv'</span><span class="p">)</span>
+<span class="n">metadata</span><span class="p">[</span><span class="s1">'path'</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'relative_path'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">DATASET_ROOT</span> <span class="o">/</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'workshop_split'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>workshop_split</th>
+      <th>label</th>
+      <th>defect_class</th>
+      <th>num_objects</th>
+      <th>image_name</th>
+      <th>relative_path</th>
+      <th>source_split</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>train/normal</td>
+      <td>normal</td>
+      <td>normal</td>
+      <td>0</td>
+      <td>981a45fda.jpg</td>
+      <td>anomaly/train/normal/981a45fda.jpg</td>
+      <td>train</td>
+      <td>/projappl/project_465002387/DEEP_Inspection_Ma...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>train/normal</td>
+      <td>normal</td>
+      <td>normal</td>
+      <td>0</td>
+      <td>eb082ef3e.jpg</td>
+      <td>anomaly/train/normal/eb082ef3e.jpg</td>
+      <td>train</td>
+      <td>/projappl/project_465002387/DEEP_Inspection_Ma...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>train/normal</td>
+      <td>normal</td>
+      <td>normal</td>
+      <td>0</td>
+      <td>e387ce326.jpg</td>
+      <td>anomaly/train/normal/e387ce326.jpg</td>
+      <td>train</td>
+      <td>/projappl/project_465002387/DEEP_Inspection_Ma...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>train/normal</td>
+      <td>normal</td>
+      <td>normal</td>
+      <td>0</td>
+      <td>735a876fb.jpg</td>
+      <td>anomaly/train/normal/735a876fb.jpg</td>
+      <td>train</td>
+      <td>/projappl/project_465002387/DEEP_Inspection_Ma...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>train/normal</td>
+      <td>normal</td>
+      <td>normal</td>
+      <td>0</td>
+      <td>86f6cc389.jpg</td>
+      <td>anomaly/train/normal/86f6cc389.jpg</td>
+      <td>train</td>
+      <td>/projappl/project_465002387/DEEP_Inspection_Ma...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>workshop_split  label 
+test/defect     defect    400
+test/normal     normal    200
+train/normal    normal    600
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The table above should show three groups: <code class="docutils literal notranslate"><span class="pre">train/normal</span></code> (normal images used later to build PatchCore’s memory bank), <code class="docutils literal notranslate"><span class="pre">test/normal</span></code> (held-out normal images), and <code class="docutils literal notranslate"><span class="pre">test/defect</span></code>. This notebook does not care about that train/test split at all. It pools every image together to look at the feature space as a whole. The split only starts to matter in the next notebook, where PatchCore is only allowed to learn from <code class="docutils literal notranslate"><span class="pre">train/normal</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code cell counts the number of images per defect class in the dataset.</span>
+
+<span class="n">metadata</span><span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">][</span><span class="s1">'defect_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>defect_class
+defect_3                      119
+defect_1                       53
+defect_4                       46
+defect_2                       45
+defect_3+defect_4              44
+defect_1+defect_3              41
+defect_1+defect_2              35
+defect_2+defect_3              14
+defect_1+defect_2+defect_3      2
+defect_2+defect_4               1
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Real defect labels are rarely single, clean categories. Some images have more than one defect type marked (<code class="docutils literal notranslate"><span class="pre">defect_1+defect_3</span></code>, for example) because two different flaws happened to appear on the same strip.</p>
+</section>
+<section id="visualize-the-data">
+<h2>2. Visualize the Data<a class="headerlink" href="#visualize-the-data" title="Link to this heading">¶</a></h2>
+<p>Before extracting a single feature vector, you should look at the actual images. This step can catch an entire category of mistakes that no amount of clever modeling will fix later: a mislabeled folder, a corrupted image, or defects that turn out to be invisible at the resolution you plan to use. It costs some time, but skipping can cost a lng debugging session much later when PCA “mysteriously” shows no separation.</p>
+<p>Note that this notebook mixes normal and defect images together purely to look at the feature space, the model being trained here is nothing but “eyeballing a scatter plot.” PatchCore, in contrast, is only ever allowed to <em>train</em> on normal images; defect images stay strictly in the evaluation role.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This code cell samples a few images from the dataset and displays them in a grid.</span>
+<span class="c1"># It samples from defect and good images, and shows their labels and defect classes.</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'workshop_split'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'train/normal'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'workshop_split'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'test/defect'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">samples</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">defect_class</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/aa4b3d4b0dce562b6d05e36b03138bea710184bb3b09e821a61dd0ba97363cdf.png" src="../../_images/aa4b3d4b0dce562b6d05e36b03138bea710184bb3b09e821a61dd0ba97363cdf.png" />
+</div>
+</div>
+<p>Look closely at the top row (normal) versus the bottom row (defect). Some defects are visually obvious even at a glance – bright scratches, dark inclusions. Others are subtle: a faint texture change that is easy to miss unless you know to look for it. Keep that contrast in mind; it will show up again later as a difference in how cleanly normal and defect images separate in the embedding plots.</p>
+</section>
+<section id="build-a-small-balanced-subset">
+<h2>3. Build a Small Balanced Subset<a class="headerlink" href="#build-a-small-balanced-subset" title="Link to this heading">¶</a></h2>
+<p>Extracting an embedding for every image in <code class="docutils literal notranslate"><span class="pre">dataset/</span></code> would work, but PCA is cheap while t-SNE is not: it has to reason about pairwise relationships between every pair of points, so its cost grows quickly with the number of points. Working with a smaller, balanced subset first keeps each experiment in this notebook to a few seconds, which matters when you are about to re-run the same cells for three different backbones later.</p>
+<p>“Balanced” here specifically means equal numbers of normal and defect images. If defects were rare in the subset (as they legitimately are in the full dataset), a plot showing “defects mostly land in one corner” could just be five stray points, not a real pattern. Equal group sizes make the visual comparison fair.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_NORMAL</span> <span class="o">=</span> <span class="mi">120</span>
+<span class="n">N_DEFECT</span> <span class="o">=</span> <span class="mi">120</span>
+
+<span class="n">normal_df</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'normal'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N_NORMAL</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">defect_df</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N_DEFECT</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">work_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">normal_df</span><span class="p">,</span> <span class="n">defect_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">work_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'label'</span><span class="p">,</span> <span class="s1">'defect_class'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>label   defect_class              
+normal  normal                        120
+defect  defect_3                       39
+        defect_1                       16
+        defect_3+defect_4              15
+        defect_2                       14
+        defect_1+defect_3              12
+        defect_1+defect_2              10
+        defect_4                        9
+        defect_2+defect_3               3
+        defect_1+defect_2+defect_3      1
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">work_df</span></code> is now the frame every later cell in this notebook operates on. Increasing <code class="docutils literal notranslate"><span class="pre">N_NORMAL</span></code>/<code class="docutils literal notranslate"><span class="pre">N_DEFECT</span></code> gives smoother, more trustworthy plots at the cost of slower re-runs, a reasonable thing to try once the rest of the notebook has run successfully without taking too long. Decreasing them makes the notebook run faster, but the plots will be noisier and less trustworthy. The default values are a reasonable compromise for a workshop setting.</p>
+</section>
+<section id="extract-embeddings">
+<h2>4. Extract Embeddings<a class="headerlink" href="#extract-embeddings" title="Link to this heading">¶</a></h2>
+<p>We start with <code class="docutils literal notranslate"><span class="pre">wide_resnet50_2</span></code>, because it is also one of the main PatchCore baselines. The feature extractor removes the classifier head and returns one image-level vector per image.</p>
+<section id="what-actually-happens-step-by-step">
+<h3>What actually happens, step by step<a class="headerlink" href="#what-actually-happens-step-by-step" title="Link to this heading">¶</a></h3>
+<p>For every image, the code below does exactly four things:</p>
+<ol class="arabic simple">
+<li><p><strong>Resize and normalize</strong> the image to <code class="docutils literal notranslate"><span class="pre">224x224</span></code> and the ImageNet mean/std the backbone was pretrained with. The backbone only ever saw images preprocessed this way, so test images must match, or the features it produces are meaningless.</p></li>
+<li><p><strong>Forward pass</strong> the image through the pretrained CNN, stopping before the final classification layer (<code class="docutils literal notranslate"><span class="pre">num_classes=0</span></code> strips that layer off entirely).</p></li>
+<li><p><strong>Global-average-pool</strong> the last convolutional feature map: whatever the spatial size of that final feature map is (say <code class="docutils literal notranslate"><span class="pre">7x7</span></code>), average every channel across all <code class="docutils literal notranslate"><span class="pre">49</span></code> locations down to a single number, producing one fixed-length vector per image (<code class="docutils literal notranslate"><span class="pre">global_pool='avg'</span></code>).</p></li>
+<li><p>Stack every image’s vector into one big <code class="docutils literal notranslate"><span class="pre">[num_images,</span> <span class="pre">num_features]</span></code> matrix.</p></li>
+</ol>
+<p>Nothing here is trained or fine-tuned, every weight in the backbone is exactly what it was after ImageNet pretraining. We are only ever asking “what does this frozen, generic vision model already see?”, not teaching it anything new about steel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEVICE</span> <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
+<span class="n">BACKBONE</span> <span class="o">=</span> <span class="s1">'wide_resnet50_2'</span>
+<span class="n">IMAGE_SIZE</span> <span class="o">=</span> <span class="mi">224</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">PRETRAINED</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># the transform used to prepare images for the backbone model</span>
+
+<span class="n">transform</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="n">IMAGE_SIZE</span><span class="p">,</span> <span class="n">IMAGE_SIZE</span><span class="p">)),</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]),</span>
+<span class="p">])</span>
+
+<span class="c1"># class to wrap the dataset for PyTorch DataLoader, providing images and their labels.</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SteelImageDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image</span><span class="p">),</span> <span class="n">row</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">defect_class</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">relative_path</span>
+
+<span class="c1"># This function extracts embeddings from the images in the provided DataFrame using a specified backbone model.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_embeddings</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">backbone</span><span class="o">=</span><span class="n">BACKBONE</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="n">PRETRAINED</span><span class="p">):</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">SteelImageDataset</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># ViT backbones (e.g. the DINOv2 preset) ship pretrained weights that only match</span>
+    <span class="c1"># global_pool='token' (cls-token pooling), not 'avg', and are often trained at a</span>
+    <span class="c1"># native resolution other than IMAGE_SIZE -- dynamic_img_size=True lets them accept</span>
+    <span class="c1"># our fixed resize instead of asserting on an exact input size.</span>
+    <span class="n">is_vit</span> <span class="o">=</span> <span class="s1">'vit'</span> <span class="ow">in</span> <span class="n">backbone</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span>
+        <span class="n">backbone</span><span class="p">,</span>
+        <span class="n">pretrained</span><span class="o">=</span><span class="n">pretrained</span><span class="p">,</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">global_pool</span><span class="o">=</span><span class="s1">'token'</span> <span class="k">if</span> <span class="n">is_vit</span> <span class="k">else</span> <span class="s1">'avg'</span><span class="p">,</span>
+        <span class="o">**</span><span class="p">({</span><span class="s1">'dynamic_img_size'</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span> <span class="k">if</span> <span class="n">is_vit</span> <span class="k">else</span> <span class="p">{}),</span>
+    <span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+    <span class="n">vectors</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">defect_classes</span><span class="p">,</span> <span class="n">paths</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">batch_labels</span><span class="p">,</span> <span class="n">batch_classes</span><span class="p">,</span> <span class="n">batch_paths</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">))</span>
+            <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">batch_labels</span><span class="p">)</span>
+            <span class="n">defect_classes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">batch_classes</span><span class="p">)</span>
+            <span class="n">paths</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">batch_paths</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">defect_classes</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+<span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">defect_classes</span><span class="p">,</span> <span class="n">paths</span> <span class="o">=</span> <span class="n">extract_embeddings</span><span class="p">(</span><span class="n">work_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Embedding matrix:'</span><span class="p">,</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fb1db6cfcb74462cb149238ae65c66b2", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Embedding matrix: (240, 2048)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-does-one-of-these-vectors-actually-look-like">
+<h3>What does one of these vectors actually look like?<a class="headerlink" href="#what-does-one-of-these-vectors-actually-look-like" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">embeddings.shape</span></code> is <code class="docutils literal notranslate"><span class="pre">[num_images,</span> <span class="pre">num_features]</span></code>, for <code class="docutils literal notranslate"><span class="pre">wide_resnet50_2</span></code> that second number is <code class="docutils literal notranslate"><span class="pre">2048</span></code>. It is easy to talk about “a vector in feature space” abstractly without ever looking at one. Let’s look at one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one_normal_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="s1">'normal'</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">one_defect_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="n">one_normal_idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2563eb'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'one normal image'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="n">one_defect_idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#dc2626'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'one defect image'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'feature index (0 to 2047)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'activation'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'A single raw embedding vector is just 2048 numbers'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/49e32f99fd32e193675be1b65cc55fe479786d3e06dc5cd6e30922e88b088e71.png" src="../../_images/49e32f99fd32e193675be1b65cc55fe479786d3e06dc5cd6e30922e88b088e71.png" />
+</div>
+</div>
+<p><em>This is what “a point in 2048-dimensional feature space” means in practice: just an ordinary array of numbers, one per learned feature channel.</em> No individual spike here is labeled “scratch detector” or “smooth texture detector”; these are channels the network learned to be useful for classifying a million ImageNet photos, repurposed here simply because they turned out to also carry information about steel surfaces. You are not meant to read meaning into any single spike; the point of PCA and t-SNE below is to summarize the <em>relationship</em> between many such vectors, which is far more informative than staring at one.</p>
+</section>
+<section id="what-does-each-layer-actually-see-feature-maps-at-different-depths">
+<h3>What does each layer actually see? (feature maps at different depths)<a class="headerlink" href="#what-does-each-layer-actually-see-feature-maps-at-different-depths" title="Link to this heading">¶</a></h3>
+<p>The embedding above is the <em>final</em> pooled vector, everything the backbone computed on the way there gets averaged away into one number per channel. Before compressing further with PCA and t-SNE, it’s worth pausing to look at what the backbone actually produced at each depth along the way, on a real defect image.</p>
+<p>We will generate a feature map for each of the four main stages of the backbone. Each channel is a 2D array of numbers, which we can treat as a grayscale image. The deeper the stage, the more abstract the features become, and the smaller the spatial resolution gets.</p>
+<ul class="simple">
+<li><p>Act 1: The first stage of the backbone sees the image at full resolution, and its channels are mostly edge detectors and color blobs. The defect is visible, but not yet highlighted.</p></li>
+<li><p>From there on, each stage sees a progressively smaller spatial resolution, but the channels become more abstract and semantically meaningful. By the final stage, the defect is clearly highlighted in some channels, while others ignore it entirely. The global average pooling then compresses all of this into one vector per image, which is what we will analyze with PCA and t-SNE next.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">layer_sample_row</span> <span class="o">=</span> <span class="n">work_df</span><span class="p">[</span><span class="n">work_df</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'defect'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">layer_sample_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">layer_sample_row</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">)</span>
+<span class="n">layer_sample_tensor</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">layer_sample_image</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="n">depth_model</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="n">BACKBONE</span><span class="p">,</span> <span class="n">features_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">depth_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">depth_feature_maps</span> <span class="o">=</span> <span class="n">depth_model</span><span class="p">(</span><span class="n">layer_sample_tensor</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">feature_map</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">depth_model</span><span class="o">.</span><span class="n">feature_info</span><span class="o">.</span><span class="n">module_name</span><span class="p">(),</span> <span class="n">depth_feature_maps</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">feature_map</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>act1: (1, 64, 112, 112)
+layer1: (1, 256, 56, 56)
+layer2: (1, 512, 28, 28)
+layer3: (1, 1024, 14, 14)
+layer4: (1, 2048, 7, 7)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_SHOW</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">layer_names</span> <span class="o">=</span> <span class="n">depth_model</span><span class="o">.</span><span class="n">feature_info</span><span class="o">.</span><span class="n">module_name</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">depth_feature_maps</span><span class="p">),</span> <span class="n">N_SHOW</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span> <span class="o">*</span> <span class="n">N_SHOW</span><span class="p">,</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">depth_feature_maps</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">layer_names</span><span class="p">,</span> <span class="n">depth_feature_maps</span><span class="p">)):</span>
+    <span class="n">channels</span> <span class="o">=</span> <span class="n">feature_map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_SHOW</span><span class="p">):</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">channels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="n">channels</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="p">(</span><span class="n">channel</span> <span class="o">-</span> <span class="n">channel</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">channel</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">channel</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s1">(</span><span class="si">{</span><span class="n">channels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> ch)'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">BACKBONE</span><span class="si">}</span><span class="s1">: feature maps at increasing depth (same defect image)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d4fb52dbe5862aadff751d54376b3a0587b6325491c6991c745064d75185332e.png" src="../../_images/d4fb52dbe5862aadff751d54376b3a0587b6325491c6991c745064d75185332e.png" />
+</div>
+</div>
+<p>Each column above is one channel of the feature map at that stage. The first row is the raw image, and the last row is the final pooled vector (reshaped to a square for display). What is a channel in this context? It is a learned filter that responds to some visual pattern in the input image. The first stage’s channels are mostly edge detectors and color blobs, while the last stage’s channels are more abstract, responding to larger-scale structures.</p>
+<p>Notice the progression: the earliest stage’s feature maps look close to the raw image, showing edges, contrast, fine texture. By the last stage, the maps are coarse (much lower resolution) and increasingly abstract, more about “is there some large-scale structure here” than about fine surface texture.</p>
+<p>It might seem counterintuitive that the yellow blobs in the last layer are not necessarily aligned with the defect, but that is exactly the point: the backbone has learned to detect patterns that are useful for ImageNet classification, not steel defect detection. Some of those patterns happen to correlate with defects, while others do not. The global average pooling then compresses all of this into one vector per image, which is what we will analyze with PCA and t-SNE next.</p>
+<p>This is exactly why the Anomalib hands-on notebook’s PatchCore presets default to <code class="docutils literal notranslate"><span class="pre">layer2</span></code> and <code class="docutils literal notranslate"><span class="pre">layer3</span></code> specifically, which arethe two middle rows above, rather than the first or last stage: enough spatial resolution left to localize a small defect precisely, but with enough learned structure to be a genuinely discriminative descriptor rather than near-raw pixels.</p>
+</section>
+</section>
+<section id="pca">
+<h2>5. PCA<a class="headerlink" href="#pca" title="Link to this heading">¶</a></h2>
+<p>2048 dimensions cannot be plotted directly, so we need to compress each vector down to 2 numbers we <em>can</em> plot on an x/y grid. PCA (Principal Component Analysis) does this by finding the two orthogonal directions in the 2048-dimensional space along which the data varies the most, and projecting every point onto just those two directions, like photographing a 3D object from the one angle that reveals the most about its shape, except here we are choosing the best 2 axes out of 2048.</p>
+<p>We standardize first (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>, zero mean and unit variance per feature) so that PCA’s notion of “most variation” is not dominated by a handful of feature channels that simply happen to have larger raw numeric ranges than the rest. Without this step, PCA can end up describing scale differences between channels rather than real structure in the data.</p>
+<p>In the code below, <code class="docutils literal notranslate"><span class="pre">pca_embeddings</span></code> is the <code class="docutils literal notranslate"><span class="pre">[num_images,</span> <span class="pre">2]</span></code> matrix of PCA-compressed vectors, and <code class="docutils literal notranslate"><span class="pre">pca.explained_variance_ratio_</span></code> tells us how much of the original 2048-dimensional variance is captured by those two axes. The higher that number, the more faithfully the 2D plot represents the original data. The PCA function is deterministic, so re-running the cell will always produce the same plot. It is implemented in <code class="docutils literal notranslate"><span class="pre">sklearn.decomposition.PCA</span></code> and is very fast, so you can try increasing <code class="docutils literal notranslate"><span class="pre">N_NORMAL</span></code>/<code class="docutils literal notranslate"><span class="pre">N_DEFECT</span></code> to see how the plot changes with more data. PCA is a linear method, so it cannot capture complex nonlinear relationships in the data, but it is fast and often good enough to reveal the main structure of the feature space.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pca_xy</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">scaled</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Variance explained by these 2 components: </span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1"> of the original 2048 dimensions'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'#2563eb'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'defect'</span><span class="p">,</span> <span class="s1">'#dc2626'</span><span class="p">)]:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">==</span> <span class="n">label</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pca_xy</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pca_xy</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PCA of </span><span class="si">{</span><span class="n">BACKBONE</span><span class="si">}</span><span class="s1"> embeddings'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'PC1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'PC2'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variance explained by these 2 components: 16.9% of the original 2048 dimensions
+</pre></div>
+</div>
+<img alt="../../_images/4cce8551798bdfc0c5d5c22af65f33bd6c6f394501e0966950584477e3112863.png" src="../../_images/4cce8551798bdfc0c5d5c22af65f33bd6c6f394501e0966950584477e3112863.png" />
+</div>
+</div>
+<p>That printed percentage matters for interpreting the plot honestly: it is normal for 2 components out of 2048 to explain only a modest slice of the total variance. If normal and defect points visibly separate even in that small slice, the <em>true</em> separation in the full 2048-dimensional space is likely at least as strong. But if they overlap here, that alone does not prove they are inseparable. It could mean the separating signal lives in a direction PCA did not prioritize (PCA optimizes for variance, not for separating your two labeled groups; it never even looks at the <code class="docutils literal notranslate"><span class="pre">label</span></code> column).</p>
+</section>
+<section id="t-sne">
+<h2>6. t-SNE<a class="headerlink" href="#t-sne" title="Link to this heading">¶</a></h2>
+<p>PCA is intentionally simple: it only ever draws straight lines through feature space. t-SNE takes a different, nonlinear approach: rather than maximizing total variance, it tries to keep points that were close together in the original 2048-dimensional space close together in the 2D plot, and let distant points fall wherever, basically prioritising <em>local neighborhoods</em> over global geometry. This often teases apart clusters that PCA’s straight-line projection blends together.</p>
+<p>The trade-off: t-SNE’s layout is easy to over-interpret. Two rules worth keeping in mind while looking at the plot below:</p>
+<ul class="simple">
+<li><p><strong>Distances between separated clusters are not meaningful.</strong> t-SNE does not promise that a cluster twice as far away is “twice as different”, only relative closeness within a neighborhood is preserved.</p></li>
+<li><p><strong>Cluster sizes are not meaningful either.</strong> t-SNE can make a tight, homogeneous group of points look artificially spread out, or a diverse group look artificially compact.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">TSNE_PERPLEXITY</span></code> roughly controls how many neighbors each point balances against (think of it as a soft “how many nearby points count as a neighborhood”). Try lowering or raising it and rerunning to see how much the layout changes. If the <em>general story</em> (whether normal and defect separate) changes drastically with perplexity, that is itself a sign the separation is not very robust.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TSNE_PERPLEXITY</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">TSNE_LEARNING_RATE</span> <span class="o">=</span> <span class="s1">'auto'</span>
+
+<span class="n">tsne_xy</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="n">TSNE_PERPLEXITY</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">'pca'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">TSNE_LEARNING_RATE</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">scaled</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'#2563eb'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'defect'</span><span class="p">,</span> <span class="s1">'#dc2626'</span><span class="p">)]:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">==</span> <span class="n">label</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tsne_xy</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">tsne_xy</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'t-SNE of </span><span class="si">{</span><span class="n">BACKBONE</span><span class="si">}</span><span class="s1"> embeddings'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'t-SNE 1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'t-SNE 2'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/075719fdcb3c1140258369cb562ab780e987f3a3a64adbe64facd2ef0e2950b4.png" src="../../_images/075719fdcb3c1140258369cb562ab780e987f3a3a64adbe64facd2ef0e2950b4.png" />
+</div>
+</div>
+</section>
+<section id="assignment-compare-backbones">
+<h2>Assignment: Compare Backbones<a class="headerlink" href="#assignment-compare-backbones" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">extract_embeddings()</span></code> already accepts a <code class="docutils literal notranslate"><span class="pre">backbone</span></code> argument, so comparing backbones is only one function call away. Running the cell below extracts embeddings with each backbone in <code class="docutils literal notranslate"><span class="pre">BACKBONES_TO_COMPARE</span></code> and scores how well each one separates normal from defect images.</p>
+<p><code class="docutils literal notranslate"><span class="pre">silhouette_score</span></code> measures cluster separation in the <em>scaled</em> embedding space (higher is more separated, range -1 to 1). It won’t perfectly predict the PatchCore results in the next notebook — this notebook uses whole-image features, PatchCore uses local patch features — but a backbone that struggles to separate normal from defect here is a warning sign worth discussing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BACKBONES_TO_COMPARE</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'resnet18'</span><span class="p">,</span> <span class="s1">'wide_resnet50_2'</span><span class="p">,</span> <span class="s1">'vit_small_patch14_dinov2.lvd142m'</span><span class="p">]</span>
+<span class="n">COMPARISON_TSNE_PERPLEXITY</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># try lowering/raising this and rerunning to see how the t-SNE plots below change</span>
+
+<span class="n">backbone_results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">backbone_name</span> <span class="ow">in</span> <span class="n">BACKBONES_TO_COMPARE</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'--- Extracting embeddings with </span><span class="si">{</span><span class="n">backbone_name</span><span class="si">}</span><span class="s1"> ---'</span><span class="p">)</span>
+    <span class="n">emb</span><span class="p">,</span> <span class="n">lab</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">pth</span> <span class="o">=</span> <span class="n">extract_embeddings</span><span class="p">(</span><span class="n">work_df</span><span class="p">,</span> <span class="n">backbone</span><span class="o">=</span><span class="n">backbone_name</span><span class="p">)</span>
+    <span class="n">scaled_emb</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">emb</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">scaled_emb</span><span class="p">,</span> <span class="n">lab</span><span class="p">)</span>
+    <span class="n">pca_emb</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">scaled_emb</span><span class="p">)</span>
+    <span class="n">tsne_emb</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="n">COMPARISON_TSNE_PERPLEXITY</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">'pca'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">scaled_emb</span><span class="p">)</span>
+    <span class="n">backbone_results</span><span class="p">[</span><span class="n">backbone_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'labels'</span><span class="p">:</span> <span class="n">lab</span><span class="p">,</span> <span class="s1">'silhouette'</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span> <span class="s1">'pca_xy'</span><span class="p">:</span> <span class="n">pca_emb</span><span class="p">,</span> <span class="s1">'tsne_xy'</span><span class="p">:</span> <span class="n">tsne_emb</span><span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">backbone_name</span><span class="si">}</span><span class="s1">: silhouette score (normal vs defect) = </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Extracting embeddings with resnet18 ---
+resnet18: silhouette score (normal vs defect) = 0.023
+--- Extracting embeddings with wide_resnet50_2 ---
+wide_resnet50_2: silhouette score (normal vs defect) = 0.021
+--- Extracting embeddings with vit_small_patch14_dinov2.lvd142m ---
+vit_small_patch14_dinov2.lvd142m: silhouette score (normal vs defect) = 0.042
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comparison_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[{</span><span class="s1">'backbone'</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">'silhouette_score'</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">'silhouette'</span><span class="p">]}</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">backbone_results</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'silhouette_score'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">comparison_df</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">backbone_results</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">backbone_results</span><span class="p">),</span> <span class="mi">9</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">backbone_results</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'#2563eb'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'defect'</span><span class="p">,</span> <span class="s1">'#dc2626'</span><span class="p">)]:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">'labels'</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">'pca_xy'</span><span class="p">][</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s1">'pca_xy'</span><span class="p">][</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">'tsne_xy'</span><span class="p">][</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s1">'tsne_xy'</span><span class="p">][</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">silhouette = </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="s1">'silhouette'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> (t-SNE, perplexity=</span><span class="si">{</span><span class="n">COMPARISON_TSNE_PERPLEXITY</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'PCA'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'t-SNE'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>backbone</th>
+      <th>silhouette_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>vit_small_patch14_dinov2.lvd142m</td>
+      <td>0.041980</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>resnet18</td>
+      <td>0.022629</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>wide_resnet50_2</td>
+      <td>0.020932</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../../_images/30e6d7389fffe612c7d2090dca21e0c5563ee135a5a6f7d6c95b581b0723efb1.png" src="../../_images/30e6d7389fffe612c7d2090dca21e0c5563ee135a5a6f7d6c95b581b0723efb1.png" />
+</div>
+</div>
+<p>Discuss: which backbone separates normal from defect best by this measure? Does a bigger or more modern backbone always win? Keep this table in mind when you compare the same three backbones as PatchCore presets in the next notebook: do the rankings agree?</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Sweden AI Factory, Benedikt Neyses, Andreas Thore, Marzieh Saeedimasine, Ruiwen Xie, Yuvarajendra Anjaneya Reddy, Smita Chakraborty, Yonglei Wang and contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/mimer-ai/DEEP-Inspection-Material-Science" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Hands-on: Feature Extraction and Clustering</a><ul>
+<li><a class="reference internal" href="#context">Context</a></li>
+<li><a class="reference internal" href="#load-prepared-metadata">1. Load Prepared Metadata</a></li>
+<li><a class="reference internal" href="#visualize-the-data">2. Visualize the Data</a></li>
+<li><a class="reference internal" href="#build-a-small-balanced-subset">3. Build a Small Balanced Subset</a></li>
+<li><a class="reference internal" href="#extract-embeddings">4. Extract Embeddings</a><ul>
+<li><a class="reference internal" href="#what-actually-happens-step-by-step">What actually happens, step by step</a></li>
+<li><a class="reference internal" href="#what-does-one-of-these-vectors-actually-look-like">What does one of these vectors actually look like?</a></li>
+<li><a class="reference internal" href="#what-does-each-layer-actually-see-feature-maps-at-different-depths">What does each layer actually see? (feature maps at different depths)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pca">5. PCA</a></li>
+<li><a class="reference internal" href="#t-sne">6. t-SNE</a></li>
+<li><a class="reference internal" href="#assignment-compare-backbones">Assignment: Compare Backbones</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-domain="learn.mimer-ai.eu/DEEP-Inspection-Material-Science" defer="defer" src="https://plausible.io/js/script.js"></script>
+    </body>
+</html>

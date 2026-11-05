@@ -101,7 +101,7 @@ html_static_path = ["_static"]
 html_css_files = ["overrides.css"]
 html_favicon = str((HERE / "_static" / "swe-aif.png").resolve())
 github_repo_url = (
-    f"https://github.com/mimer-ai/{github_repo_name or detected_repo_name}"
+    f"https://github.com/sweden-ai-factory/{github_repo_name or detected_repo_name}"
 )
 html_theme_options = {
     "light_logo": "swe-aif.png",
@@ -163,7 +163,7 @@ if os.environ.get("GITHUB_REF", "") == "refs/heads/main":
         (
             "https://plausible.io/js/script.js",
             {
-                "data-domain": f"learn.mimer-ai.eu/{github_repo_name or detected_repo_name}",
+                "data-domain": f"learn.swedenaifactory.se/{github_repo_name or detected_repo_name}",
                 "defer": "defer",
             },
         ),
